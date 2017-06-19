@@ -9,9 +9,10 @@ __license__ = "MIT"
 
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
+from config import TEMPLATES_DATA_DIR
 
 
-templates = Environment(loader=FileSystemLoader('/Users/cuiyb/workspace/invoke_vispr/invoke_vispr/vispre/templates'))
+templates = Environment(loader=FileSystemLoader(TEMPLATES_DATA_DIR))
 
 
 try:

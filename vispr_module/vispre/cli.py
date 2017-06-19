@@ -26,7 +26,7 @@ from appdirs import AppDirs
 from ..vispre import Screens, Screen
 from ..vispre.common import VisprError
 from ..vispre.server import app
-#from invoke_vispr import app
+#from vispr_module import app
 from ..vispre.version import __version__
 from ..vispre.archive import archive as _archive
 

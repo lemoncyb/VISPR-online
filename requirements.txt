@@ -1,0 +1,8 @@
+appdirs==1.4.0
+Flask==0.12.1
+Jinja2==2.9.6
+numpy==1.11.2
+pandas==0.19.1
+PyYAML==3.12
+scikit-learn==0.18.1
+scipy==0.19.0

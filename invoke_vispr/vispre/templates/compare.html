@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+{% block breadcrumbs %}
+<li class="active">compare experiments</li>
+{% endblock %}
+{% block content %}
+<div id="compare">
+        <h4 class="panel-heading">Target overlap</h4>
+        <form action="" class="form-inline text-right" id="config-overlap">
+            <div class="form-group">
+                <label for="select-overlap-items">Experiments</label>
+                <select name="overlap-items" id="select-overlap-items" class="selectpicker" multiple>
+            {% for screen in screens %}
+                {% for condition, selections in screen.targets.items() %}
+                    {% for selection in selections %}
+                    <option value="{{ screen.name }}|{{ condition }}|{{ selection }}">{{ screen.name }} | {{ condition + " | " if condition != "default" }}{{ selection }}</option>
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="choose-fdr">Maximum FDR</label>
+                <select name="fdr" id="choose-fdr" class="selectpicker">
+                    {% for fdr in [0.001, 0.01, 0.05, 0.1, 0.25, 0.5] %}
+                        {% set sel = "selected" if fdr == 0.25 else "" %}
+                        <option {{ sel }}>{{ fdr }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+        <div class="text-center">
+            <div id="experiment-overlap" class="plot" data-toggle="popover" data-desc="{{ captions["overlap"] }}">
+            </div>
+        </div>
+</div>
+
+<script>
+add_caption($("#experiment-overlap")[0]);
+var venn_chart = venn.VennDiagram()
+               .width(500)
+               .height(500);
+
+function plot_overlap() {
+    var config = $("#config-overlap").serializeArray();
+    var fdr = $("#choose-fdr").val();
+    if(!$("#select-overlap-items").val()) {
+        $("#experiment-overlap").html("Please select experiments to compare.");
+        return;
+    }
+    else {
+        $("#experiment-overlap").html("");
+    }
+
+    $.get("/plt/overlap_venn", config, function(json, status) {
+        var div = d3.select("#experiment-overlap");
+        div.datum(json).call(venn_chart);
+
+        // add a tooltip
+        var tooltip = d3.select("body").append("div")
+            .attr("class", "venntooltip");
+        div.selectAll("path")
+            .style("stroke-opacity", 0)
+            .style("stroke", "#fff")
+            .style("stroke-width", 0);
+
+        // add listeners to all the groups to display tooltip on mousover
+        div.selectAll("g")
+            .on("mouseover", function(d, i) {
+                // sort all the areas relative to the current item
+                //venn.sortAreas(div, d);
+
+                // Display a tooltip with the current size
+                tooltip.transition().duration(400).style("opacity", .9);
+                tooltip.text(d.size + " targets");
+
+                // highlight the current path
+                var selection = d3.select(this).transition("tooltip").duration(400);
+                selection.select("path")
+                    .style("stroke-width", 3)
+                    .style("fill-opacity", d.sets.length == 1 ? .4 : .1)
+                    .style("stroke-opacity", 1);
+            })
+
+            .on("mousemove", function() {
+                tooltip.style("left", (d3.event.pageX) + "px")
+                       .style("top", (d3.event.pageY - 28) + "px");
+            })
+
+            .on("mouseout", function(d, i) {
+                tooltip.transition().duration(400).style("opacity", 0);
+                var selection = d3.select(this).transition("tooltip").duration(400);
+                selection.select("path")
+                    .style("stroke-width", 0)
+                    .style("fill-opacity", d.sets.length == 1 ? .25 : .0)
+                    .style("stroke-opacity", 0);
+            })
+
+            .on("click", function(d, i) {
+                var overlap_param = "&overlap-items=";
+                d.sets.forEach(function(item) {
+                    function parse(item) {
+                        item = item.split("\n");
+                        if(item.length == 2) {
+                            item.splice(1, 0, "default");
+                        }
+                        return item
+                    }
+                    function encode(item) {
+                        return encodeURIComponent(parse(item).join("|"));
+                    }
+
+                    items = d.sets.map(encode);
+                    window.open("/targets/" + parse(item).join("/") + "?fdr=" + fdr + overlap_param + items.join(overlap_param));
+                });
+            });
+
+    }, "json");
+}
+
+$("#config-overlap").change(plot_overlap);
+plot_overlap();
+</script>
+{% endblock %}

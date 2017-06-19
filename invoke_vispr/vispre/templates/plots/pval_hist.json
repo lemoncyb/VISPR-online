@@ -1,0 +1,61 @@
+{
+    "width": 200,
+    "height": 200,
+    "data": [
+        {
+            "name": "hist",
+            "values": {{ hist }}
+        }
+    ],
+    "scales": [
+        {
+            "name": "x",
+            "type": "ordinal",
+            "range": "width",
+            "domain": {"data": "hist", "field": "data.bin"}
+        },
+        {
+            "name": "xl",
+            "type": "linear",
+            "range": "width",
+            "domain": {"data": "hist", "field": "data.bin"}
+        },
+        {
+            "name": "y",
+            "range": "height",
+            "nice": true,
+            "domain": {"data": "hist", "field": "data.count"}
+        }
+    ],
+    "axes": [
+        {
+            "type": "x",
+            "scale": "xl",
+            "title": "p-value",
+            "offset": 5,
+            "properties": {
+                "labels": {
+                    "angle": { "value": -45 },
+                    "baseline": { "value": "middle" },
+                    "align": {"value": "right"}
+                }
+            }
+        },
+        {"type": "y", "scale": "y", "title": "count", "offset": 5, "titleOffset": 50}
+    ],
+    "marks": [
+        {
+            "type": "rect",
+            "from": {"data": "hist"},
+            "properties": {
+                "enter": {
+                    "x": {"scale": "x", "field": "data.bin"},
+                    "width": {"scale": "x", "band": true, "offset": -1},
+                    "y": {"scale": "y", "field": "data.count"},
+                    "y2": {"scale": "y", "value": 0},
+                    "fill": {"value": "steelblue"}
+                }
+            }
+        }
+    ]
+}

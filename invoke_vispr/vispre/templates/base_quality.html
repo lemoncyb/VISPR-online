@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+    {% for sample, base_qualities in samples.items() %}
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ sample }}</div>
+            {% for fastq in fastqs %}
+            <div id="{{ fastq }}" class="plot"></div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+{% for sample, fastqs in samples.items() %}
+    {% for fastq in fastqs %}
+    vg.parse.spec("/plt/base_quality/{{ fastq }}", function(chart) {
+        chart({el: "#pval-hist-plot"}).update();
+    });
+    {% endfor %}
+{% endfor %}
+</script>
+{% endblock %}

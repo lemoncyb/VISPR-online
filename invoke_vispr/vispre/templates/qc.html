@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% block breadcrumbs %}
+<li>{{ screen.name }}</li>
+<li class="active">quality control</li>
+{% endblock %}
+{% block content %}
+
+<div id="qc">
+
+{% if fastqc %}
+<div class="qc-level readcount">
+    <h4 class="panel-heading">Sequence level</h4>
+    <div class="text-center" class="qc-level seq">
+        <div id="base-quality" class="plot" data-toggle="popover" data-desc="{{ captions["base-quality"] }}"></div>
+        <div id="seq-quality" class="plot" data-toggle="popover" data-placement="left" data-desc="{{ captions["seq-quality"] }}"></div>
+        <div id="gc-content" class="plot" data-toggle="popover" data-desc="{{ captions["gc-content"] }}"></div>
+    </div>
+</div>
+{% endif %}
+
+{% if mapstats %}
+<div class="qc-level readcount">
+    <h4 class="panel-heading">Read count level</h4>
+    <div class="text-center">
+        <div id="mapped-unmapped" class="plot" data-toggle="popover" data-desc="{{ captions["mapped-unmapped"] }}"></div>
+        <div id="zerocounts" class="plot" data-toggle="popover" data-desc="{{ captions["zerocounts"] }}"></div>
+        <div id="gini-index" class="plot" data-toggle="popover" data-placement="left" data-desc="{{ captions["gini-index"] }}"></div>
+    </div>
+</div>
+{% endif %}
+
+<div class="qc-level sample">
+    <h4 class="panel-heading">Sample level</h4>
+    <div class="text-center">
+        <div id="pca-pc1-pc2" class="plot" data-toggle="popover" data-desc="{{ captions["pca"] }}"></div>
+        <div id="pca-pc1-pc3" class="plot" data-toggle="popover" data-desc="{{ captions["pca"] }}"></div>
+        <div id="pca-pc2-pc3" class="plot" data-toggle="popover" data-placement="left" data-desc="{{ captions["pca"] }}"></div>
+    </div>
+    <div class="text-center">
+        <div id="readcounts" class="plot" data-toggle="popover" data-desc="{{ captions["readcounts"] }}"></div>
+        <div id="readcount-cdf" class="plot" data-toggle="popover" data-desc="{{ captions["readcount-cdf"] }}"></div>
+        <div id="correlation" class="plot" data-toggle="popover" data-placement="left" data-desc="{{ captions["correlation"] }}"></div>
+    </div>
+</div>
+
+</div>
+
+<script>
+vg.parse.spec("/plt/normalization/{{ screen.name }}", function(chart) {
+    vega_draw(chart, "#readcounts");
+});
+vg.parse.spec("/plt/readcount_cdf/{{ screen.name }}", function(chart) {
+    vega_draw(chart, "#readcount-cdf");
+});
+vg.parse.spec("/plt/pca/{{ screen.name }}/1/2/0", function(chart) {
+    vega_draw(chart, "#pca-pc1-pc2");
+});
+vg.parse.spec("/plt/pca/{{ screen.name }}/1/3/0", function(chart) {
+    vega_draw(chart, "#pca-pc1-pc3");
+});
+vg.parse.spec("/plt/pca/{{ screen.name }}/2/3/1", function(chart) {
+    vega_draw(chart, "#pca-pc2-pc3");
+});
+vg.parse.spec("/plt/correlation/{{ screen.name }}", function(chart) {
+    vega_draw(chart, "#correlation");
+});
+
+{% if fastqc %}
+vg.parse.spec("/plt/gc_content/{{ screen.name }}", function(chart) {
+    vega_draw(chart, "#gc-content");
+});
+vg.parse.spec("/plt/base_quality/{{ screen.name }}", function(chart) {
+    vega_draw(chart, "#base-quality");
+});
+vg.parse.spec("/plt/seq_quality/{{ screen.name }}", function(chart) {
+    vega_draw(chart, "#seq-quality");
+});
+{% endif %}
+
+{% if mapstats %}
+vg.parse.spec("/plt/mapstats/{{ screen.name }}", function(chart) {
+    vega_draw(chart, "#mapped-unmapped");
+});
+vg.parse.spec("/plt/zerocounts/{{ screen.name }}", function(chart) {
+    vega_draw(chart, "#zerocounts");
+});
+vg.parse.spec("/plt/gini_index/{{ screen.name }}", function(chart) {
+    vega_draw(chart, "#gini-index");
+});
+{% endif %}
+
+</script>
+{% endblock %}

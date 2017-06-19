@@ -1,0 +1,199 @@
+{
+    "width": 500,
+    "height": 600,
+    "padding": "strict",
+    "data": [
+        {
+            "name": "clustering",
+            "values": {{ data }}
+        }
+    ],
+    "scales": [
+        {
+            "name": "layout_x",
+            "range": "width",
+            "type": "linear",
+            "domain": [0, 1]
+        },
+        {
+            "name": "layout_y",
+            "range": "height",
+            "type": "ordinal",
+            "domain": [0]
+        },
+        {
+            "name": "y",
+            "type": "ordinal",
+            "range": "height",
+            "domain": {
+                "data": "clustering",
+                "field": "data.target"
+            }
+        },
+        {
+            "name": "c",
+            "type": "quantile",
+            "range": ["#4860d1",
+                         "#5775e1",
+                         "#6788ed",
+                         "#779af6",
+                         "#87aafc",
+                         "#99bafe",
+                         "#aac6fd",
+                         "#b9d0f8",
+                         "#c8d7ef",
+                         "#d6dbe4",
+                         "#e3d9d3",
+                         "#edd0c1",
+                         "#f3c5af",
+                         "#f6b79c",
+                         "#f6a789",
+                         "#f29375",
+                         "#eb7f63",
+                         "#e16852",
+                         "#d44f42",
+                         "#c53233"],
+            "domain": {
+                "data": "clustering",
+                "field": "data.beta"
+            },
+            "domainMin": {{ beta_min }},
+            "domainMax": {{ beta_max }}
+        }
+    ],
+    "marks": [
+        {
+            "type": "group",
+            "properties": {
+                "enter": {
+                    "x": {"scale": "layout_x", "value": 0},
+                    "y": {"scale": "layout_y", "value": 0},
+                    "width": {"scale": "layout_x", "value": 0.1},
+                    "height": {"scale": "layout_y", "band": true}
+                }
+            },
+            "scales": [
+                {
+                    "name": "c",
+                    "type": "ordinal",
+                    "range": "category20",
+                    "domain": { "data": "clustering", "field": "data.cluster" }
+                }
+            ],
+            "marks": [
+                {
+                    "type": "rect",
+                    "from": {
+                        "data": "clustering"
+                    },
+                    "properties": {
+                        "enter": {
+                            "x": {"scale": "layout_x", "value": 0},
+                            "width": {"scale": "layout_x", "value": 0.1},
+                            "y": {
+                                "scale": "y",
+                                "field": "data.target"
+                            },
+                            "height": {
+                                "scale": "y",
+                                "band": true
+                            },
+                            "fill": {
+                                "scale": "c",
+                                "field": "data.cluster"
+                            },
+                            "stroke": {
+                                "value": "transparent"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "properties": {
+                "enter": {
+                    "x": {"scale": "layout_x", "value": 0.1},
+                    "y": {"scale": "layout_y", "value": 0},
+                    "width": {"scale": "layout_x", "value": 1},
+                    "height": {"scale": "layout_y", "band": true}
+                }
+            },
+            "scales": [
+                {
+                    "name": "x",
+                    "type": "ordinal",
+                    "range": "width",
+                    "domain": {
+                        "data": "clustering",
+                        "field": "data.condition"
+                    }
+                }
+            ],
+            "axes": [
+                {
+                    "type": "x",
+                    "scale": "x",
+                    "orient": "bottom",
+                    "properties": {
+                        "axis": { "stroke": { "value": "transparent" } },
+                        "ticks": { "stroke": { "value": "transparent" } },
+                        "labels": {
+                            "angle": { "value": -45 },
+                            "baseline": { "value": "middle" },
+                            "align": {"value": "right"}
+                        }
+                    }
+                }
+            ],
+            "marks": [
+                {
+                    "type": "rect",
+                    "from": {
+                        "data": "clustering"
+                    },
+                    "properties": {
+                        "enter": {
+                            "x": {
+                                "scale": "x",
+                                "field": "data.condition"
+                            },
+                            "width": {
+                                "scale": "x",
+                                "band": true
+                            },
+                            "y": {
+                                "scale": "y",
+                                "field": "data.target"
+                            },
+                            "height": {
+                                "scale": "y",
+                                "band": true
+                            },
+                            "fill": {
+                                "scale": "c",
+                                "field": "data.beta"
+                            },
+                            "stroke": {
+                                "value": "transparent"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "legends": [
+        {
+            "fill": "c",
+            "values": [{{ beta_min }}, {{ beta_max }}],
+            "title": "beta scores",
+            "properties": {
+                "symbols": {
+                    "stroke": {"value": "transparent"}
+                }
+            }
+        }
+    ]
+}

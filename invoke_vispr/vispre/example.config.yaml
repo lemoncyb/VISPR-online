@@ -1,0 +1,54 @@
+# ------------------------------------------------------------
+# Example VISPR config
+# Save this config to a file and edit according to your needs.
+# ------------------------------------------------------------
+
+# Provide a reasonable name for your experiment
+experiment: myexperiment
+# set the species (any identifier accepted by ensembl.org)
+species: homo_sapiens
+# set the assembly
+assembly: hg19
+
+# This section configures the result view in VISPR
+targets:
+    # per gene results (can be obtained from "mageck test" or "mageck mle")
+    results: myexperiment.gene_summary.txt
+
+    # specify if targets are genes (enabling various link-outs)
+    genes: true
+
+    # list of targets to hide per default
+    # (optional, comment in to use)
+    #controls: ribosomal_genes.txt
+
+# This section configures the sample and read count level QC view and the
+# RNA count panel in the result view of VISPR
+sgrnas:
+    # normalized read counts (can be obtained from mageck count)
+    counts: myexperiment.count_normalized.txt
+
+    # position and score (e.g. efficiency score) for each sgRNA
+    # (optional, comment in to use)
+    #annotation: myexperiment.sgrna.bed
+
+    # mapping statistics (can be obtained from mageck count)
+    # (optional, comment in to use)
+    #mapstats: myexperiment.countsummary.txt
+
+# This section configures the sequence level QC view in VISPR
+# (optional, comment in to use)
+#fastqc:
+#    sample1:
+#        # fastqc output for sample1
+#        # you can add multiple lines for technical replicates
+#        - fastqc/sample1/fastqc_data.txt
+#    sample2:
+#        # fastqc output for sample2
+#        # you can add multiple lines for technical replicates
+#        - fastqc/sample2/fastqc_data.txt
+
+# ------------------------------------------------------------
+# End example VISPR config
+# Save this config to a file and edit according to your needs.
+# ------------------------------------------------------------

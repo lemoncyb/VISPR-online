@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Global genome="{{ screen.assembly }}" version="3">
+    <Resources>
+        <Resource name="{{ screen.name }}" path="{{ request.url_root }}igv/track/rnas/{{ screen.name }}.gct"/>
+    </Resources>
+    <Panel height="391" name="DataPanel" width="1581">
+        <Track height="50" autoScale="true" id="{{ request.url_root }}igv/track/rnas/{{ screen.name }}.gct_efficiency" name="efficiency" renderer="BAR_CHART" color="0,153,51" altColor="255,0,0">
+        </Track>
+{% for sample in screen.rnas.samples %}
+        <Track height="50" autoScale="true" id="{{ request.url_root }}igv/track/rnas/{{ screen.name }}.gct_{{ sample }}" name="{{ sample }}" renderer="BAR_CHART">
+        </Track>
+{% endfor %}
+    </Panel>
+</Global>

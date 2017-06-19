@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block breadcrumbs %}
+<li>{{ screen.name }}</li>
+<li class="active">clustering</li>
+{% endblock %}
+{% block content %}
+<div id="target-clustering">
+    <h4 class="panel-heading">Clustering</h4>
+    <form action="" class="form-inline text-right" id="config-clustering">
+        <div class="form-group">
+            <label for="select-overlap-items">Clusters</label>
+            <select name="select-k" id="select-k" class="selectpicker">
+                {% for k in range(2, 11) %}
+                {% set sel = "selected" if k == 4 else "" %}
+                <option value="{{ k }}" {{ sel }}>k = {{ k }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+    <div class="text-center">
+        <div id="target-clustering-plot" class="plot" data-toggle="popover" data-desc="{{ captions["target-clustering"] }}"></div>
+    </div>
+</div>
+
+<script>
+function plot_clustering() {
+    var k = $("#select-k").val();
+    vg.parse.spec(`/plt/target-clustering/{{ screen.name }}/${k}`, function(chart) {
+        vega_draw(chart, "#target-clustering-plot");
+    });
+}
+
+$("#config-clustering").change(plot_clustering);
+plot_clustering();
+</script>
+{% endblock %}

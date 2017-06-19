@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>VISPR {{ version }}</title>
+<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="/static/bootstrap-select.min.js"></script>
+<link rel="stylesheet" href="/static/bootstrap-select.min.css">
+
+<link rel="stylesheet" href="/static/dropdowns-enhancement.css">
+
+<script src="http://trifacta.github.io/vega/lib/d3.v3.min.js"></script>
+<script src="http://trifacta.github.io/vega/vega.js"></script>
+
+<script src="/static/jquery.dynatable.js"></script>
+<link rel="stylesheet" href="/static/jquery.dynatable.css">
+
+<script src="/static/d3.parcoords.js"></script>
+<link rel="stylesheet" href="/static/d3.parcoords.css">
+
+<script src="/static/chord2.js"></script>
+
+<script src="/static/venn.min.js"></script>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<script>
+var font = "Helvetica,Arial"
+vg.config.render.font = font;
+vg.config.axis.titleFont = font;
+vg.config.axis.tickLabelFont = font;
+vg.config.legend.labelFont = font;
+vg.config.legend.titleFont = font;
+
+function add_caption(el) {
+    $(el).tooltip({
+        container: "body",
+        title: "Click for caption and download.",
+        placement: "top"
+    });
+    $(el).popover({
+        container: "body",
+        html: true,
+        trigger: "click",
+        delay: { "show": 50, "hide": 50 },
+        content: function() {
+            $(el).find("svg").attr("version", 1.1)
+                           .attr("xmlns", "http://www.w3.org/2000/svg")
+                           .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
+                           .css("font-family", font);
+            var data = btoa('<?xml version="1.0"?>' + $(el).find("svg").parent().html());
+            var name = "{{ screen.name }}." + $(el).attr("id");
+            return $(this).attr("data-desc") +
+            '<hr/><div class="text-right"><a download="' + name +
+            '.svg" class="btn btn-default download-plot-svg" href="data:image/svg+xml;base64,' +
+            data + '">Download SVG</a></div>';
+        }
+    });
+    $(el).on("show.bs.popover", function() {
+        $('[data-toggle="popover"]').not(el).popover("hide");
+    });
+}
+
+function vega_draw(chart, el, url) {
+    var plt = chart({el: el, renderer: "svg"}).update();
+
+    add_caption(el);
+    return plt;
+}
+
+// query the server periodically
+setInterval(function() {
+    $.get("/ping").fail(function() {
+        $("#server-not-accessible-msg").modal();
+    });
+}, 10000)
+</script>
+
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">VISPR <span class="small">{{ version }}</span></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-placeholder="false" data-toggle="dropdown" role="button" aria-expanded="false">Experiment <span class="caret"></span></a>
+                    <ul class="dropdown-menu scrollable-menu" role="menu">
+                        {% for _screen in screens %}
+                        {% set checked = "checked" if _screen.name == screen.name else "" %}
+                        <li>
+                            <input type="radio" name="screen" value="{{ _screen.name }}" id="screen-{{ _screen.name }}" {{ checked }}><label for="screen-{{ _screen.name }}">{{ _screen.name }}</label>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="/qc/{{ screen.name }}">Quality Control</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Results <span class="caret"></span></a>
+                    <ul class="dropdown-menu scrollable-menu" role="menu">
+                    {% if screen.target_clustering %}
+                        <li role="presentation"><a href="/target-clustering/{{ screen.name }}">Clustering</a></li>
+                    {% endif %}
+                    {% for condition in screen.targets %}
+                        {% if condition != "default" %}
+                        <li role="presentation" class="dropdown-header">{{ condition }}</li>
+                        {% endif %}
+                        {% for selection in ["positive selection", "negative selection"] %}
+                        <li role="presentation" {{ 'class=submenu' if condition != "default" else '' }}><a href="/targets/{{ screen.name }}/{{ condition }}/{{ selection }}">{{ selection }}</a></li>
+                        {% endfor %}
+                    {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="/compare/{{ screen.name }}">Compare Experiments</a></li>
+            </ul>
+            <ul class="nav navbar-right">
+                <li>
+                    <ol class="breadcrumb navbar-text" style="padding: 0px; background: none">
+                    {% block breadcrumbs %}
+                    {% endblock %}
+                    </ol>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="modal fade" id="server-not-accessible-msg">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Failed to contact VISPR server!</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+            Your VISPR server instance is not responding. If running VISPR locally, check that it was not accidentally closed.
+            If accessing a remote server, there might be a problem with the network connection.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="content" class="container-fluid">
+    {% block content %}
+    {% endblock %}
+</div>
+<script>
+$('[data-toggle="tooltip"]').tooltip({container: 'body', trigger: "hover"})
+$("input[name=screen]").change(function() {
+    window.location = "/" + $(this).val();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+{
+    "width": {{ size + 0.1 * size }},
+    "height": {{ size }},
+    "padding": "strict",
+    "data": [
+        {
+            "name": "correlation",
+            "values": {{ data }}
+        },
+        {
+            "name": "dendrogram",
+            "values": {{ dendrogram }}
+        }
+    ],
+    "scales": [
+        {
+            "name": "layout_x",
+            "range": "width",
+            "type": "linear",
+            "domain": [0, 1]
+        },
+        {
+            "name": "layout_y",
+            "range": "height",
+            "type": "ordinal",
+            "domain": [0]
+        },
+        {
+            "name": "y",
+            "type": "ordinal",
+            "range": "height",
+            "domain": {
+                "data": "correlation",
+                "field": "data.b"
+            }
+        }
+    ],
+    "marks": [
+        {
+            "type": "group",
+            "properties": {
+                "enter": {
+                    "x": {"scale": "layout_x", "value": 0},
+                    "y": {"scale": "layout_y", "value": 0},
+                    "width": {"scale": "layout_x", "value": 0.9},
+                    "height": {"scale": "layout_y", "band": true}
+                }
+            },
+            "scales": [
+                {
+                    "name": "x",
+                    "type": "ordinal",
+                    "range": "width",
+                    "domain": {
+                        "data": "correlation",
+                        "field": "data.a"
+                    }
+                },
+                {
+                    "name": "c",
+                    "type": "linear",
+                    "range": ["white", "steelblue"],
+                    "domain": {
+                        "data": "correlation",
+                        "field": "data.value"
+                    }
+                }
+            ],
+            "axes": [
+                {
+                    "type": "x",
+                    "scale": "x",
+                    "orient": "bottom",
+                    "properties": {
+                        "axis": { "stroke": { "value": "transparent" } },
+                        "ticks": { "stroke": { "value": "transparent" } },
+                        "labels": {
+                            "angle": { "value": -45 },
+                            "baseline": { "value": "middle" },
+                            "align": {"value": "right"}
+                        }
+                    }
+                },
+                {
+                    "type": "y",
+                    "scale": "y",
+                    "orient": "left",
+                    "properties": {
+                        "axis": { "stroke": { "value": "transparent" } },
+                        "ticks": { "stroke": { "value": "transparent" } }
+                    }
+                }
+            ],
+            "marks": [
+                {
+                    "type": "rect",
+                    "from": {
+                        "data": "correlation"
+                    },
+                    "properties": {
+                        "enter": {
+                            "x": {
+                                "scale": "x",
+                                "field": "data.a"
+                            },
+                            "width": {
+                                "scale": "x",
+                                "band": true
+                            },
+                            "y": {
+                                "scale": "y",
+                                "field": "data.b"
+                            },
+                            "height": {
+                                "scale": "y",
+                                "band": true
+                            },
+                            "fill": {
+                                "scale": "c",
+                                "field": "data.value"
+                            },
+                            "stroke": {
+                                "value": "transparent"
+                            }
+                        }
+                    }
+                }
+                {% if show_labels %}
+                ,{
+                    "type": "text",
+                    "from": {"data": "correlation"},
+                    "properties": {
+                        "enter": {
+                            "x": {"scale": "x", "field": "data.a"},
+                            "dx": {"scale": "x", "band": true, "mult": 0.5},
+                            "y": {"scale": "y", "field": "data.b"},
+                            "dy": {"scale": "y", "band": true, "mult": 0.5},
+                            "align": {"value": "center"},
+                            "baseline": {"value": "middle"},
+                            "fill": {"value": "#000"},
+                            "text": {"field": "data.value"},
+                            "fontSize": {"value": 9}
+                        }
+                    }
+                }
+                {% endif %}
+            ]
+        },
+        {
+            "type": "group",
+            "properties": {
+                "enter": {
+                    "x": {"scale": "layout_x", "value": 0.9},
+                    "y": {"scale": "layout_y", "value": 0, "offset": {{ dendrogram_offset }}},
+                    "width": {"scale": "layout_x", "value": 0.1},
+                    "height": {"scale": "layout_y", "band": true, "offset": {{ - 2 * dendrogram_offset }}}
+                }
+            },
+            "scales": [
+                {
+                    "name": "dx",
+                    "type": "linear",
+                    "range": "height",
+                    "reverse": true,
+                    "round": true,
+                    "domain": {"data": "dendrogram", "field": "data.x"}
+                },
+                {
+                    "name": "dy",
+                    "type": "linear",
+                    "range": "width",
+                    "domain": {"data": "dendrogram", "field": "data.y"}
+                }
+            ],
+            "marks": [
+                {
+                    "type": "group",
+                    "from": {
+                        "data": "dendrogram",
+                        "transform": [{"type": "facet", "keys": ["data.k"]}]
+                    },
+                    "marks": [
+                        {
+                            "type": "line",
+                            "properties": {
+                                "enter": {
+                                    "y": {"scale": "dx", "field": "data.x"},
+                                    "x": {"scale": "dy", "field": "data.y"},
+                                    "strokeWidth": {"value": 1},
+                                    "stroke": {"value": "black"}
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,114 @@
+{
+    "width": 200,
+    "height": 200,
+    "data": [
+        {
+            "name": "pvals",
+            "values": {{ pvals }}
+        },
+        {
+            "name": "highlight",
+            "values": {{ highlight }}
+        },
+        {
+            "name": "fdrs",
+            "values": {{ fdrs }}
+        }
+    ],
+    "scales": [
+        {
+            "name": "x",
+            "type": "linear",
+            "range": "width",
+            "zero": false,
+            "domain": {"data": "pvals", "field": "data.p-value"}
+        },
+        {
+            "name": "y",
+            "type": "linear",
+            "range": "height",
+            "nice": true,
+            "zero": false,
+            "domain": {"data": "pvals", "field": "data.cdf"}
+        },
+        {
+            "name": "c",
+            "type": "ordinal",
+            "domain": {"data": "highlight", "field": "data.target"},
+            "range": "category20"
+        }
+    ],
+    "axes": [
+        {"type": "x", "scale": "x", "nice": true, "offset": 5, "title": "-log10 p-value"},
+        {"type": "y", "scale": "y", "nice": true, "offset": 5, "title": "CDF"}
+    ],
+    "marks": [
+        {
+            "type": "line",
+            "from": {"data": "pvals"},
+            "properties": {
+                "enter": {
+                    "x": {"scale": "x", "field": "data.p-value"},
+                    "y": {"scale": "y", "field": "data.cdf"},
+                    "stroke": {"value": "steelblue"},
+                    "strokeWidth": {"value": 2}
+                }
+            }
+        },
+        {
+            "type": "symbol",
+            "from": {"data": "highlight"},
+            "properties": {
+                "enter": {
+                    "x": {"scale": "x", "field": "data.p-value"},
+                    "y": {"scale": "y", "field": "data.cdf"},
+                    "fill": {"scale": "c", "field": "data.target"},
+                    "stroke": {"value": "transparent"},
+                    "size": {"value": 50}
+                }
+            }
+        },
+        {
+            "type": "rect",
+            "from": {"data": "fdrs"},
+            "properties": {
+                "enter": {
+                    "y": {"value": 200},
+                    "y2": {"scale": "y", "field": "data.cdf"},
+                    "x": {"scale": "x", "field": "data.p-value"},
+                    "x2": {"scale": "x", "field": "data.p-value", "offset": 1},
+                    "stroke": {"value": "grey"},
+                    "strokeWidth": {"value": 1},
+                    "strokeDash": {"value": [2,1]}
+                }
+            }
+        },
+        {
+            "type": "text",
+            "from": {"data": "fdrs"},
+            "properties": {
+                "enter": {
+                    "y": {"value": 200},
+                    "x": {"scale": "x", "field": "data.p-value"},
+                    "dx": {"value": 2},
+                    "text": {"field": "data.label"},
+                    "align": {"value": "left"},
+                    "fill": {"value": "grey"},
+                    "angle": {"value": -90},
+                    "baseline": {"value": "top"}
+                }
+            }
+        }
+    ],
+    "legends": [
+        {
+            "fill": "c",
+            "title": "                  ",
+            "properties": {
+                "symbols": {
+                    "stroke": {"value": "transparent"}
+                }
+            }
+        }
+    ]
+}

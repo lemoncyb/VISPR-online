@@ -1,0 +1,14 @@
+gc-content: Per sample distribution of mean GC content of reads. The mean should be between 40 and 50.
+base-quality: Median base quality per-read base for each sample.
+seq-quality: Distribution of per-read mean base quality for each sample. The peak should be beyond 30.
+mapped-unmapped: Mapped and unmapped reads for each sample. Percentage of unmapped reads is printed on each bar.
+zerocounts: Per-sample number of missed gRNAs, i.e. gRNAs with zero mapped reads.
+gini-index: Gini Index for each sample. This measures inequality between read counts. 1.0 means maximum inequality (e.g. all reads mapping to one gRNA), 0.0 corresponds to having the same read count for all gRNAs.
+readcounts: Distribution of normalized read counts for each sample.
+readcount-cdf: Cumulative distribution function of normalized read counts for each sample.
+correlation: Correlation between normalized log10 read counts of samples.
+pca: Principal component analysis on normalized log10 read counts of samples. The axis labels show principal components and percentage of explained variants.
+p-values: Cumulative distribution function of p-values. Smallest FDR greater or equal to 5% and 25% are displayed.
+p-value-hist: Histogram of p-values. Small p-values should be enriched. If one-sided test was performed, p-values toward 1.0 are expected to be enriched as well.
+overlap: Euler diagram visualizing common and exclusive significant targets between selected experiments.
+target-clustering: Hierarchical clustering over beta scores (using Ward variance minimization and euclidean distance) on 500 genes with the highest absolute beta score (mean over conditions).

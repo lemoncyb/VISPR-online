@@ -1,0 +1,4 @@
+{
+    "dimensions": {{ dimensions }},
+    "values": {{ values }}
+}

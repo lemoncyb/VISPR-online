@@ -1,0 +1,80 @@
+#content {
+    margin-top: 60px;
+}
+
+#qc {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+}
+
+#compare {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+}
+
+#target-clustering {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+}
+
+.plot {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#score-plot {
+    height: 255px;
+}
+
+#rna-plot {
+    height: 300px;
+}
+
+.table-striped td, .table-striped th {
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+#frontpage {
+    text-align: center;
+    padding-top: 150px;
+}
+
+#overlap-plot {
+    display: inline;
+}
+
+h4.panel-heading {
+    border-bottom: 1px solid #EEE;
+}
+
+.venntooltip {
+  position: absolute;
+  text-align: center;
+  width: 128px;
+  background: #333;
+  color: #ddd;
+  padding: 2px;
+  border: 0px;
+  border-radius: 8px;
+  opacity: 0;
+}
+
+.shadow-svg {
+    display: block;
+}
+
+li.submenu {
+    padding-left: 1em;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 500px;
+    overflow-x: hidden;
+}

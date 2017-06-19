@@ -1,0 +1,83 @@
+{
+    "width": 150,
+    "height": 150,
+    "data": [
+        {
+            "name": "pca",
+            "values": {{ data }}
+        }
+    ],
+    "scales": [
+        {
+            "name": "x",
+            "type": "linear",
+            "range": "width",
+            "domain": {"data": "pca", "field": "data.x"}
+        },
+        {
+            "name": "y",
+            "type": "linear",
+            "range": "height",
+            "domain": {"data": "pca", "field": "data.y"}
+        },
+        {
+            "name": "c",
+            "type": "ordinal",
+            "domain": {"data": "pca", "field": "data.label"},
+            "range": "category20"
+        }
+    ],
+    "axes": [
+        {
+            "type": "x",
+            "scale": "x",
+            "nice": true,
+            "offset": 5,
+            "title": "{{ xlabel }}",
+            "ticks": 6,
+            "properties": {
+                "labels": {
+                    "angle": { "value": -45 },
+                    "baseline": { "value": "middle" },
+                    "align": {"value": "right"}
+                }
+            }
+        },
+        {
+            "type": "y",
+            "scale": "y",
+            "nice": true,
+            "offset": 5,
+            "title": "{{ ylabel }}",
+            "ticks": 6
+        }
+    ],
+    "marks": [
+        {
+            "type": "symbol",
+            "from": {"data": "pca"},
+            "properties": {
+                "enter": {
+                    "x": {"scale": "x", "field": "data.x"},
+                    "y": {"scale": "y", "field": "data.y"},
+                    "fill": {"scale": "c", "field": "data.label"},
+                    "stroke": {"value": "transparent"},
+                    "size": {"value": 50}
+                }
+            }
+        }
+    ]
+    {% if show_legend %}
+    ,"legends": [
+        {
+            "fill": "c",
+            "title": "samples",
+            "properties": {
+                "symbols": {
+                    "stroke": {"value": "transparent"}
+                }
+            }
+        }
+    ]
+    {% endif %}
+}

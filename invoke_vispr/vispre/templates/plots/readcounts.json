@@ -1,0 +1,86 @@
+{
+    "width": 150,
+    "height": 150,
+    "data": [
+        {
+            "name": "dist",
+            "values": {{ data }}
+        }
+    ],
+    "scales": [
+        {
+            "name": "x",
+            "type": "linear",
+            "range": "width",
+            "domain": {"data": "dist", "field": "data.count"}
+        },
+        {
+            "name": "y",
+            "type": "linear",
+            "range": "height",
+            "nice": true,
+            "domain": {"data": "dist", "field": "data.density"}
+        },
+        {
+            "name": "c",
+            "type": "ordinal",
+            "domain": {"data": "dist", "field": "data.sample"},
+            "range": "category20"
+        }
+    ],
+    "axes": [
+        {
+            "type": "x",
+            "scale": "x",
+            "nice": true,
+            "ticks": 6,
+            "offset": 5,
+            "title": "log10 read count",
+            "properties": {
+                "labels": {
+                    "angle": { "value": -45 },
+                    "baseline": { "value": "middle" },
+                    "align": {"value": "right"}
+                }
+            }
+        },
+        {"type": "y", "scale": "y", "nice": true, "ticks": 6, "offset": 5, "title": "CDF"}
+    ],
+    "marks": [
+        {
+            "type": "group",
+            "from": {
+                "data": "dist",
+                "transform": [{"type": "facet", "keys": ["data.sample"]}]
+            },
+            "marks": [
+                {
+                    "type": "line",
+                    "properties": {
+                        "enter": {
+                            "x": {"scale": "x", "field": "data.count"},
+                            "y": {"scale": "y", "field": "data.density"},
+                            "opacity": {"value": 0.5},
+                            "stroke": {"scale": "c", "field": "data.sample"},
+                            "strokeWidth": {"value": 2}
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+    {% if show_legend %}
+    ,"legends": [
+        {
+            "fill": "c",
+            "title": "samples",
+            "properties": {
+                "symbols": {
+                    "stroke": {"value": "transparent"},
+                    "opacity": {"value": 0.5}
+                }
+            }
+        }
+    ]
+    {% endif %}
+}

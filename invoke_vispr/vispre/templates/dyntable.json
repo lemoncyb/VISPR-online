@@ -1,0 +1,5 @@
+{
+    "records": {{ records }},
+    "queryRecordCount": {{ filter_count }},
+    "totalRecordCount": {{ total_count }}
+}

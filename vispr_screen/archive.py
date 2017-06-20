@@ -5,7 +5,7 @@ from io import BytesIO
 
 import yaml
 
-from vispr_module.vispr.common import VisprError
+from vispr_screen.common import VisprError
 
 
 def archive(config, out):

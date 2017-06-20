@@ -16,10 +16,9 @@ from flask import Flask, render_template, request, session, abort
 from jinja2 import Markup
 import yaml
 
-from vispr_module.vispr import __version__
-from vispr_module.vispr import Screens
+from vispr_screen import __version__
 
-from vispr_module import app
+from vispr_screen import app
 #app = Flask(__name__)
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
@@ -31,30 +30,6 @@ with open(os.path.join(os.path.dirname(__file__), "captions.yaml")) as f:
     CAPTIONS = yaml.load(f)
 
 
-def init_server(configs, host="127.0.0.1", port=5000):
-    session['screens'] = Screens()
-    print("Loading data.")
-    print(configs)
-    #for path in configs:
-    with open(configs) as f:
-        config = yaml.load(f)
-    try:
-        session['screens'].add(config, parentdir=os.path.dirname(configs))
-    except KeyError as e:
-        raise VisprError(
-            "Syntax error in config file {}. Missing key {}.".format(configs,
-                                                                         e))
-    app.secret_key = ''.join(
-        random.choice(string.ascii_uppercase + string.digits)
-        for _ in range(30))
-    logging.info("Starting server.")
-    logging.info("")
-    logging.info(
-        "Open:  go to " + host + ":{} in your browser.".format(port))
-    logging.info("Note: Safari and Internet Explorer are currently unsupported.")
-    logging.info("Close: hit Ctrl-C in this terminal.")
-
-
 @app.route("/ping")
 def ping():
     return ""
@@ -62,11 +37,11 @@ def ping():
 
 @app.route("/")
 def index():
-    yaml_config = '/Users/cuiyb/workspace/PublicCRISPRScreenData/publiccrisprscreendata/24336569_LanderES_Science_2014/results/mle.vispr.yaml'
-    init_server(yaml_config)
-    screen = next(iter(session['screens']))
+    #yaml_config = '/Users/cuiyb/workspace/PublicCRISPRScreenData/publiccrisprscreendata/24336569_LanderES_Science_2014/results/mle.vispr.yaml'
+    #init_server(yaml_config)
+    screen = next(iter(app.screens))
     return render_template("index.html",
-                           screens=session['screens'],
+                           screens=app.screens,
                            screen=screen,
                            version=__version__)
 
@@ -74,18 +49,18 @@ def index():
 @app.route("/<screen>")
 def index_screen(screen):
     try:
-        screen = session['screens'][screen]
+        screen = app.screens[screen]
     except KeyError:
         abort(404)
     return render_template("index.html",
-                           screens=session['screens'],
+                           screens=app.screens,
                            screen=screen,
                            version=__version__)
 
 
 @app.route("/targets/<screen>/<condition>/<selection>")
 def targets(screen, condition, selection):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     table_args = request.query_string.decode()
 
     gorilla = screen.species in GORILLA_SPECIES and screen.is_genes
@@ -95,7 +70,7 @@ def targets(screen, condition, selection):
         overlap_args = get_overlap_args()
         targets = screen.targets[condition][selection][:]["target"]
         if overlap_args:
-            overlap = session['screens'].overlap(*overlap_args)
+            overlap = app.screens.overlap(*overlap_args)
             filter = targets.apply(lambda target: target in overlap)
             background = targets[~filter]
             targets = targets[filter]
@@ -104,7 +79,7 @@ def targets(screen, condition, selection):
 
     return render_template("targets.html",
                            captions=CAPTIONS,
-                           screens=session['screens'],
+                           screens=app.screens,
                            selection=selection,
                            condition=condition,
                            screen=screen,
@@ -123,9 +98,9 @@ def targets(screen, condition, selection):
 
 @app.route("/target-clustering/<screen>")
 def target_clustering(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     return render_template("target_clustering.html",
-                           screens=session['screens'],
+                           screens=app.screens,
                            screen=screen,
                            captions=CAPTIONS,
                            version=__version__)
@@ -133,10 +108,10 @@ def target_clustering(screen):
 
 @app.route("/qc/<screen>")
 def qc(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     return render_template("qc.html",
                            captions=CAPTIONS,
-                           screens=session['screens'],
+                           screens=app.screens,
                            screen=screen,
                            fastqc=screen.fastqc is not None,
                            mapstats=screen.mapstats is not None,
@@ -145,10 +120,10 @@ def qc(screen):
 
 @app.route("/compare/<screen>")
 def compare(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     return render_template("compare.html",
                            captions=CAPTIONS,
-                           screens=session['screens'],
+                           screens=app.screens,
                            screen=screen,
                            version=__version__)
 
@@ -157,7 +132,7 @@ def tbl_targets(screen, condition, selection,
                 offset=None,
                 perpage=None,
                 add_locus=False):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
 
     # sort and slice records
     records = screen.targets[condition][selection][:]
@@ -169,7 +144,7 @@ def tbl_targets(screen, condition, selection,
     # restrict to overlap
     overlap_args = get_overlap_args()
     if overlap_args:
-        overlap = session['screens'].overlap(*overlap_args)
+        overlap = app.screens.overlap(*overlap_args)
         filter &= records["target"].apply(lambda target: target in overlap)
 
     # searching
@@ -252,7 +227,7 @@ def tbl_targets_txt(screen, condition, selection):
 
 @app.route("/tbl/pvals_highlight/<screen>/<condition>/<selection>/<targets>")
 def tbl_pvals_highlight(screen, condition, selection, targets):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     targets = targets.split("|")
     records = screen.targets[condition][selection].get_pvals_highlight_targets(
         targets)
@@ -261,26 +236,26 @@ def tbl_pvals_highlight(screen, condition, selection, targets):
 
 @app.route("/tbl/rnas/<screen>/<target>")
 def tbl_rnas(screen, target):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     table = screen.rnas.by_target(target)
     return table.to_json(orient="records")
 
 
 @app.route("/igv/session/<screen>.xml")
 def igv_session(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     return render_template("igv/session.xml", screen=screen)
 
 
 @app.route("/igv/track/rnas/<screen>.gct")
 def igv_track_rnas(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     return screen.rnas.track()
 
 
 @app.route("/plt/pvals/<screen>/<condition>/<selection>")
 def plt_pvals(screen, condition, selection):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.targets[condition][selection].plot_pvals(
         screen.control_targets,
         mode=session.get("control_targets_mode", "hide"))
@@ -289,96 +264,96 @@ def plt_pvals(screen, condition, selection):
 
 @app.route("/plt/pvalhist/<screen>/<condition>/<selection>")
 def plt_pval_hist(screen, condition, selection):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.targets[condition][selection].plot_pval_hist()
     return plt
 
 
 @app.route("/plt/normalization/<screen>")
 def plt_normalization(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.rnas.plot_normalization()
     return plt
 
 
 @app.route("/plt/pca/<screen>/<int:x>/<int:y>/<int:legend>")
 def plt_pca(screen, x, y, legend):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.rnas.plot_pca(comp_x=x, comp_y=y, legend=legend == 1, )
     return plt
 
 
 @app.route("/plt/correlation/<screen>")
 def plt_correlation(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.rnas.plot_correlation()
     return plt
 
 
 @app.route("/plt/gc_content/<screen>")
 def plt_gc_content(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.fastqc.plot_gc_content()
     return plt
 
 
 @app.route("/plt/base_quality/<screen>")
 def plt_base_quality(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.fastqc.plot_base_quality()
     return plt
 
 
 @app.route("/plt/seq_quality/<screen>")
 def plt_seq_quality(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.fastqc.plot_seq_quality()
     return plt
 
 
 @app.route("/plt/mapstats/<screen>")
 def plt_mapstats(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.mapstats.plot_mapstats()
     return plt
 
 
 @app.route("/plt/zerocounts/<screen>")
 def plt_zerocounts(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.mapstats.plot_zerocounts()
     return plt
 
 
 @app.route("/plt/gini_index/<screen>")
 def plt_gini_index(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.mapstats.plot_gini_index()
     return plt
 
 
 @app.route("/plt/readcount_cdf/<screen>")
 def plt_readcounts(screen):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.rnas.plot_readcount_cdf()
     return plt
 
 
 @app.route("/plt/target-clustering/<screen>/<int:k>")
 def plt_target_clustering(screen, k):
-    screen = session['screens'][screen]
+    screen = app.screens[screen]
     plt = screen.target_clustering.plot_clustering(k)
     return plt
 
 
 @app.route("/plt/overlap_chord")
 def plt_overlap_chord():
-    return session['screens'].plot_overlap_chord(*get_overlap_args())
+    return app.screens.plot_overlap_chord(*get_overlap_args())
 
 
 @app.route("/plt/overlap_venn")
 def plt_overlap_venn():
-    return session['screens'].plot_overlap_venn(*get_overlap_args())
+    return app.screens.plot_overlap_venn(*get_overlap_args())
 
 
 @app.route("/set/control_targets_mode/<mode>")

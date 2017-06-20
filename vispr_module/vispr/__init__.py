@@ -7,6 +7,6 @@ __email__ = "koester@jimmy.harvard.edu"
 __license__ = "MIT"
 
 
-from ..vispre.version import __version__
+from vispr_module.vispr.version import __version__
 
-from ..vispre.results import Screens, Screen
+from vispr_module.vispr.results import Screens, Screen

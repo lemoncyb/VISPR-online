@@ -23,12 +23,12 @@ except ImportError:
 import yaml
 from appdirs import AppDirs
 
-from ..vispre import Screens, Screen
-from ..vispre.common import VisprError
-from ..vispre.server import app
-#from vispr_module import app
-from ..vispre.version import __version__
-from ..vispre.archive import archive as _archive
+from vispr_module.vispr import Screens, Screen
+from vispr_module.vispr.common import VisprError
+#from vispr.server import app
+from vispr_module import app
+from vispr_module.vispr.version import __version__
+from vispr_module.vispr.archive import archive as _archive
 
 appdirs = AppDirs("VISPR", "liulab")
 
@@ -55,7 +55,7 @@ def init_server(configs, host="127.0.0.1", port=5000):
         "Open:  go to " + host + ":{} in your browser.".format(port))
     logging.info("Note: Safari and Internet Explorer are currently unsupported.")
     logging.info("Close: hit Ctrl-C in this terminal.")
-    app.run(host=host, port=port)
+    #app.run(host=host, port=port)
 
 
 def test_server(host="127.0.0.1",port=5000, update=False):

@@ -9,7 +9,7 @@ __license__ = "MIT"
 
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-from config import TEMPLATES_DATA_DIR
+from config import TEMPLATES_DATA_DIR, COUNT_NORMALIZED_HEADER
 
 
 templates = Environment(loader=FileSystemLoader(TEMPLATES_DATA_DIR))
@@ -27,12 +27,13 @@ except ImportError:
 
 
 class AbstractResults(object):
-    def __init__(self, dataframe):
+    def __init__(self, dataframe, samples):
         """
         Arguments:
         dataframe -- a pandas data frame or its path consisting of per gene results as produced by MAGeCK
         """
-        self.df = pd.read_table(dataframe, na_filter=False, low_memory=False)
+        cols = samples + COUNT_NORMALIZED_HEADER # construct selected columns in count_normalized file
+        self.df = pd.read_table(dataframe, usecols=cols, na_filter=False, low_memory=False)
 
     def __getitem__(self, slice):
         return self.df.__getitem__(slice)

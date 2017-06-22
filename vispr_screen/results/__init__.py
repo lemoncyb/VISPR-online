@@ -7,8 +7,6 @@ __email__ = "koester@jimmy.harvard.edu"
 __license__ = "MIT"
 
 import os
-#import future
-#from future.moves.itertools import filterfalse
 import pandas as pd
 
 from ..results import target
@@ -24,9 +22,9 @@ class Screens(object):
     def __init__(self):
         self.screens = {}
 
-    def add(self, config, parentdir="."):
+    def add(self, config, condition, samples, parentdir="."):
         screen = config["experiment"]
-        self.screens[screen] = Screen(config, parentdir=parentdir)
+        self.screens[screen] = Screen(config, condition, samples, parentdir=parentdir)
 
     def __iter__(self):
         #return map(self.__getitem__, sorted(self.screens.keys())) # [cuiyb] for Python 3
@@ -63,7 +61,7 @@ class Screens(object):
 
 
 class Screen(object):
-    def __init__(self, config, parentdir="."):
+    def __init__(self, config, condition, samples, parentdir="."):
         def get_path(relpath):
             if relpath is None:
                 return None
@@ -73,14 +71,17 @@ class Screen(object):
 
         self.name = config["experiment"]
 
+        # [cuiyb] load gene_summary file
         self.targets, self.is_mle = parse_target_results(
-            get_path(config["targets"]["results"]))
+            get_path(config["targets"]["results"]), condition)
         self.is_genes = config["targets"].get("genes", False)
         self.species = config["species"].upper()
         self.assembly = config["assembly"]
 
+        # [cuiyb] load count_normalized, annotation, and sgrna_summary file
         self.rnas = rna.Results(
             get_path(config["sgrnas"]["counts"]),
+            samples=samples,
             info=get_path(config["sgrnas"].get("annotation", None)),
             posterior_results=get_path(config["sgrnas"].get("results", None)))
         self.mapstats = None
@@ -109,17 +110,17 @@ class Screen(object):
                     "Failed to parse control targets "
                     "(targets->controls in config): {}".format(e))
 
-        self.target_clustering = None
-        if self.is_mle:
+        #self.target_clustering = None
+        #if self.is_mle:
             # provide clustering on score
-            self.target_clustering = target_clustering.TargetClustering(self.targets)
+        #    self.target_clustering = target_clustering.TargetClustering(self.targets)
 
 
     def targets(self, positive=True):
         return self.pos_targets if positive else self.neg_targets
 
 
-def parse_target_results(path,
+def parse_target_results(path, condition,
                          selections=["negative selection",
                                      "positive selection"]):
     results = pd.read_table(path, na_filter=False, low_memory=False)
@@ -140,14 +141,16 @@ def parse_target_results(path,
             return target.Results(res.copy(), table_filter=table_filter)
 
         conditions = [path[0] for path in paths if len(path) > 1]
-        targets = {
-            condition: {
-                selection: get_results(condition, selection)
-                for selection in selections
+        if condition in conditions:
+            targets = {
+                condition: {
+                    selection: get_results(condition, selection)
+                    for selection in selections
+                }
             }
-            for condition in conditions
-        }
-        return targets, True
+            return targets, True
+        else:
+            print('Condition' + condition + 'NOT found.')
     else:
         # RRA format
         def get_results(selection):

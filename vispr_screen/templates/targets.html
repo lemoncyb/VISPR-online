@@ -1,12 +1,4 @@
 {% extends "layout.html" %}
-{% block breadcrumbs %}
-<li>{{ screen.name }}</li>
-<li>results</li>
-{% if condition != "default" %}
-<li>{{ condition }}</li>
-{% endif %}
-<li class="active">{{ selection }}</li>
-{% endblock %}
 {% block content %}
 
 <div class="modal fade" id="modal-igv">

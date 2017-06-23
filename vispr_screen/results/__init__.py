@@ -23,8 +23,10 @@ class Screens(object):
         self.screens = {}
 
     def add(self, config, condition, samples, parentdir="."):
-        screen = config["experiment"]
-        self.screens[screen] = Screen(config, condition, samples, parentdir=parentdir)
+        #screen = config["experiment"]
+        #self.screens[screen] = Screen(config, condition, samples, parentdir=parentdir)
+        # [cuiyb] the experiment name is 'mle' for all datasets, set config.yaml of MAGeCK-VISPR
+        self.screens['mle'] = Screen(config, condition, samples, parentdir=parentdir)
 
     def __iter__(self):
         #return map(self.__getitem__, sorted(self.screens.keys())) # [cuiyb] for Python 3
@@ -89,12 +91,12 @@ class Screen(object):
             self.mapstats = mapstats.Results(
                 get_path(config["sgrnas"]["mapstats"]))
 
-        self.fastqc = None
-        if "fastqc" in config:
-            self.fastqc = fastqc.Results(**{
-                sample: map(get_path, paths)
-                for sample, paths in config["fastqc"].items()
-            })
+        #self.fastqc = None
+        #if "fastqc" in config:
+        #    self.fastqc = fastqc.Results(**{
+        #        sample: map(get_path, paths)
+        #        for sample, paths in config["fastqc"].items()
+        #    })
 
         self.control_targets = set()
         if "controls" in config["targets"]:

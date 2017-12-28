@@ -14,6 +14,8 @@ from config import TEMPLATES_DATA_DIR, COUNT_NORMALIZED_HEADER
 
 templates = Environment(loader=FileSystemLoader(TEMPLATES_DATA_DIR))
 
+#templates = Environment(loader=PackageLoader('vispr', 'templates'))
+
 
 try:
     from functools import lru_cache
@@ -27,13 +29,12 @@ except ImportError:
 
 
 class AbstractResults(object):
-    def __init__(self, dataframe, samples):
+    def __init__(self, dataframe):
         """
         Arguments:
         dataframe -- a pandas data frame or its path consisting of per gene results as produced by MAGeCK
         """
-        cols = samples + COUNT_NORMALIZED_HEADER # construct selected columns in count_normalized file
-        self.df = pd.read_table(dataframe, usecols=cols, na_filter=False, low_memory=False)
+        self.df = pd.read_table(dataframe, na_filter=False, low_memory=False)
 
     def __getitem__(self, slice):
         return self.df.__getitem__(slice)

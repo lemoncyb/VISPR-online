@@ -1,3 +1,6 @@
 .idea/
 *.pyc
 invoke_vispr/*.pyc
+__MACOSX/
+tmp/
+vispr_screen/__MACOSX/

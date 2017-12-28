@@ -9,16 +9,20 @@ __license__ = "MIT"
 import re, json, os
 import logging
 import string
-import random
+import random, uuid
+import zipfile
 
 import numpy as np
-from flask import Flask, render_template, request, session, abort
+from flask import Flask, render_template, request, session, abort, flash, redirect, url_for
 from jinja2 import Markup
 import yaml
+from werkzeug.utils import secure_filename
 
 from vispr_screen import __version__
 
 from vispr_screen import app
+from vispr_screen.results import Screens
+from vispr_screen.common import VisprError
 #app = Flask(__name__)
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
@@ -29,21 +33,77 @@ app.secret_key = ''.join(
 with open(os.path.join(os.path.dirname(__file__), "captions.yaml")) as f:
     CAPTIONS = yaml.load(f)
 
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),'tmp')
+ALLOWED_EXTENSIONS = set(['zip'])
+
+
+def init_server(*configs):
+    app.screens = Screens()
+    print("Loading data.")
+    for path in configs:
+        with open(path) as f:
+            config = yaml.load(f)
+        try:
+            app.screens.add(config, parentdir=os.path.dirname(path))
+        except KeyError as e:
+            raise VisprError(
+                "Syntax error in config file {}. Missing key {}.".format(path,
+                                                                         e))
+    app.secret_key = ''.join(
+        random.choice(string.ascii_uppercase + string.digits)
+        for _ in range(30))
+
 
 @app.route("/ping")
 def ping():
     return ""
 
 
-@app.route("/")
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route("/", methods=['GET', 'POST'])
 def index():
-    #yaml_config = '/Users/cuiyb/workspace/PublicCRISPRScreenData/publiccrisprscreendata/24336569_LanderES_Science_2014/results/mle.vispr.yaml'
-    #init_server(yaml_config)
-    screen = next(iter(app.screens))
-    return render_template("index.html",
-                           screens=app.screens,
-                           screen=screen,
-                           version=__version__)
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = file.filename
+            relpath = filename.split('.')[0]
+            tmp_dir = str(uuid.uuid4())
+            try:
+                os.makedirs(os.path.join(UPLOAD_FOLDER, tmp_dir))
+            except KeyError as e:
+                "Error when creating tmp directory.".format(e)
+            file.save(os.path.join(UPLOAD_FOLDER, tmp_dir, filename))
+            zip_ref = zipfile.ZipFile(os.path.join(UPLOAD_FOLDER, tmp_dir, filename), 'r')
+            zip_ref.extractall(os.path.join(UPLOAD_FOLDER, tmp_dir))
+            zip_ref.close()
+            path = os.path.join(UPLOAD_FOLDER, tmp_dir, relpath)
+            yaml_files = [f for f in os.listdir(path) if f.endswith('.vispr.yaml')]
+            print(yaml_files)
+            if len(yaml_files) > 1:
+                raise VisprError(
+                    "More than one vispr.yaml file in results directory.")
+            config_file = os.path.join(path, yaml_files[0])
+            init_server(config_file)
+            screen = next(iter(app.screens))
+            return render_template("index.html",
+                                   screens=app.screens,
+                                   screen=screen,
+                                   version=__version__)
+
+    return render_template("main.html")
 
 
 @app.route("/<screen>")

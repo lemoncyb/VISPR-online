@@ -22,8 +22,8 @@ from ..common import VisprError
 
 
 class Results(AbstractResults):
-    def __init__(self, dataframe, samples, info=None, posterior_results=None):
-        super(Results, self).__init__(dataframe, samples)
+    def __init__(self, dataframe, info=None, posterior_results=None):
+        super(Results, self).__init__(dataframe)
         columns = list(self.df.columns[:2]) + sorted(self.df.columns[2:])
         self.df = self.df[columns]
         self.df.columns = ["rna", "target"] + list(self.samples)

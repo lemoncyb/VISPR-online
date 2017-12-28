@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import yaml
 import os
 from config import PUBLIC_DATA_DIR, PRIVATE_DATA_DIR, YAML_CONFIG

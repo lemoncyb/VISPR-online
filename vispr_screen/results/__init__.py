@@ -91,12 +91,12 @@ class Screen(object):
             self.mapstats = mapstats.Results(
                 get_path(config["sgrnas"]["mapstats"]))
 
-        #self.fastqc = None
-        #if "fastqc" in config:
-        #    self.fastqc = fastqc.Results(**{
-        #        sample: map(get_path, paths)
-        #        for sample, paths in config["fastqc"].items()
-        #    })
+        self.fastqc = None
+        if "fastqc" in config:
+            self.fastqc = fastqc.Results(**{
+                sample: map(get_path, paths)
+                for sample, paths in config["fastqc"].items()
+            })
 
         self.control_targets = set()
         if "controls" in config["targets"]:
@@ -112,10 +112,10 @@ class Screen(object):
                     "Failed to parse control targets "
                     "(targets->controls in config): {}".format(e))
 
-        #self.target_clustering = None
-        #if self.is_mle:
+        self.target_clustering = None
+        if self.is_mle:
             # provide clustering on score
-        #    self.target_clustering = target_clustering.TargetClustering(self.targets)
+            self.target_clustering = target_clustering.TargetClustering(self.targets)
 
 
     def targets(self, positive=True):

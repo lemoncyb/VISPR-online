@@ -6,4 +6,101 @@
 <div id="frontpage">
     <h1> Visualization of CRISPR knockout screens </h1>
 </div>
+
+<div class="container">
+
+      <div class="header">
+        <h3 class="text-muted">VISPR-Online</h3>
+      </div>
+
+      <DIV id="tabcontentcontainer" style="height: 600px">
+        <!--Upload div section-->
+        <div id="divUpload" class="tabcontent">
+
+      <form method=post enctype=multipart/form-data>
+
+      <table  border="0" cellpadding="2" width="100%" align="top" >
+        <tr>
+          <td class="sidebar_subheader">Step 1: Select Species <font color="red">*</font></td>
+        </tr>
+        <tr>
+          <td>
+            <p align="left" style="word-spacing: 0; line-height: 100%; text-indent: 0; margin: 0">
+              <font face="Verdana" size="1">
+                <select  ID="IDT" size="1" name="species" >
+
+                  <option value ='HOMO_SAPIENS'>HOMO_SAPIENS</option>
+
+                  <option value ='ARABIDOPSIS_THALIANA'>ARABIDOPSIS_THALIANA</option>
+
+                  <option value ='SACCHAROMYCES_CEREVISIAE'>SACCHAROMYCES_CEREVISIAE</option>
+
+                  <option value ='CAENORHABDITIS_ELEGANS'>CAENORHABDITIS_ELEGANS</option>
+
+                  <option value ='DROSOPHILA_MELANOGASTER'>DROSOPHILA_MELANOGASTER</option>
+
+                  <option value ='MUS_MUSCULUS'>MUS_MUSCULUS</option>
+
+                  <option value ='RATTUS_NORVEGICUS'>RATTUS_NORVEGICUS</option>
+
+                  <option value="NA">Not Sure </option>
+
+                </select>
+              </font>
+            </p><br>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="sidebar_subheader">Step 2: Gene Summary <font color="red">*</font></td>
+        </tr>
+        <tr class="spaceUnder">
+          <td><input id="gene" type=file name=gene></td>
+        </tr>
+
+        <tr>
+          <td class="sidebar_subheader">Step 3: Normalized Count <font color="red">*</font></td>
+        </tr>
+        <tr class="spaceUnder">
+          <td><input id="count" type=file name=count></td>
+        </tr>
+
+        <tr>
+          <td class="sidebar_subheader">Step 4: sgRNAs Library</td>
+        </tr>
+        <tr>
+          <td><input type=file name=library></td>
+        </tr>
+
+        <tr><td>
+        <table>
+          <tr><td class="sidebar_subheader"><br>
+            Step 5: Submit List </td>
+          </tr></table>
+          <input id="submit_btn" type="submit" value="Submit">
+        </td></tr>
+
+      </table>
+      </form>
+            </div>
+      </DIV>
+    </div>
+
+<script>
+$(function(){
+  $("#submit_btn").click(function (e) {
+    var fileName = $("#gene").val();
+    //console.log(fileName.split('.'))
+    if(!fileName) {
+        alert("No gene summary file selected.");
+        e.preventDefault();
+    }
+    var fileName = $("#count").val();
+    if(!fileName) {
+        alert("No normalized count file selected.");
+        e.preventDefault();
+    }
+  })
+});
+</script>
 {% endblock %}

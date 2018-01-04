@@ -23,8 +23,8 @@
 .plot {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 #score-plot {

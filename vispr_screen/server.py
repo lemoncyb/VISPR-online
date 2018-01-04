@@ -107,7 +107,17 @@ def index():
                                screen=screen,
                                version=__version__)
 
-    return render_template("main.html")
+    if hasattr(app, 'screens'):
+        screen = next(iter(app.screens))
+        return render_template("index.html",
+                               screens=app.screens,
+                               screen=screen,
+                               version=__version__)
+    else:
+        return render_template("index.html",
+                           screens=None,
+                           screen=None,
+                           version=__version__)
 
 
 @app.route("/<screen>")

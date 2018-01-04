@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">script></script>
 
-    <style>hr, h3 {padding-bottom: 20px;}canvas {background-color: #fffff;}</style>
+    <link rel="stylesheet" href="/static/style.css">
     <style>
     </style>
   </head>
@@ -21,10 +21,77 @@
         <h3 class="text-muted">VISPR-Online</h3>
       </div>
 
+      <DIV id="tabcontentcontainer" style="height: 600px">
+        <!--Upload div section-->
+        <div id="divUpload" class="tabcontent">
+
       <form method=post enctype=multipart/form-data>
-        <input type=file name=file>
-        <input type=submit value=Upload>
+
+      <table  border="0" cellpadding="2" width="100%" align="top" >
+        <tr>
+          <td class="sidebar_subheader">Step 1: Select Species <font color="red">*</font></td>
+        </tr>
+        <tr>
+          <td>
+            <p align="left" style="word-spacing: 0; line-height: 100%; text-indent: 0; margin: 0">
+              <font face="Verdana" size="1">
+                <select  ID="IDT" size="1" name="Identifier" >
+
+                  <option value ='HOMO_SAPIENS'>HOMO_SAPIENS</option>
+
+                  <option value ='ARABIDOPSIS_THALIANA'>ARABIDOPSIS_THALIANA</option>
+
+                  <option value ='SACCHAROMYCES_CEREVISIAE'>SACCHAROMYCES_CEREVISIAE</option>
+
+                  <option value ='CAENORHABDITIS_ELEGANS'>CAENORHABDITIS_ELEGANS</option>
+
+                  <option value ='DROSOPHILA_MELANOGASTER'>DROSOPHILA_MELANOGASTER</option>
+
+                  <option value ='MUS_MUSCULUS'>MUS_MUSCULUS</option>
+
+                  <option value ='RATTUS_NORVEGICUS'>RATTUS_NORVEGICUS</option>
+
+                  <option value="NA">Not Sure </option>
+
+                </select>
+              </font>
+            </p><br>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="sidebar_subheader">Step 2: Gene Summary <font color="red">*</font></td>
+        </tr>
+        <tr class="spaceUnder">
+          <td><input type=file name=gene></td>
+        </tr>
+
+        <tr>
+          <td class="sidebar_subheader">Step 3: Normalized Count <font color="red">*</font></td>
+        </tr>
+        <tr class="spaceUnder">
+          <td><input type=file name=count></td>
+        </tr>
+
+        <tr>
+          <td class="sidebar_subheader">Step 4: sgRNAs Library</td>
+        </tr>
+        <tr>
+          <td><input type=file name=library></td>
+        </tr>
+
+        <tr><td>
+        <table>
+          <tr><td class="sidebar_subheader"><br>
+            Step 5: Submit List </td>
+          </tr></table>
+          <input type="submit" value="Submit">
+        </td></tr>
+
+      </table>
       </form>
+            </div>
+      </DIV>
     </div>
 
     <script>

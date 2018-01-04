@@ -78,3 +78,29 @@ li.submenu {
     max-height: 500px;
     overflow-x: hidden;
 }
+
+#tabcontentcontainer{
+
+border-top: none;
+border-right: 1px solid #778;
+width: 225px;
+/* Insert Optional Height definition here to give all the content a unified height */
+
+border: 0px solid black;
+background: lightblue;
+}
+
+.tabcontent{
+display:block;
+}
+
+td.sidebar_subheader {
+    font-family: Verdana;
+    font-size: 12;
+    color: black;
+    font-weight: bold;
+}
+
+tr.spaceUnder>td {
+  padding-bottom: 1.5em;
+}

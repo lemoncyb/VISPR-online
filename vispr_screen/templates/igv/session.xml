@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
 <Global genome="{{ screen.assembly }}" version="3">
     <Resources>
         <Resource name="{{ screen.name }}" path="{{ request.url_root }}igv/track/rnas/{{ screen.name }}.gct"/>
@@ -12,3 +13,4 @@
 {% endfor %}
     </Panel>
 </Global>
+-->

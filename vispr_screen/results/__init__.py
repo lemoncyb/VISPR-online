@@ -76,7 +76,7 @@ class Screen(object):
             get_path(config["targets"]["results"]))
         self.is_genes = config["targets"].get("genes", False)
         self.species = config["species"].upper()
-        self.assembly = config["assembly"]
+        #self.assembly = config["assembly"]  # used for IGV
 
         self.rnas = rna.Results(
             get_path(config["sgrnas"]["counts"]),

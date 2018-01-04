@@ -34,7 +34,7 @@ with open(os.path.join(os.path.dirname(__file__), "captions.yaml")) as f:
     CAPTIONS = yaml.load(f)
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),'tmp')
-ALLOWED_EXTENSIONS = set(['zip'])
+ALLOWED_EXTENSIONS = set(['txt'])
 
 
 def init_server(*configs):
@@ -67,41 +67,45 @@ def allowed_file(filename):
 @app.route("/", methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = file.filename
-            relpath = filename.split('.')[0]
-            tmp_dir = str(uuid.uuid4())
-            try:
-                os.makedirs(os.path.join(UPLOAD_FOLDER, tmp_dir))
-            except KeyError as e:
-                "Error when creating tmp directory.".format(e)
-            file.save(os.path.join(UPLOAD_FOLDER, tmp_dir, filename))
-            zip_ref = zipfile.ZipFile(os.path.join(UPLOAD_FOLDER, tmp_dir, filename), 'r')
-            zip_ref.extractall(os.path.join(UPLOAD_FOLDER, tmp_dir))
-            zip_ref.close()
-            path = os.path.join(UPLOAD_FOLDER, tmp_dir, relpath)
-            yaml_files = [f for f in os.listdir(path) if f.endswith('.vispr.yaml')]
-            print(yaml_files)
-            if len(yaml_files) > 1:
-                raise VisprError(
-                    "More than one vispr.yaml file in results directory.")
-            config_file = os.path.join(path, yaml_files[0])
-            init_server(config_file)
-            screen = next(iter(app.screens))
-            return render_template("index.html",
-                                   screens=app.screens,
-                                   screen=screen,
-                                   version=__version__)
+        species = request.form.get('species')
+        file_gene = request.files["gene"]
+        file_count = request.files["count"]
+        file_lib = request.files["library"]
+
+        tmp_dir = str(uuid.uuid4())
+        try:
+            os.makedirs(os.path.join(UPLOAD_FOLDER, tmp_dir))
+        except KeyError as e:
+            "Error when creating tmp directory.".format(e)
+
+        for file in [file_gene, file_count, file_lib]:
+            if file:
+                filename = file.filename
+                file.save(os.path.join(UPLOAD_FOLDER, tmp_dir, filename))
+
+        vispr_config = {
+            "experiment": 'mle',
+            "species": species,
+            "targets": {
+                "results": file_gene.filename,
+                "genes": "true"
+            },
+            "sgrnas": {
+                "counts": file_count.filename
+            }
+        }
+        if file_lib:
+            vispr_config["sgrnas"]["annotation"] = file_lib.filename
+        config_file = os.path.join(UPLOAD_FOLDER, tmp_dir, 'vispr.yaml')
+        with open(config_file, "w") as f:
+            yaml.dump(vispr_config, f, default_flow_style=False)
+
+        init_server(config_file)
+        screen = next(iter(app.screens))
+        return render_template("index.html",
+                               screens=app.screens,
+                               screen=screen,
+                               version=__version__)
 
     return render_template("main.html")
 

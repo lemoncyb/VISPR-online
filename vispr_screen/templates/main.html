@@ -35,7 +35,7 @@
           <td>
             <p align="left" style="word-spacing: 0; line-height: 100%; text-indent: 0; margin: 0">
               <font face="Verdana" size="1">
-                <select  ID="IDT" size="1" name="Identifier" >
+                <select  ID="IDT" size="1" name="species" >
 
                   <option value ='HOMO_SAPIENS'>HOMO_SAPIENS</option>
 
@@ -98,7 +98,7 @@
 $(function(){
   $("#submit_btn").click(function (e) {
     var fileName = $("#gene").val();
-    console.log(fileName)
+    //console.log(fileName.split('.'))
     if(!fileName) {
         alert("No gene summary file selected.");
         e.preventDefault();

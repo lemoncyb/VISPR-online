@@ -63,14 +63,14 @@
           <td class="sidebar_subheader">Step 2: Gene Summary <font color="red">*</font></td>
         </tr>
         <tr class="spaceUnder">
-          <td><input type=file name=gene></td>
+          <td><input id="gene" type=file name=gene></td>
         </tr>
 
         <tr>
           <td class="sidebar_subheader">Step 3: Normalized Count <font color="red">*</font></td>
         </tr>
         <tr class="spaceUnder">
-          <td><input type=file name=count></td>
+          <td><input id="count" type=file name=count></td>
         </tr>
 
         <tr>
@@ -85,7 +85,7 @@
           <tr><td class="sidebar_subheader"><br>
             Step 5: Submit List </td>
           </tr></table>
-          <input type="submit" value="Submit">
+          <input id="submit_btn" type="submit" value="Submit">
         </td></tr>
 
       </table>
@@ -94,7 +94,23 @@
       </DIV>
     </div>
 
-    <script>
-    </script>
+<script>
+$(function(){
+  $("#submit_btn").click(function (e) {
+    var fileName = $("#gene").val();
+    console.log(fileName)
+    if(!fileName) {
+        alert("No gene summary file selected.");
+        e.preventDefault();
+    }
+    var fileName = $("#count").val();
+    if(!fileName) {
+        alert("No normalized count file selected.");
+        e.preventDefault();
+    }
+  })
+});
+</script>
+
   </body>
 </html>

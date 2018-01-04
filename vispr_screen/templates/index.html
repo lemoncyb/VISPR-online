@@ -1,25 +1,24 @@
 {% extends "layout.html" %}
 {% block breadcrumbs %}
-<li class="active">{{ screen.name }}</li>
 {% endblock %}
 {% block content %}
-<div id="frontpage">
-    <h1> Visualization of CRISPR knockout screens </h1>
-</div>
 
 <div class="container">
 
-      <div class="header">
-        <h3 class="text-muted">VISPR-Online</h3>
+      <div id="frontpage">
+        <h1> Visualization of CRISPR knockout screens </h1>
       </div>
 
-      <DIV id="tabcontentcontainer" style="height: 600px">
+      <DIV id="tabcontentcontainer" style="height: 700px">
         <!--Upload div section-->
         <div id="divUpload" class="tabcontent">
 
       <form method=post enctype=multipart/form-data>
 
       <table  border="0" cellpadding="2" width="100%" align="top" >
+        <tr>
+          <td class="sidebar_header"><br>Upload Files<br><br></td>
+        </tr>
         <tr>
           <td class="sidebar_subheader">Step 1: Select Species <font color="red">*</font></td>
         </tr>

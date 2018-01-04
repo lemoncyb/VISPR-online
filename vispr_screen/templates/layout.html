@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>VISPR {{ version }}</title>
+<title>VISPR-Online</title>
 <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
@@ -90,11 +90,12 @@ setInterval(function() {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">VISPR <span class="small">{{ version }}</span></a>
+            <a class="navbar-brand" href="/">VISPR-Online</span></a>
         </div>
-        {% if screens %}
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                {% if screens %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Results <span class="caret"></span></a>
                     <ul class="dropdown-menu scrollable-menu" role="menu">
@@ -111,6 +112,9 @@ setInterval(function() {
                     {% endfor %}
                     </ul>
                 </li>
+                {% endif %}
+                <li><a href="/tutorial">Tutorial</a></li>
+                <li><a href="/faq">FAQs</a></li>
             </ul>
             <ul class="nav navbar-right">
                 <li>
@@ -121,7 +125,6 @@ setInterval(function() {
                 </li>
             </ul>
         </div>
-        {% endif %}
         </div>
     </div>
 </nav>

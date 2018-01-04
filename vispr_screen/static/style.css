@@ -42,7 +42,6 @@
 
 #frontpage {
     text-align: center;
-    padding-top: 150px;
 }
 
 #overlap-plot {
@@ -92,6 +91,13 @@ background: lightblue;
 
 .tabcontent{
 display:block;
+}
+
+td.sidebar_header{
+    font-family: Verdana;
+    font-size: 16;
+    color: black;
+    font-weight: bold;
 }
 
 td.sidebar_subheader {

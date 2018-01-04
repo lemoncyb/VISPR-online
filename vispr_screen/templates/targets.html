@@ -1,4 +1,11 @@
 {% extends "layout.html" %}
+{% block breadcrumbs %}
+<li>results</li>
+{% if condition != "default" %}
+<li>{{ condition }}</li>
+{% endif %}
+<li class="active">{{ selection }}</li>
+{% endblock %}
 {% block content %}
 
 <div class="container">
@@ -243,7 +250,7 @@ var dt = $("#targets").dynatable({
     }
 });
 var filters = $("#dynatable-query-search-targets").addClass("form-control").css("margin-right", "2px").parent();
-filters.addClass("form-inline").css("margin-right", "8px");
+filters.addClass("form-inline").css("margin-right", "2px");
 
 {% if control_targets %}
 {% if hide_control_targets %}
@@ -270,6 +277,7 @@ $("input[name=controls]").change(function() {
 {% endif %}
 
 $("#dynatable-per-page-targets").addClass("selectpicker");
+$("#dynatable-per-page-targets").attr("data-width", "fit");  //set per page select menu width
 
 dt.on("dynatable:beforeUpdate", function() {
     $('[data-toggle="tooltip"]').tooltip("hide");
@@ -293,7 +301,7 @@ dt.on("dynatable:afterUpdate", function() {
 
         var group = $(cell).find('.btn-group')
             .append('<button type="button" class="btn btn-default btn-plt-rnas" ' +
-                `name="${target}" data-toggle="tooltip" title="Show RNA counts.">` +
+                `name="${target}" data-toggle="tooltip" title="Show RNA counts and locations.">` +
                 '<span class="glyphicon glyphicon-stats"></span></button>')
             .append('<button type="button" class="btn btn-default btn-select-target"' +
                 `name="${target}" data-toggle="tooltip" title="Select target ` +

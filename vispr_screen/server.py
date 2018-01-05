@@ -10,7 +10,7 @@ import re, json, os
 import logging
 import string
 import random, uuid
-import zipfile
+import shutil
 
 import numpy as np
 from flask import Flask, render_template, request, session, abort, flash, redirect, url_for
@@ -70,6 +70,7 @@ def index():
         species = request.form.get('species')
         file_gene = request.files["gene"]
         file_count = request.files["count"]
+        file_sgrna = request.files["sgrna"]
         file_lib = request.files["library"]
 
         tmp_dir = str(uuid.uuid4())
@@ -78,7 +79,7 @@ def index():
         except KeyError as e:
             "Error when creating tmp directory.".format(e)
 
-        for file in [file_gene, file_count, file_lib]:
+        for file in [file_gene, file_count, file_sgrna, file_lib]:
             if file:
                 filename = file.filename
                 file.save(os.path.join(UPLOAD_FOLDER, tmp_dir, filename))
@@ -94,6 +95,8 @@ def index():
                 "counts": file_count.filename
             }
         }
+        if file_sgrna:
+            vispr_config["sgrnas"]["results"] = file_sgrna.filename
         if file_lib:
             vispr_config["sgrnas"]["annotation"] = file_lib.filename
         config_file = os.path.join(UPLOAD_FOLDER, tmp_dir, 'vispr.yaml')
@@ -101,6 +104,7 @@ def index():
             yaml.dump(vispr_config, f, default_flow_style=False)
 
         init_server(config_file)
+        shutil.rmtree(os.path.join(UPLOAD_FOLDER, tmp_dir))  # delete uploaded files
         screen = next(iter(app.screens))
         return render_template("index.html",
                                screens=app.screens,

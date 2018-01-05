@@ -83,8 +83,8 @@
       </form>
             </div>
       </DIV>
-    </div>
-
+</div>
+<script src="http://malsup.github.io/jquery.blockUI.js"></script>
 <script>
 $(function(){
   $("#submit_btn").click(function (e) {
@@ -100,6 +100,15 @@ $(function(){
         e.preventDefault();
     }
   })
+});
+
+$("form").submit(function() {
+  $(this).block()
+  // cannot usr jQuery blockUI with normal form submitting
+  //$.blockUI({
+  //    message: '<h1>Please waite ...</h1>',
+  //    css: { border: '3px solid #a00' }
+  //});
 });
 </script>
 {% endblock %}

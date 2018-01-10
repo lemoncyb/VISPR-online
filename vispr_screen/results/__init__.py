@@ -28,8 +28,8 @@ class Screens(object):
         self.screens[screen] = Screen(config, parentdir=parentdir)
 
     def __iter__(self):
-        #return map(self.__getitem__, sorted(self.screens.keys())) # [cuiyb] for Python 3.5
-        return iter(map(self.__getitem__, sorted(self.screens.keys()))) # [cuiyb] for Python 2.7
+        return map(self.__getitem__, sorted(self.screens.keys())) # [cuiyb] for Python 3.5
+        #return iter(map(self.__getitem__, sorted(self.screens.keys()))) # [cuiyb] for Python 2.7
 
     def __getitem__(self, screen):
         return self.screens[screen]

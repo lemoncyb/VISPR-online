@@ -140,7 +140,15 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h4 class="panel-heading">gRNAs</h4>
+                <h4 class="panel-heading">gRNAs Locus</h4>
+                <div class="text-center">
+                    <div id="locus-plot"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="panel-heading">gRNAs Count</h4>
                     <div class="form-group form-inline text-right">
                         <label id="choose-samples-label" for="choose-samples">Samples</label>
                         <select id="choose-samples" class="selectpicker" multiple>
@@ -229,6 +237,49 @@ function update_dimensions() {
     });
     rna_dimensions = new_dimensions;
     plt_rna.dimensions(rna_dimensions);
+}
+
+function plot_rnas_locus(target) {
+    $.getJSON("/tbl/locus/{{ screen.name }}/" + target, function (data) {
+        var ft = new FeatureViewer(data['gene_seq'], "#locus-plot", {
+            showAxis: true,
+            showSequence: true,
+            brushActive: true,
+            toolbar:true,
+            bubbleHelp:true,
+            zoomMax:10
+        });
+
+        console.log(data['trans']);
+        console.log(data['trans'][0]['exons']);
+        console.log(data['trans'][0]['exons'][0]);
+        console.log(data['trans'][0]['exons'][0]['x']);
+
+        ft.addFeature({
+            data: [{x:data['trans'][0]['exons'][0]['x'],y:data['trans'][0]['exons'][0]['y']},
+                {x:data['trans'][0]['exons'][1]['x'],y:data['trans'][0]['exons'][1]['y']},
+                {x:data['trans'][0]['exons'][2]['x'],y:data['trans'][0]['exons'][2]['y']}],
+            name: data['trans'][0]['id'],
+            color: "#0F8292",
+            type: "rect",
+        });
+
+        ft.addFeature({
+            data: [{x:data['rnas'][0]['x'],y:data['rnas'][0]['y']},
+                {x:data['rnas'][1]['x'],y:data['rnas'][1]['y']},
+                {x:data['rnas'][2]['x'],y:data['rnas'][2]['y']}],
+            name: "gRNAs",
+            color: "#0F8292",
+            type: "rect",
+        });
+
+        console.log(data);
+      // metadata tab
+      //$('#tab-mt-sample').text(data['sample'])
+      //$('#tab-mt-species').text(data['species'])
+
+    });
+
 }
 
 vg.parse.spec("/plt/pvalhist/{{ screen.name }}/{{ condition }}/{{ selection }}", function(chart) {
@@ -332,6 +383,8 @@ dt.on("dynatable:afterUpdate", function() {
 
         $(".btn-plt-rnas").removeClass("active");
         $(this).addClass("active");
+
+        plot_rnas_locus(target)
 
         d3.json("/tbl/rnas/{{ screen.name }}/" + target, function(error, data) {
             if (error) return console.warn(error);

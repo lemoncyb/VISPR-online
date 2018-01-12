@@ -17,6 +17,7 @@ from flask import Flask, render_template, request, session, abort, flash, redire
 from jinja2 import Markup
 import yaml
 from werkzeug.utils import secure_filename
+from pymongo import MongoClient
 
 from vispr_screen import __version__
 
@@ -29,6 +30,11 @@ app.jinja_env.lstrip_blocks = True
 app.secret_key = ''.join(
         random.choice(string.ascii_uppercase + string.digits)
         for _ in range(30))
+
+client = MongoClient('localhost', 27017)    #Configure the connection to the database
+db = client.vispr    #Select the database
+sequence = db.sequence #Select the collection
+annotation = db.annotation
 
 with open(os.path.join(os.path.dirname(__file__), "captions.yaml")) as f:
     CAPTIONS = yaml.load(f)
@@ -310,6 +316,47 @@ def tbl_pvals_highlight(screen, condition, selection, targets):
     records = screen.targets[condition][selection].get_pvals_highlight_targets(
         targets)
     return records.to_json(orient="records")
+
+
+def gene_seq(target):
+    return sequence.find_one({"name":target})
+
+
+def gene_anno(target):
+    return annotation.find({"gene_name":target})
+
+
+def add_locus(screen, target):
+    seq = gene_seq(target)
+    if seq is None:
+        return False
+    trans = gene_anno(target)
+    if trans is None:
+        return False
+
+    def cal_locus(tran):
+        return {"id": tran["transcript_id"],
+                "exons": list(map(lambda x,y,z: {"x":str(int(x)-int(seq["start"])), "y":str(int(y)-int(seq["start"])),
+                                                 "start":x, "stop":y, "id":z},
+                                  tran["exon_start"], tran["exon_stop"], tran["exon_id"]))
+                }
+
+    rnas_locus = screen.rnas.rnas_locus(target)
+
+    return {"gene_id": seq["id"],
+            "gene_seq": seq["seq"],
+            "trans": list(map(cal_locus, trans)),
+            "rnas": list(map(lambda x,y,z: {"x":str(x-int(seq["start"])), "y":str(y-int(seq["start"])),
+                                          "start":str(x), "stop":str(y), "rna":z},
+                             rnas_locus["start"], rnas_locus["stop"], rnas_locus["rna"]))
+            }
+
+
+@app.route("/tbl/locus/<screen>/<target>")
+def tbl_locus(screen, target):
+    screen = app.screens[screen]
+    locus = add_locus(screen, target)
+    return json.dumps(locus)
 
 
 @app.route("/tbl/rnas/<screen>/<target>")

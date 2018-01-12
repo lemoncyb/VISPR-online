@@ -37,6 +37,8 @@ class Results(AbstractResults):
                                           index_col=3,
                                           header=None,
                                           low_memory=False).iloc[:, :5]
+                if len(self.info.columns) == 4:
+                    self.info.insert(loc=3, column="score", value='')
                 self.info.columns = ["chrom", "start", "stop", "score",
                                      "strand"][:len(self.info.columns)]
                 self.info.loc[:, "chrom"] = self.info.loc[:, "chrom"].str.lower()
@@ -77,7 +79,8 @@ class Results(AbstractResults):
 
         data.sort_values(first_sample, inplace=True)
         data.index = data["rna"]
-        if self.info is not None:
+        #if self.info is not None:
+        if None: #disable view of prior efficiency and chrom pos
             info = self.info.ix[data["rna"]]
             if not info["score"].isnull().any() and not info["start"].isnull(
             ).any():
@@ -113,6 +116,12 @@ class Results(AbstractResults):
             return None
         return loci.loc[:, "chrom"][0], loci.loc[:, "start"].min(
         ), loci.loc[:, "stop"].max()
+
+    def rnas_locus(self, target):
+        loci = self.info.ix[self.df.ix[[target], "rna"], ["start", "stop"]]
+        if loci.loc[:, "start"].isnull().any():
+            return None
+        return {"rna": loci.index.values,"start": list(loci["start"]), "stop": list(loci["stop"])}
 
     def plot_normalization(self):
         _, leaves, _, _ = self.clustering()

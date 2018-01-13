@@ -36,6 +36,10 @@ db = client.vispr    #Select the database
 sequence = db.sequence #Select the collection
 annotation = db.annotation
 
+d3cate10 = ["#1f77b4","#ff7f0e","#2ca02c","#d62728","#9467bd","#8c564b","#e377c2","#7f7f7f","#bcbd22","#17becf"]
+google20c = ["#3366CC","#DC3912","#FF9900","#109618","#990099","#3B3EAC","#0099C6","#DD4477","#66AA00","#B82E2E",
+             "#316395","#994499","#22AA99","#AAAA11","#6633CC","#E67300","#8B0707","#329262","#5574A6","#3B3EAC"]
+
 with open(os.path.join(os.path.dirname(__file__), "captions.yaml")) as f:
     CAPTIONS = yaml.load(f)
 
@@ -336,19 +340,19 @@ def add_locus(screen, target):
 
     def cal_locus(tran):
         return {"id": tran["transcript_id"],
-                "exons": list(map(lambda x,y,z: {"x":str(int(x)-int(seq["start"])), "y":str(int(y)-int(seq["start"])),
-                                                 "start":x, "stop":y, "id":z},
+                "exons": list(map(lambda x,y,z: {"x":x, "y":y, "description":z, "color":"#22AA99"},
                                   tran["exon_start"], tran["exon_stop"], tran["exon_id"]))
                 }
 
     rnas_locus = screen.rnas.rnas_locus(target)
 
     return {"gene_id": seq["id"],
+            "gene_start": seq["start"],
+            "gene_stop": seq["stop"],
             "gene_seq": seq["seq"],
             "trans": list(map(cal_locus, trans)),
-            "rnas": list(map(lambda x,y,z: {"x":str(x-int(seq["start"])), "y":str(y-int(seq["start"])),
-                                          "start":str(x), "stop":str(y), "rna":z},
-                             rnas_locus["start"], rnas_locus["stop"], rnas_locus["rna"]))
+            "rnas": list(map(lambda x,y,z,c: {"x":str(x), "y":str(y), "description":z, "color":c},
+                             rnas_locus["start"], rnas_locus["stop"], rnas_locus["rna"], google20c))
             }
 
 
@@ -363,6 +367,8 @@ def tbl_locus(screen, target):
 def tbl_rnas(screen, target):
     screen = app.screens[screen]
     table = screen.rnas.by_target(target)
+    table.sort_index(inplace=True)
+    table["color"] = google20c[0:len(table.index)]
     return table.to_json(orient="records")
 
 

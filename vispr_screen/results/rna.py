@@ -119,6 +119,7 @@ class Results(AbstractResults):
 
     def rnas_locus(self, target):
         loci = self.info.ix[self.df.ix[[target], "rna"], ["start", "stop"]]
+        loci.sort_index(inplace=True)
         if loci.loc[:, "start"].isnull().any():
             return None
         return {"rna": loci.index.values,"start": list(loci["start"]), "stop": list(loci["stop"])}

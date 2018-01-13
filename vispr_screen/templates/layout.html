@@ -73,12 +73,6 @@ function vega_draw(chart, el, url) {
     return plt;
 }
 
-// query the server periodically
-setInterval(function() {
-    $.get("/ping").fail(function() {
-        $("#server-not-accessible-msg").modal();
-    });
-}, 10000)
 </script>
 
 </head>
@@ -131,23 +125,6 @@ setInterval(function() {
         </div>
     </div>
 </nav>
-
-<div class="modal fade" id="server-not-accessible-msg">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Failed to contact VISPR server!</h4>
-      </div>
-      <div class="modal-body">
-        <p>
-            Your VISPR server instance is not responding. If running VISPR locally, check that it was not accidentally closed.
-            If accessing a remote server, there might be a problem with the network connection.
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div id="content" class="container-fluid">
     {% block content %}

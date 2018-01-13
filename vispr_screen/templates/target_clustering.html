@@ -3,8 +3,22 @@
 <li class="active">clustering</li>
 {% endblock %}
 {% block content %}
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="/target-clustering/{{ screen.name }}">Clustering</a></li>
+    {% for condition in screen.targets %}
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ condition }}<span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="/targets/{{ screen.name }}/{{ condition }}/positive selection">Positive Selection</a></li>
+        <li><a href="/targets/{{ screen.name }}/{{ condition }}/negative selection">Negative Selection</a></li>
+      </ul>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
 <div id="target-clustering">
-    <h4 class="panel-heading">Clustering</h4>
     <form action="" class="form-inline text-right" id="config-clustering">
         <div class="form-group">
             <label for="select-overlap-items">Clusters</label>

@@ -93,22 +93,7 @@ function vega_draw(chart, el, url) {
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
                 {% if screens %}
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Results <span class="caret"></span></a>
-                    <ul class="dropdown-menu scrollable-menu" role="menu">
-                    {% if screen.target_clustering %}
-                        <li role="presentation"><a href="/target-clustering/{{ screen.name }}">Clustering</a></li>
-                    {% endif %}
-                    {% for condition in screen.targets %}
-                        {% if condition != "default" %}
-                        <li role="presentation" class="dropdown-header">{{ condition }}</li>
-                        {% endif %}
-                        {% for selection in ["positive selection", "negative selection"] %}
-                        <li role="presentation" {{ 'class=submenu' if condition != "default" else '' }}><a href="/targets/{{ screen.name }}/{{ condition }}/{{ selection }}">{{ selection }}</a></li>
-                        {% endfor %}
-                    {% endfor %}
-                    </ul>
-                </li>
+                <li><a href="/target-clustering/{{ screen.name }}">Results</a></li>
                 {% endif %}
                 <li><a href="/tutorial">Tutorial</a></li>
                 <li><a href="/faq">FAQs</a></li>

@@ -9,6 +9,21 @@
 {% block content %}
 
 <div class="container">
+  <ul class="nav nav-tabs">
+    <li><a href="/target-clustering/{{ screen.name }}">Clustering</a></li>
+    {% for condition in screen.targets %}
+    <li id="{{condition}}" class="dropdown">
+      <a class="dropdown-toggle condition" data-toggle="dropdown" href="#">{{ condition }}<span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="/targets/{{ screen.name }}/{{ condition }}/positive selection">Positive Selection</a></li>
+        <li><a href="/targets/{{ screen.name }}/{{ condition }}/negative selection">Negative Selection</a></li>
+      </ul>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="container">
 <div class="modal fade" id="modal-igv">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -172,6 +187,11 @@ var plt_rna = null;
 var selected = {};
 var rna_dimensions = null;
 var rna_dimensions_aux = ["prior efficiency", "chrom pos", "rna", "posterior efficiency"];
+
+$(function(){
+    $(".condition").removeClass("active")
+    $("#{{condition}}").addClass("active")
+})
 
 function get_selected() {
     var targets = [];
@@ -386,11 +406,11 @@ dt.on("dynatable:afterUpdate", function() {
         $(".btn-plt-rnas").removeClass("active");
         $(this).addClass("active");
 
-        plot_rnas_locus(target)
-
         d3.json("/tbl/rnas/{{ screen.name }}/" + target, function(error, data) {
             if (error) return console.warn(error);
             $("#rna-plot").empty();
+
+            plot_rnas_locus(target)
 
             plt_rna = d3.parcoords(
                     {

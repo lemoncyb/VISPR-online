@@ -116,8 +116,9 @@ def index():
         init_server(config_file)
         shutil.rmtree(os.path.join(UPLOAD_FOLDER, tmp_dir))  # delete uploaded files
         screen = next(iter(app.screens))
-        condition = next(iter(screen.targets))
-        return  redirect(url_for('targets', screen=screen.name, condition=condition, selection='positive selection'))
+        #condition = next(iter(screen.targets))
+        #return  redirect(url_for('targets', screen=screen.name, condition=condition, selection='positive selection'))
+        return  redirect(url_for('target_clustering', screen=screen.name))
 
     elif hasattr(app, 'screens'):
         screen = next(iter(app.screens))

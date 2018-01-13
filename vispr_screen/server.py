@@ -116,12 +116,10 @@ def index():
         init_server(config_file)
         shutil.rmtree(os.path.join(UPLOAD_FOLDER, tmp_dir))  # delete uploaded files
         screen = next(iter(app.screens))
-        return render_template("index.html",
-                               screens=app.screens,
-                               screen=screen,
-                               version=__version__)
+        condition = next(iter(screen.targets))
+        return  redirect(url_for('targets', screen=screen.name, condition=condition, selection='positive selection'))
 
-    if hasattr(app, 'screens'):
+    elif hasattr(app, 'screens'):
         screen = next(iter(app.screens))
         return render_template("index.html",
                                screens=app.screens,

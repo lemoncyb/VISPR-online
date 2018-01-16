@@ -1,4 +1,9 @@
 {% extends "layout.html" %}
+{% block sessionnum %}
+{% if screen.save %}
+<li>Session No: {{ screen.session }}</li>
+{% endif %}
+{% endblock %}
 {% block breadcrumbs %}
 <li class="active">clustering</li>
 {% endblock %}

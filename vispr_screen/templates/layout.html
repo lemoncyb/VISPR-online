@@ -100,6 +100,10 @@ function vega_draw(chart, el, url) {
             </ul>
             <ul class="nav navbar-right">
                 <li>
+                    <ol class="breadcrumb navbar-text" style="font-style: italic; padding: 0px; background: none">
+                    {% block sessionnum %}
+                    {% endblock %}
+                    </ol>
                     <ol class="breadcrumb navbar-text" style="padding: 0px; background: none">
                     {% block breadcrumbs %}
                     {% endblock %}

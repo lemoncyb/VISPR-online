@@ -80,6 +80,7 @@ def index():
             file_lib = request.files["library"]
         else:
             file_lib = ""
+        save_session = request.form.get("save")
 
         tmp_dir = str(uuid.uuid4())
         try:
@@ -107,12 +108,18 @@ def index():
             vispr_config["sgrnas"]["results"] = file_sgrna.filename
         if file_lib:
             vispr_config["sgrnas"]["annotation"] = file_lib.filename
+        if save_session:
+            vispr_config["save"] = True
+            vispr_config["session"] = tmp_dir
+        else:
+            vispr_config["save"] = False
         config_file = os.path.join(UPLOAD_FOLDER, tmp_dir, 'vispr.yaml')
         with open(config_file, "w") as f:
             yaml.dump(vispr_config, f, default_flow_style=False)
 
         init_server(config_file)
-        shutil.rmtree(os.path.join(UPLOAD_FOLDER, tmp_dir))  # delete uploaded files
+        if not save_session:
+            shutil.rmtree(os.path.join(UPLOAD_FOLDER, tmp_dir))  # delete uploaded files
         screen = next(iter(app.screens))
         #condition = next(iter(screen.targets))
         #return  redirect(url_for('targets', screen=screen.name, condition=condition, selection='positive selection'))

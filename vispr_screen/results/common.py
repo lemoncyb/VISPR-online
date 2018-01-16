@@ -7,11 +7,11 @@ __email__ = "koester@jimmy.harvard.edu"
 __license__ = "MIT"
 
 
+import os
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-from config import TEMPLATES_DATA_DIR, COUNT_NORMALIZED_HEADER
 
-
+TEMPLATES_DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),'templates')
 templates = Environment(loader=FileSystemLoader(TEMPLATES_DATA_DIR))
 
 #templates = Environment(loader=PackageLoader('vispr', 'templates'))

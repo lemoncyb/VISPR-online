@@ -7,9 +7,6 @@ __email__ = "koester@jimmy.harvard.edu"
 __license__ = "MIT"
 
 import json
-from functools import partial
-
-from flask import render_template
 import pandas as pd
 from pandas.io.common import EmptyDataError
 import numpy as np

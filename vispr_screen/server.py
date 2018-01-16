@@ -7,14 +7,12 @@ __email__ = "koester@jimmy.harvard.edu"
 __license__ = "MIT"
 
 import re, json, os
-import logging
 import string
 import random, uuid
 import shutil
 
 import numpy as np
 from flask import Flask, render_template, request, session, abort, flash, redirect, url_for
-from jinja2 import Markup
 import yaml
 from werkzeug.utils import secure_filename
 from pymongo import MongoClient
@@ -24,7 +22,7 @@ from vispr_screen import __version__
 from vispr_screen import app
 from vispr_screen.results import Screens
 from vispr_screen.common import VisprError
-#app = Flask(__name__)
+
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
 app.secret_key = ''.join(

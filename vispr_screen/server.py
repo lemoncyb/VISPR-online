@@ -72,8 +72,14 @@ def index():
         species = request.form.get('species')
         file_gene = request.files["gene"]
         file_count = request.files["count"]
-        file_sgrna = request.files["sgrna"]
-        file_lib = request.files["library"]
+        if "sgrna" in request.files:
+            file_sgrna = request.files["sgrna"]
+        else:
+            file_sgrna = ""
+        if "library" in request.files:
+            file_lib = request.files["library"]
+        else:
+            file_lib = ""
 
         tmp_dir = str(uuid.uuid4())
         try:

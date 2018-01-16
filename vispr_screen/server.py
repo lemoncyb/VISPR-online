@@ -42,7 +42,6 @@ with open(os.path.join(os.path.dirname(__file__), "captions.yaml")) as f:
     CAPTIONS = yaml.load(f)
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),'tmp')
-ALLOWED_EXTENSIONS = set(['txt'])
 
 
 def init_server(*configs):
@@ -65,11 +64,6 @@ def init_server(*configs):
 @app.route("/ping")
 def ping():
     return ""
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/", methods=['GET', 'POST'])

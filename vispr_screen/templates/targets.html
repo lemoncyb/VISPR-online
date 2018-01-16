@@ -108,9 +108,6 @@
         <table id="targets" class="table table-striped">
             <thead>
                 <th data-dynatable-column="target">target</th>
-                {% if has_rna_info %}
-                <th style="display: none" data-dynatable-column="locus">Locus</th>
-                {% endif %}
                 <th data-dynatable-column="score">{{ "beta-score" if screen.is_mle else "score" }}</th>
                 <th data-dynatable-column="p-value">p-value</th>
                 <th data-dynatable-column="fdr">FDR</th>
@@ -129,9 +126,6 @@
                         {% if gorilla %}
                             <li role="presentation" class="submenu"><a role="menuitem" tabindex="-1" data-toggle="modal" data-target="#modal-gorilla" href="#">GO enrichment</a></li>
                         {% endif %}
-                        {% if has_rna_info %}
-                            <li role="presentation" class="submenu"><a role="menuitem" tabindex="-1" data-toggle="modal" data-target="#modal-igv" href="#">IGV</a></li>
-                        {% endif %}
                             <li role="presentation" class="dropdown-header">Selection</li>
                             <li role="presentation" class="submenu"><a id="btn-genemania" role="menuitem" tabindex="-1" href="#">Show in GeneMANIA</a></li>
                             <li role="presentation" class="submenu"><a id="btn-deselect" role="menuitem" tabindex="-1" href="#">Deselect all</a></li>
@@ -144,6 +138,7 @@
         </table>
     </div>
     <div class="col-md-7">
+        {% if has_rna_info %}
         <div class="row">
             <div class="col-md-12">
                 <h4 class="panel-heading">gRNAs Locus</h4>
@@ -152,6 +147,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         <div class="row">
             <div class="col-md-12">
                 <h4 class="panel-heading">gRNAs Count</h4>
@@ -380,17 +376,6 @@ dt.on("dynatable:afterUpdate", function() {
                 `name="${target}" data-toggle="tooltip" title="Select target ` +
                 'and highlight in p-value plot.">' +
                 '<span class="glyphicon glyphicon-ok"></span></button>');
-
-        {% if has_rna_info %}
-        var locus = $(cell).parent().children(":eq(1)").html();
-        if(locus) {
-            group.prepend('<a class="btn btn-default btn-show-igv" ' +
-                'data-toggle="tooltip" title="Show in IGV (an instance ' +
-                'of IGV can be opened in the menu at the top of this column)." ' +
-                `href="http://127.0.0.1:60151/goto?locus=${locus}">` +
-                '<span class="glyphicon glyphicon-equalizer"></span></a>');
-        }
-        {% endif %}
     });
 
     highlight_targets_init();
@@ -410,7 +395,9 @@ dt.on("dynatable:afterUpdate", function() {
             if (error) return console.warn(error);
             $("#rna-plot").empty();
 
+            {% if has_rna_info %}
             plot_rnas_locus(target)
+            {% endif %}
 
             plt_rna = d3.parcoords(
                     {

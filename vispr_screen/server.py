@@ -294,7 +294,7 @@ def tbl_targets_json(screen, condition, selection):
                                                      selection,
                                                      offset=offset,
                                                      perpage=perpage,
-                                                     add_locus=True)
+                                                     add_locus=False)
     return render_template("dyntable.json",
                            records=records.to_json(orient="records",
                                                    double_precision=15),

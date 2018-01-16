@@ -24,6 +24,19 @@ for id in ids:
                          "seq": df_seq.loc[id,'Seq']})
 
 
+## Insert gene sequence whole database
+gene_info = pd.read_table('gene_info.txt', header=0, sep='\t', index_col=3)
+with open('gene_seq.txt', 'r') as fin:
+    line = fin.readline() #file header
+    line = fin.readline()
+    while line:
+        line = line.split()
+        sequence.insert_one({"id": line[0], "name": gene_info.loc[line[0], 'Gene'], "chr": gene_info.loc[line[0], 'Chr'],
+                             "start": str(gene_info.loc[line[0], 'Start']), "stop": str(gene_info.loc[line[0], 'End']),
+                             "seq": line[1]})
+        line = fin.readline()
+
+
 ## Insert gene annotation
 df_major_trans = pd.read_table('main_transcripts.txt', header=0, sep='\t')
 

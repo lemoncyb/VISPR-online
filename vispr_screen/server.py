@@ -121,8 +121,6 @@ def index():
         if not save_session:
             shutil.rmtree(os.path.join(UPLOAD_FOLDER, tmp_dir))  # delete uploaded files
         screen = next(iter(app.screens))
-        #condition = next(iter(screen.targets))
-        #return  redirect(url_for('targets', screen=screen.name, condition=condition, selection='positive selection'))
         if screen.is_mle:
             return redirect(url_for('target_clustering', screen=screen.name))
         else:
@@ -147,8 +145,13 @@ def load_session():
     path = os.path.join(UPLOAD_FOLDER, session_num)
     if os.path.isdir(path):
         print("Session exists!")
-
-    return ""
+    config_file = os.path.join(path, 'vispr.yaml')
+    init_server(config_file)
+    screen = next(iter(app.screens))
+    if screen.is_mle:
+        return redirect(url_for('target_clustering', screen=screen.name))
+    else:
+        return redirect(url_for('targets', screen=screen.name, condition="default", selection='positive selection'))
 
 
 @app.route("/<screen>")

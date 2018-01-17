@@ -110,3 +110,18 @@ td.sidebar_subheader {
 tr.spaceUnder>td {
   padding-bottom: 1.5em;
 }
+
+#tabList .tab-content {
+  color : black;
+  background-color: lightblue;
+  padding : 5px 15px;
+  height: 700px;
+}
+
+#tabList .nav-pills > li > a {
+  border-radius: 4px 4px 0 0 ;
+}
+
+#submit_btn, #load_btn {
+  width: 80px;
+}

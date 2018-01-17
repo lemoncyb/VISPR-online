@@ -15,7 +15,9 @@
 
 <div class="container">
   <ul class="nav nav-tabs">
+    {% if condition != "default" %}
     <li><a href="/target-clustering/{{ screen.name }}">Clustering</a></li>
+    {% endif %}
     {% for condition in screen.targets %}
     <li id="{{condition}}" class="dropdown">
       <a class="dropdown-toggle condition" data-toggle="dropdown" href="#">{{ condition }}<span class="caret"></span></a>

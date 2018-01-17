@@ -15,11 +15,15 @@
 
   <div class="row">
     <div class="col-md-3">
-      <DIV id="tabcontentcontainer" style="height: 700px">
-        <!--Upload div section-->
-        <div id="divUpload" class="tabcontent">
+    <div id="tabList">
+      <ul  class="nav nav-pills">
+			<li class="active"><a href="#divUpload" data-toggle="tab">Upload Files</a></li>
+			<li><a href="#divLoad" data-toggle="tab">Load Session</a></li>
+		</ul>
 
-      <form method=post enctype=multipart/form-data>
+      <div class="tab-content clearfix">
+        <div class="tab-pane active" id="divUpload">
+          <form method=post enctype=multipart/form-data>
 
       <table  border="0" cellpadding="2" width="100%" align="top" >
         <tr>
@@ -101,8 +105,33 @@
 
       </table>
       </form>
-            </div>
-      </DIV>
+        </div>
+
+        <div class="tab-pane" id="divLoad">
+          <form action="{{ url_for('load_session') }}">
+            <table  border="0" cellpadding="2" width="100%" align="top" >
+              <tr>
+                <td class="sidebar_header"><br>Load Session<br><br></td>
+              </tr>
+              <tr>
+                <td class="sidebar_subheader">Step 1: Input Session No <font color="red">*</font></td>
+              </tr>
+              <tr>
+                <td><input type="text" placeholder="session no"></td>
+              </tr>
+
+              <tr><td>
+                <table>
+                  <tr><td class="sidebar_subheader"><br>
+                    Step 2: Load Session </td>
+                  </tr></table>
+                <input id="load_btn" type="submit" value="Load">
+              </td></tr>
+            </table>
+          </form>
+        </div>
+      </div>
+      </div>
     </div>
 
     <div class="col-md-9">
@@ -133,6 +162,11 @@ $(function(){
     }
   })
 });
+
+function clearPaste()
+{
+	document.frmManager.pasteBox.value="";
+}
 
 //$("form").submit(function() {
   //$(this).block()

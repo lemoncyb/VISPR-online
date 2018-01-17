@@ -12,7 +12,7 @@ import random, uuid
 import shutil
 
 import numpy as np
-from flask import Flask, render_template, request, session, abort, flash, redirect, url_for
+from flask import render_template, request, session, abort, flash, redirect, url_for
 import yaml
 from werkzeug.utils import secure_filename
 from pymongo import MongoClient
@@ -123,7 +123,10 @@ def index():
         screen = next(iter(app.screens))
         #condition = next(iter(screen.targets))
         #return  redirect(url_for('targets', screen=screen.name, condition=condition, selection='positive selection'))
-        return  redirect(url_for('target_clustering', screen=screen.name))
+        if screen.is_mle:
+            return  redirect(url_for('target_clustering', screen=screen.name))
+        else:
+            return redirect(url_for('targets', screen=screen.name, condition="default", selection='positive selection'))
 
     elif hasattr(app, 'screens'):
         screen = next(iter(app.screens))
@@ -136,6 +139,11 @@ def index():
                            screens=None,
                            screen=None,
                            version=__version__)
+
+
+@app.route("/session")
+def load_session():
+    return 0
 
 
 @app.route("/<screen>")

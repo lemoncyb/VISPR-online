@@ -23,7 +23,7 @@
 
       <div class="tab-content clearfix">
         <div class="tab-pane active" id="divUpload">
-          <form method=post enctype=multipart/form-data>
+          <form id="form_upload" method=post enctype=multipart/form-data>
 
       <table  border="0" cellpadding="2" width="100%" align="top" >
         <tr>
@@ -108,7 +108,7 @@
         </div>
 
         <div class="tab-pane" id="divLoad">
-          <form action="{{ url_for('load_session') }}" method="POST">
+          <form id="form_load" action="{{ url_for('load_session') }}" method="POST">
             <table  border="0" cellpadding="2" width="100%" align="top" >
               <tr>
                 <td class="sidebar_header"><br>Load Session<br><br></td>
@@ -161,16 +161,26 @@ $(function(){
         e.preventDefault();
     }
   });
-});
 
-$("#load_btn").click(function (e) {
+  $("#load_btn").click(function (e) {
     var session = $("#session_num").val();
     //console.log(session.split('.'))
     if(!session) {
         alert("No session number input.");
         e.preventDefault();
     }
+    e.preventDefault();
+    $.getJSON("/check/" + session, function (data) {
+        //console.log(data);
+        if(data=="False") {
+            alert("No session " + session + " found in the server.");
+        }
+        else {
+            $("#form_load").submit()
+        }
+    });
   })
+});
 
 //$("form").submit(function() {
   //$(this).block()

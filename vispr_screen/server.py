@@ -12,7 +12,7 @@ import random, uuid
 import shutil
 
 import numpy as np
-from flask import render_template, request, session, abort, flash, redirect, url_for
+from flask import render_template, request, session, abort, jsonify, redirect, url_for
 import yaml
 from werkzeug.utils import secure_filename
 from pymongo import MongoClient
@@ -139,13 +139,20 @@ def index():
                            version=__version__)
 
 
+@app.route("/check/<session>")
+def check_session(session):
+    path = os.path.join(UPLOAD_FOLDER, session)
+    config_file = os.path.join(path, 'vispr.yaml')
+    if os.path.isdir(path) and os.path.isfile(config_file):
+        return jsonify("True")
+    else:
+        return jsonify("False")
+
+
 @app.route("/session", methods=['GET', 'POST'])
 def load_session():
     session_num = request.form["session_num"]
-    path = os.path.join(UPLOAD_FOLDER, session_num)
-    if os.path.isdir(path):
-        print("Session exists!")
-    config_file = os.path.join(path, 'vispr.yaml')
+    config_file = os.path.join(UPLOAD_FOLDER, session_num, 'vispr.yaml')
     init_server(config_file)
     screen = next(iter(app.screens))
     if screen.is_mle:

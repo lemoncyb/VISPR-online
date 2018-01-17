@@ -124,7 +124,7 @@ def index():
         #condition = next(iter(screen.targets))
         #return  redirect(url_for('targets', screen=screen.name, condition=condition, selection='positive selection'))
         if screen.is_mle:
-            return  redirect(url_for('target_clustering', screen=screen.name))
+            return redirect(url_for('target_clustering', screen=screen.name))
         else:
             return redirect(url_for('targets', screen=screen.name, condition="default", selection='positive selection'))
 
@@ -141,9 +141,14 @@ def index():
                            version=__version__)
 
 
-@app.route("/session")
+@app.route("/session", methods=['GET', 'POST'])
 def load_session():
-    return 0
+    session_num = request.form["session_num"]
+    path = os.path.join(UPLOAD_FOLDER, session_num)
+    if os.path.isdir(path):
+        print("Session exists!")
+
+    return ""
 
 
 @app.route("/<screen>")

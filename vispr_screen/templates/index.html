@@ -108,7 +108,7 @@
         </div>
 
         <div class="tab-pane" id="divLoad">
-          <form action="{{ url_for('load_session') }}">
+          <form action="{{ url_for('load_session') }}" method="POST">
             <table  border="0" cellpadding="2" width="100%" align="top" >
               <tr>
                 <td class="sidebar_header"><br>Load Session<br><br></td>
@@ -117,7 +117,7 @@
                 <td class="sidebar_subheader">Step 1: Input Session No <font color="red">*</font></td>
               </tr>
               <tr>
-                <td><input type="text" placeholder="session no"></td>
+                <td><input id="session_num" type="text" placeholder="Session No" name="session_num"></td>
               </tr>
 
               <tr><td>
@@ -160,13 +160,17 @@ $(function(){
         alert("No normalized count file selected.");
         e.preventDefault();
     }
-  })
+  });
 });
 
-function clearPaste()
-{
-	document.frmManager.pasteBox.value="";
-}
+$("#load_btn").click(function (e) {
+    var session = $("#session_num").val();
+    //console.log(session.split('.'))
+    if(!session) {
+        alert("No session number input.");
+        e.preventDefault();
+    }
+  })
 
 //$("form").submit(function() {
   //$(this).block()

@@ -164,13 +164,12 @@ $(function(){
 
   $("#load_btn").click(function (e) {
     var session = $("#session_num").val();
-    //console.log(session.split('.'))
+    e.preventDefault();
     if(!session) {
         alert("No session number input.");
-        e.preventDefault();
     }
-    e.preventDefault();
-    $.getJSON("/check/" + session, function (data) {
+    else {
+        $.getJSON("/check/" + session, function (data) {
         //console.log(data);
         if(data=="False") {
             alert("No session " + session + " found in the server.");
@@ -179,6 +178,7 @@ $(function(){
             $("#form_load").submit()
         }
     });
+    }
   })
 });
 

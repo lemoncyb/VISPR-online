@@ -151,14 +151,17 @@ def check_session(session):
 
 @app.route("/session", methods=['GET', 'POST'])
 def load_session():
-    session_num = request.form["session_num"]
-    config_file = os.path.join(UPLOAD_FOLDER, session_num, 'vispr.yaml')
-    init_server(config_file)
-    screen = next(iter(app.screens))
-    if screen.is_mle:
-        return redirect(url_for('target_clustering', screen=screen.name))
+    if request.method == 'POST':
+        session_num = request.form["session_num"]
+        config_file = os.path.join(UPLOAD_FOLDER, session_num, 'vispr.yaml')
+        init_server(config_file)
+        screen = next(iter(app.screens))
+        if screen.is_mle:
+            return redirect(url_for('target_clustering', screen=screen.name))
+        else:
+            return redirect(url_for('targets', screen=screen.name, condition="default", selection='positive selection'))
     else:
-        return redirect(url_for('targets', screen=screen.name, condition="default", selection='positive selection'))
+        return redirect(url_for('index'))
 
 
 @app.route("/<screen>")

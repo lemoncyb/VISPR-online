@@ -10,6 +10,7 @@ import re, json, os
 import string
 import random, uuid
 import shutil
+import zipfile, gzip
 
 import numpy as np
 from flask import render_template, request, session, abort, jsonify, redirect, url_for
@@ -66,8 +67,39 @@ def ping():
     return ""
 
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/")
 def index():
+    if hasattr(app, 'screens'):
+        screen = next(iter(app.screens))
+        return render_template("index.html",
+                               screens=app.screens,
+                               screen=screen,
+                               version=__version__)
+    else:
+        return render_template("index.html",
+                           screens=None,
+                           screen=None,
+                           version=__version__)
+
+
+def check_zip(filename, dir):
+    suffix = filename.split('.')[-1].lower()
+    filepath = os.path.join(dir, filename)
+    if suffix == 'zip':
+        zip_ref = zipfile.ZipFile(filepath, 'r')
+        ex_file = zip_ref.extractall(dir)
+        zip_ref.close()
+    if suffix == 'gz':
+        with gzip.open(filepath, 'rb') as f_in, open('file.txt', 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+
+
+def check_file(filename, file_type, dir):
+    suffix = filename.split('.')[-1].lower()
+
+
+@app.route("/checkupload",  methods=['GET', 'POST'])
+def check_upload():
     if request.method == 'POST':
         species = request.form.get('species')
         file_gene = request.files["gene"]
@@ -88,10 +120,13 @@ def index():
         except KeyError as e:
             "Error when creating tmp directory.".format(e)
 
-        for file in [file_gene, file_count, file_sgrna, file_lib]:
+        filedir = os.path.join(UPLOAD_FOLDER, tmp_dir)
+        for file, file_type in zip([file_gene, file_count, file_sgrna, file_lib], ['gene','count','sgrna','lib']):
             if file:
                 filename = file.filename
-                file.save(os.path.join(UPLOAD_FOLDER, tmp_dir, filename))
+                file.save(os.path.join(filedir, filename))
+                check_zip(filename, filedir)
+                check_file(filename, file_type, filedir)
 
         vispr_config = {
             "experiment": 'mle',
@@ -118,25 +153,13 @@ def index():
             yaml.dump(vispr_config, f, default_flow_style=False)
 
         init_server(config_file)
-        if not save_session:
-            shutil.rmtree(os.path.join(UPLOAD_FOLDER, tmp_dir))  # delete uploaded files
         screen = next(iter(app.screens))
         if screen.is_mle:
             return redirect(url_for('target_clustering', screen=screen.name))
         else:
             return redirect(url_for('targets', screen=screen.name, condition="default", selection='positive selection'))
-
-    elif hasattr(app, 'screens'):
-        screen = next(iter(app.screens))
-        return render_template("index.html",
-                               screens=app.screens,
-                               screen=screen,
-                               version=__version__)
     else:
-        return render_template("index.html",
-                           screens=None,
-                           screen=None,
-                           version=__version__)
+        return redirect(url_for('index'))
 
 
 @app.route("/check/<session>")
@@ -156,6 +179,8 @@ def load_session():
         config_file = os.path.join(UPLOAD_FOLDER, session_num, 'vispr.yaml')
         init_server(config_file)
         screen = next(iter(app.screens))
+        if not screen.save:
+            shutil.rmtree(os.path.join(UPLOAD_FOLDER, session_num))  # delete uploaded files
         if screen.is_mle:
             return redirect(url_for('target_clustering', screen=screen.name))
         else:

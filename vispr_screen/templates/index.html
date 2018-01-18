@@ -23,7 +23,7 @@
 
       <div class="tab-content clearfix">
         <div class="tab-pane active" id="divUpload">
-          <form id="form_upload" method=post enctype=multipart/form-data>
+          <form id="form_upload" method=post enctype=multipart/form-data action="{{ url_for('check_upload') }}">
 
       <table  border="0" cellpadding="2" width="100%" align="top" >
         <tr>
@@ -147,18 +147,36 @@
 </div>
 <script src="/static/jquery.blockUI.js"></script>
 <script>
+function checkUpload () {
+  $("#form_upload").submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: "{{ url_for('check_upload') }}",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            console.log(data)
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+  });
+}
+
 $(function(){
   $("#submit_btn").click(function (e) {
+    e.preventDefault();
     var fileName = $("#gene").val();
     //console.log(fileName.split('.'))
     if(!fileName) {
         alert("No gene summary file selected.");
-        e.preventDefault();
     }
     var fileName = $("#count").val();
     if(!fileName) {
         alert("No normalized count file selected.");
-        e.preventDefault();
     }
   });
 

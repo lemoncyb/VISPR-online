@@ -99,8 +99,27 @@ def check_zip(filename, dir):
     return filename
 
 
-def check_file(filename, file_type, dir):
-    suffix = filename.split('.')[-1].lower()
+def check_file(filepath, filetype):
+    with open(filepath, 'r') as fin:
+        line = fin.readline()
+        columns = line.split()
+
+    if filetype == 'gene':
+        paths = [col.split("|") for col in columns]
+        if "beta" in [path[1] for path in paths if len(path) > 1]:
+            return True
+        elif "goodsgrna" in [path[1] for path in paths if len(path) > 1]:
+            return True
+    if filetype == 'count':
+        if 'sgRNA' in columns and len(columns)>3:
+            return True
+    if filetype == 'sgrna':
+        if 'eff' in columns and len(columns) == 3:
+            return True
+    if filetype == 'lib':
+        if '-' or '+' in columns:
+            return True
+    return False
 
 
 @app.route("/checkupload",  methods=['GET', 'POST'])
@@ -131,7 +150,9 @@ def check_upload():
                 filename = file.filename
                 file.save(os.path.join(filedir, filename))
                 filename = check_zip(filename, filedir)  #should be extracted txt file
-                check_file(filename, filetype, filedir)
+                file.filename = filename  #update filename
+                if not check_file(os.path.join(filedir, filename), filetype):
+                    return jsonify(valid=False, message=filename+" is not a valid "+filetype+" file.")
 
         vispr_config = {
             "experiment": 'mle',
@@ -157,7 +178,7 @@ def check_upload():
         with open(config_file, "w") as f:
             yaml.dump(vispr_config, f, default_flow_style=False)
 
-        return jsonify(valid="True", message="")
+        return jsonify(valid=True, message="")
 
         init_server(config_file)
         screen = next(iter(app.screens))
@@ -174,9 +195,9 @@ def check_session(session):
     path = os.path.join(UPLOAD_FOLDER, session)
     config_file = os.path.join(path, 'vispr.yaml')
     if os.path.isdir(path) and os.path.isfile(config_file):
-        return jsonify("True")
+        return jsonify(True)
     else:
-        return jsonify("False")
+        return jsonify(False)
 
 
 @app.route("/session", methods=['GET', 'POST'])

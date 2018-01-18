@@ -147,7 +147,24 @@
 </div>
 <script src="/static/jquery.blockUI.js"></script>
 <script>
-function checkUpload () {
+
+$(function(){
+  $("#submit_btn").click(function (e) {
+    var fileName = $("#gene").val();
+    //console.log(fileName.split('.'))
+    if(!fileName) {
+      alert("No gene summary file selected.");
+      e.preventDefault();
+    }
+    else {
+      var fileName = $("#count").val();
+      if(!fileName) {
+        alert("No normalized count file selected.");
+        e.preventDefault();
+      }
+    }
+  });
+
   $("#form_upload").submit(function (e) {
     e.preventDefault();
     var formData = new FormData(this);
@@ -164,21 +181,6 @@ function checkUpload () {
         processData: false
     });
   });
-}
-
-$(function(){
-  $("#submit_btn").click(function (e) {
-    e.preventDefault();
-    var fileName = $("#gene").val();
-    //console.log(fileName.split('.'))
-    if(!fileName) {
-        alert("No gene summary file selected.");
-    }
-    var fileName = $("#count").val();
-    if(!fileName) {
-        alert("No normalized count file selected.");
-    }
-  });
 
   $("#load_btn").click(function (e) {
     var session = $("#session_num").val();
@@ -189,11 +191,11 @@ $(function(){
     else {
         $.getJSON("/check/" + session, function (data) {
         //console.log(data);
-        if(data=="False") {
-            alert("No session " + session + " found in the server.");
+        if(data) {
+            $("#form_load").submit()
         }
         else {
-            $("#form_load").submit()
+            alert("No session " + session + " found in the server.");
         }
     });
     }

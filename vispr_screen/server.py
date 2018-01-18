@@ -85,13 +85,18 @@ def index():
 def check_zip(filename, dir):
     suffix = filename.split('.')[-1].lower()
     filepath = os.path.join(dir, filename)
+    ## TODO: expection for extracting file
     if suffix == 'zip':
         zip_ref = zipfile.ZipFile(filepath, 'r')
-        ex_file = zip_ref.extractall(dir)
+        extracted = zip_ref.namelist()
+        zip_ref.extractall(dir)
         zip_ref.close()
+        filename = extracted[0]
     if suffix == 'gz':
-        with gzip.open(filepath, 'rb') as f_in, open('file.txt', 'wb') as f_out:
+        filename = os.path.join(dir, filename[:-3])
+        with gzip.open(filepath, 'rb') as f_in, open(filename, 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
+    return filename
 
 
 def check_file(filename, file_type, dir):
@@ -121,12 +126,12 @@ def check_upload():
             "Error when creating tmp directory.".format(e)
 
         filedir = os.path.join(UPLOAD_FOLDER, tmp_dir)
-        for file, file_type in zip([file_gene, file_count, file_sgrna, file_lib], ['gene','count','sgrna','lib']):
+        for file, filetype in zip([file_gene, file_count, file_sgrna, file_lib], ['gene','count','sgrna','lib']):
             if file:
                 filename = file.filename
                 file.save(os.path.join(filedir, filename))
-                check_zip(filename, filedir)
-                check_file(filename, file_type, filedir)
+                filename = check_zip(filename, filedir)  #should be extracted txt file
+                check_file(filename, filetype, filedir)
 
         vispr_config = {
             "experiment": 'mle',
@@ -151,6 +156,8 @@ def check_upload():
         config_file = os.path.join(UPLOAD_FOLDER, tmp_dir, 'vispr.yaml')
         with open(config_file, "w") as f:
             yaml.dump(vispr_config, f, default_flow_style=False)
+
+        return jsonify(valid="True", message="")
 
         init_server(config_file)
         screen = next(iter(app.screens))

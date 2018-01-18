@@ -112,12 +112,15 @@ def check_file(filepath, filetype):
             return True
     if filetype == 'count':
         if 'sgRNA' in columns and len(columns)>3:
+            paths = [col.split("|") for col in columns]
+            if "beta" in [path[1] for path in paths if len(path) > 1]:
+                return False
             return True
     if filetype == 'sgrna':
         if 'eff' in columns and len(columns) == 3:
             return True
     if filetype == 'lib':
-        if '-' or '+' in columns:
+        if '-' in columns or '+' in columns:
             return True
     return False
 

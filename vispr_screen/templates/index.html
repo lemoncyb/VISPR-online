@@ -135,12 +135,17 @@
     </div>
 
     <div class="col-md-9">
-      <p>
+      <div class="row">
+        <p>
         VISPR-Online is an on-line tool to interactively visualize and analyze the results of MAGeCK and MAGeCK-VISPR.
         User can explore gene essentiality, gRNAs position relative to gene, and normalized gRNAs count.
         In addition, VISPR-Online provides various way to further explore the results. Such visualizing gene in Ensembl,
         analyzing genes interaction network via GeneMANIA, functional analysis with GOrilla, and so on.
       </p>
+      </div>
+      <div class="row">
+        <input id="demo_btn" type="submit" value="demo">
+      </div>
     </div>
   </div>
 
@@ -206,7 +211,25 @@ $(function(){
         }
     });
     }
-  })
+  });
+
+  $("#demo_btn").click(function (e) {
+    session_num = "2b8fd284-3063-4010-9531-47fd5ce26a29"
+    $.ajax({
+        url: "/check/"+session_num,
+        type: 'GET',
+        success: function (data) {
+            //console.log(data)
+            if (data) {
+              $("#session_num").val(session_num)
+              $("#form_load").submit()
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+  });
 });
 
 //$("form").submit(function() {

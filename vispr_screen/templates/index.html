@@ -174,7 +174,14 @@ $(function(){
         type: 'POST',
         data: formData,
         success: function (data) {
-            console.log(data)
+            //console.log(data)
+            if (data["valid"]) {
+              $("#session_num").val(data["session"])
+              $("#form_load").submit()
+            }
+            else {
+              alert(data["message"])
+            }
         },
         cache: false,
         contentType: false,

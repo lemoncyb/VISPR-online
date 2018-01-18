@@ -152,7 +152,7 @@ def check_upload():
                 filename = check_zip(filename, filedir)  #should be extracted txt file
                 file.filename = filename  #update filename
                 if not check_file(os.path.join(filedir, filename), filetype):
-                    return jsonify(valid=False, message=filename+" is not a valid "+filetype+" file.")
+                    return jsonify(valid=False, session="", message=filename+" is not a valid "+filetype+" file.")
 
         vispr_config = {
             "experiment": 'mle',
@@ -178,7 +178,7 @@ def check_upload():
         with open(config_file, "w") as f:
             yaml.dump(vispr_config, f, default_flow_style=False)
 
-        return jsonify(valid=True, message="")
+        return jsonify(valid=True, session=tmp_dir, message="")
 
         init_server(config_file)
         screen = next(iter(app.screens))

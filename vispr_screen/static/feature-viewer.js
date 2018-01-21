@@ -267,7 +267,7 @@ var FeatureViewer = (function () {
                             widthRect = (scaling(yTemp) - scaling(xTemp));
                         }
                         selectedRect.style({
-                            left: xRect + 'px',
+                            left: (xRect+8) + 'px',
                             top: ($(div + " .svgHeader").length) ? 60 + 'px' : 10 + 'px',
                             'background-color': 'rgba(0, 0, 0, 0.2)',
                             width: widthRect + 'px',

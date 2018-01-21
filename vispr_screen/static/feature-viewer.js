@@ -473,6 +473,7 @@ var FeatureViewer = (function () {
             svgContainer.selectAll(".Xaxis")
                 .attr("transform", "translate(0," + (position + 20) + ")")
 		.selectAll("text")
+			.style("text-anchor", "end")
 			.attr("transform", function(d) {return "rotate(-12)"});
         }
 
@@ -1408,7 +1409,10 @@ var FeatureViewer = (function () {
             svgContainer
                 .transition().duration(500)
                 .select(".x.axis")
-                .call(xAxis);
+                .call(xAxis)
+		.selectAll("text")
+		                        .style("text-anchor", "end")
+					                        .attr("transform", function(d) {return "rotate(-12)"});
         }
 
         function addVerticalLine() {

@@ -4,7 +4,7 @@ VISPR-online is a web-based interactive framework for CRISPR screens visualizati
 Deployment
 -------
 ### Step1:
-Install Python 3.5. Create development environment with
+Install Python 3. Create development environment with
 ```
 $ pip install -r requirements.txt
 ```

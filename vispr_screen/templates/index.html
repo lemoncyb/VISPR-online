@@ -123,6 +123,9 @@
               <tr>
                 <td><textarea id="session_num" type="text" cols="30" rows="3" name="session_num"></textarea></td>
               </tr>
+              <tr>
+                <td><a class="demo" href="#" style="text-decoration: underline;">Load demo</a></td>
+              </tr>
 
               <tr><td>
                 <table>
@@ -161,7 +164,7 @@
       </div>
       <div class="row">
         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
-        Load <a id="demo_btn" href="#">demo</a> here to explore VISPR-online.
+        Load <a id="demo_btn" class="demo" href="#">demo</a> here to explore VISPR-online.
       </div>
       <div class="row">
         <div class="col-xs-12 text-center">
@@ -235,7 +238,7 @@ $(function(){
     }
   });
 
-  $("#demo_btn").click(function (e) {
+  $(".demo").click(function (e) {
     session_num = "demo"
     $.ajax({
         url: "/check/"+session_num,

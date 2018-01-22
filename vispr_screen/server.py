@@ -17,6 +17,7 @@ from flask import render_template, request, session, abort, jsonify, redirect, u
 import yaml
 from werkzeug.utils import secure_filename
 from pymongo import MongoClient
+from datetime import datetime
 
 from vispr_screen import __version__
 
@@ -69,17 +70,18 @@ def ping():
 
 @app.route("/")
 def index():
+    today = str(datetime.now().date())
     if hasattr(app, 'screens'):
+        screens = app.screens
         screen = next(iter(app.screens))
-        return render_template("index.html",
-                               screens=app.screens,
-                               screen=screen,
-                               version=__version__)
     else:
-        return render_template("index.html",
-                           screens=None,
-                           screen=None,
-                           version=__version__)
+        screens = None
+        screen = None
+    return render_template("index.html",
+                           screens=screens,
+                           screen=screen,
+                           version=__version__,
+                           today=today)
 
 
 def check_zip(filename, dir):

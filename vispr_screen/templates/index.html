@@ -137,17 +137,32 @@
     <div class="col-md-9">
       <div class="row">
         <p>
-        VISPR-Online is an on-line tool to interactively visualize and analyze the results of MAGeCK and MAGeCK-VISPR.
-        User can explore gene essentiality, gRNAs position relative to gene, and normalized gRNAs count.
-        In addition, VISPR-Online provides various way to further explore the results. Such visualizing gene in Ensembl,
-        analyzing genes interaction network via GeneMANIA, functional analysis with GOrilla, and so on.
+        <h4>VISPR-online is an on-line tool to interactively visualize and analyze the results of
+          <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604">MAGeCK</a> and
+        <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418">MAGeCK-VISPR</a>.</h4>
+        <h4>What can we do with VISPR-online:</h4>
+          <div class="well col-sm-12">
+	      <ul>
+            <li>Explore gene essentiality</li>
+            <li>View gRNAs in their genomic context</li>
+            <li>View normalized gRNAs counts</li>
+            <li>Inspect <i>P</i> values</li>
+            <li>View gene in Ensembl</li>
+            <li>Analyze genes interaction network via <a href="https://www.ncbi.nlm.nih.gov/pubmed/20576703">GeneMANIA</a></li>
+            <li>Gene functional analysis via <a href="https://www.ncbi.nlm.nih.gov/pubmed/19192299">GOrilla</a></li>
+            <li>Save and resume session</li>
+          </ul>
+	      </div>
       </p>
       </div>
       <div class="row">
-        <input id="demo_btn" type="submit" value="demo">
+        <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+        Load <a id="demo_btn" href="#">demo</a> here to explore VISPR-online.
       </div>
-      <div>
-        <div id="widgetIframe"><iframe width="45%" height="300" src="http://cistrome.org/~ybcui/piwik/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=UserCountryMap&actionToWidgetize=visitorMap&idSite=2&period=range&date=2018-01-21,{{ today }}&disableLink=1&widget=1" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>
+      <div class="row">
+        <div class="col-xs-12 text-center">
+        <div id="widgetIframe"><iframe width="75%" height="413" src="http://cistrome.org/~ybcui/piwik/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=UserCountryMap&actionToWidgetize=visitorMap&idSite=2&period=range&date=2018-01-21,{{ today }}&disableLink=1&widget=1" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>
+        </div>
       </div>
     </div>
   </div>

@@ -125,3 +125,13 @@ tr.spaceUnder>td {
 #submit_btn, #load_btn {
   width: 80px;
 }
+
+.well ul li{ /* first well;*/
+list-style-type:none;
+}
+.well ul li:before{
+font-family: 'Glyphicons Halflings';
+content: "\e067";
+position: absolute;
+left: 25px;
+}

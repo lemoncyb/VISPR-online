@@ -68,15 +68,20 @@ def ping():
     return ""
 
 
-@app.route("/")
-def index():
-    today = str(datetime.now().date())
+def screen_avail():
     if hasattr(app, 'screens'):
         screens = app.screens
         screen = next(iter(app.screens))
     else:
         screens = None
         screen = None
+    return screens, screen
+
+
+@app.route("/")
+def index():
+    today = str(datetime.now().date())
+    screens, screen = screen_avail()
     return render_template("index.html",
                            screens=screens,
                            screen=screen,
@@ -220,6 +225,15 @@ def load_session():
             return redirect(url_for('targets', screen=screen.name, condition="default", selection='positive selection'))
     else:
         return redirect(url_for('index'))
+
+
+@app.route("/faq", methods=["GET"])
+def faq():
+    screens, screen = screen_avail()
+    return render_template('faq.html',
+                           screens=screens,
+                           screen=screen,
+                           version=__version__)
 
 
 @app.route("/<screen>")

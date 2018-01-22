@@ -61,21 +61,21 @@
         </tr>
 
         <tr>
-          <td title="*.gene_summary.txt" class="sidebar_subheader">Step 2: Gene Summary <font color="red">*</font></td>
+          <td title="*.gene_summary.txt" data-toggle="tooltip" data-placement="left" class="sidebar_subheader">Step 2: Gene Summary <font color="red">*</font></td>
         </tr>
         <tr class="spaceUnder">
           <td><input id="gene" type=file name=gene></td>
         </tr>
 
         <tr>
-          <td title="*.count_normalized.txt" class="sidebar_subheader">Step 3: Normalized Count <font color="red">*</font></td>
+          <td title="*.count_normalized.txt" data-toggle="tooltip" data-placement="left" class="sidebar_subheader">Step 3: Normalized Count <font color="red">*</font></td>
         </tr>
         <tr class="spaceUnder">
           <td><input id="count" type=file name=count></td>
         </tr>
 
         <tr>
-          <td title="*.sgrna_summary.txt" class="sidebar_subheader">Step 4: sgRNA Summary </td>
+          <td title="*.sgrna_summary.txt" data-toggle="tooltip" data-placement="left" class="sidebar_subheader">Step 4: sgRNA Summary </td>
         </tr>
         <tr class="spaceUnder">
           <td><input type=file name=sgrna></td>
@@ -92,7 +92,8 @@
         </tr>
 
         <tr>
-          <td class="sidebar_subheader"><br>Step 6: Select Save Session</td>
+          <td title="If checked, the session will be saved to server, which can be resumed later with a session number."
+              data-toggle="tooltip" data-placement="left" class="sidebar_subheader"><br>Step 6: Select Save Session</td>
         </tr>
         <tr>
           <td><input type=checkbox name=save> Save session to server</td>

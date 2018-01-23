@@ -264,45 +264,47 @@ function update_dimensions() {
 
 function plot_rnas_locus(target) {
     $.getJSON("/tbl/locus/{{ screen.name }}/" + target, function (data) {
-        $("#locus-plot").empty();
+        if (data) {
+            $("#locus-plot").empty();
 
-        seq = "N".repeat(data['gene_start']-1) + data['gene_seq']
-        var ft = new FeatureViewer(seq, "#locus-plot", {
-            showAxis: true,
-            showSequence: true,
-            brushActive: true,
-            toolbar:false,
-            bubbleHelp:false,
-            zoomMax:50,
-            offset: {
-                start: data['gene_start'],
-                end: data['gene_stop']
-            }
-        });
-
-        $.each(data['trans'], function(index, value){
-            ft.addFeature({
-            data: value['exons'],
-            name: value['id'],
-            color: "#919191",
-            type: "rect",
+            seq = "N".repeat(data['gene_start']-1) + data['gene_seq']
+            var ft = new FeatureViewer(seq, "#locus-plot", {
+                showAxis: true,
+                showSequence: false,
+                brushActive: true,
+                toolbar:false,
+                bubbleHelp:false,
+                zoomMax:50,
+                offset: {
+                    start: data['gene_start'],
+                    end: data['gene_stop']
+                }
             });
-        })
 
-        ft.addFeature({
-            data: data['rnas'],
-            name: "gRNAs",
-            color: "#919191",
-            type: "rect",
-        });
+            $.each(data['trans'], function(index, value){
+                ft.addFeature({
+                data: value['exons'],
+                name: value['id'],
+                color: "#919191",
+                type: "rect",
+                });
+            })
 
-        zoomOut = function(){
-            ft.resetZoom();
+            ft.addFeature({
+                data: data['rnas'],
+                name: "gRNAs",
+                color: "#919191",
+                type: "rect",
+            });
+
+            zoomOut = function(){
+                ft.resetZoom();
+            }
+            var buttonResetZoom = '<a class="btn btn-info btnZoom" onclick="zoomOut()">Reset ZOOM</a>';
+            $("#locus-plot").append("<p class='btnBlock'>"+buttonResetZoom+"</p");
+
+            //console.log(data);
         }
-        var buttonResetZoom = '<a class="btn btn-info btnZoom" onclick="zoomOut()">Reset ZOOM</a>';
-        $("#locus-plot").append("<p class='btnBlock'>"+buttonResetZoom+"</p");
-
-        //console.log(data);
     });
 }
 

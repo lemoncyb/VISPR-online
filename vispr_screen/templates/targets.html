@@ -146,7 +146,7 @@
     </div>
     <div class="col-md-7">
         {% if has_rna_info %}
-        <div class="row">
+        <div id="locus-div" class="row">
             <div class="col-md-12">
                 <h4 class="panel-heading">gRNAs Locus</h4>
                 <div class="text-center">
@@ -266,6 +266,7 @@ function plot_rnas_locus(target) {
     $.getJSON("/tbl/locus/{{ screen.name }}/" + target, function (data) {
         if (data) {
             $("#locus-plot").empty();
+            $("#locus-div").css({ display: "block" });
 
             seq = "N".repeat(data['gene_start']-1) + data['gene_seq']
             var ft = new FeatureViewer(seq, "#locus-plot", {
@@ -304,6 +305,9 @@ function plot_rnas_locus(target) {
             $("#locus-plot").append("<p class='btnBlock'>"+buttonResetZoom+"</p");
 
             //console.log(data);
+        }
+        else {
+            $("#locus-div").css({ display: "none" });
         }
     });
 }

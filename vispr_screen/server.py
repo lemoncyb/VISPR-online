@@ -126,6 +126,8 @@ def check_file(filepath, filetype):
     if filetype == 'sgrna':
         if 'eff' in columns and len(columns) == 3:
             return True
+        elif 'p.twosided' in columns and len(columns) == 15: #RRA sgRNA summary
+            return True
     if filetype == 'lib':
         if '-' in columns or '+' in columns:
             return True

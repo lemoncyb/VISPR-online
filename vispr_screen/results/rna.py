@@ -57,14 +57,11 @@ class Results(AbstractResults):
                     "Failed to parse sgRNA results "
                     "(sgrnas->results in config): {}".format(e))
 
-            if posterior_efficiency.shape[1] != 2:
-                raise IOError("Unexpected number of columns in sgrna results. "
-                              "The *.sgrna_summary.txt output of mageck MLE "
-                              "(3 columns) is expected.")
-            posterior_efficiency.columns = ["gene", "eff"]
-            posterior_efficiency = posterior_efficiency["eff"]
-            if not (posterior_efficiency == 1).all():
-                self.posterior_efficiency = posterior_efficiency
+            if posterior_efficiency.shape[1] == 2: #MLE sgRNA summary
+                posterior_efficiency.columns = ["gene", "eff"]
+                posterior_efficiency = posterior_efficiency["eff"]
+                if not (posterior_efficiency == 1).all():
+                    self.posterior_efficiency = posterior_efficiency
 
     @property
     def samples(self):

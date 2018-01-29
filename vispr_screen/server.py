@@ -191,13 +191,6 @@ def check_upload():
             yaml.dump(vispr_config, f, default_flow_style=False)
 
         return jsonify(valid=True, session=tmp_dir, message="")
-
-        init_server(config_file)
-        screen = next(iter(app.screens))
-        if screen.is_mle:
-            return redirect(url_for('target_clustering', screen=screen.name))
-        else:
-            return redirect(url_for('targets', screen=screen.name, condition="default", selection='positive selection'))
     else:
         return redirect(url_for('index'))
 

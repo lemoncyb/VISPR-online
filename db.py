@@ -40,7 +40,8 @@ with open('gene_seq.txt', 'r') as fin:
 ## Insert gene annotation
 df_major_trans = pd.read_table('main_transcripts.txt', header=0, sep='\t')
 
-with open('ten_gene_annotation.txt', 'r') as fin:
+#with open('ten_gene_annotation.txt', 'r') as fin:
+with open('Homo_sapiens.GRCh38.91.gtf', 'r') as fin:
     line = fin.readline()
     while line[0] == '#':  # skip file header
         line = fin.readline()

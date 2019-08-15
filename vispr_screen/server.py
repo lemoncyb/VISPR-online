@@ -43,7 +43,7 @@ google20c = ["#3366CC","#DC3912","#FF9900","#109618","#990099","#3B3EAC","#0099C
 with open(os.path.join(os.path.dirname(__file__), "captions.yaml")) as f:
     CAPTIONS = yaml.load(f)
 
-UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),'tmp')
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),'uploaded')
 
 
 def init_server(*configs):

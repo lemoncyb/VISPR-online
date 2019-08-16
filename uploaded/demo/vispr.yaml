@@ -2,7 +2,7 @@ experiment: mle
 save: true
 session: 551ae45a-6ca6-454b-b2eb-bab9321d1d75
 sgrnas:
-  annotation: sgrnas.bed.test
+  annotation: sgrnas.bed
   counts: all.count_normalized.txt
   results: mle.sgrna_summary.txt
 species: HOMO_SAPIENS

@@ -135,3 +135,23 @@ content: "\e067";
 position: absolute;
 left: 25px;
 }
+
+.banner {
+    width: 800px;
+    height: 350px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    margin: 20px auto;
+    padding: 5px;
+}
+
+
+.banner-slide{
+    text-align: center;
+    vertical-align: middle;
+}
+
+.banner-slide img{
+    max-width: 800px;
+    max-height: 350px;
+}

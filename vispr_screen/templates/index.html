@@ -167,8 +167,25 @@
         Load <a id="demo_btn" class="demo" href="#">demo</a> here to explore VISPR-online.
       </div>
       <div class="row">
-        <div class="col-xs-12 text-center">
-        <div id="widgetIframe"><iframe width="75%" height="413" src="http://cistrome.org/~ybcui/piwik/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=UserCountryMap&actionToWidgetize=visitorMap&idSite=2&period=range&date=2018-01-21,{{ today }}&disableLink=1&widget=1" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>
+        <div class="banner" id="banner">
+            <a href="#">
+                <div class="banner-slide"><img src="/static/img/overview.jpg" alt=""></div>
+            </a>
+            <a href="#">
+                <div class="banner-slide"><img src="/static/img/cluster.jpg" alt=""></div>
+            </a>
+            <a href="#">
+                <div class="banner-slide"><img src="/static/img/gene_list.jpg" alt=""></div>
+            </a>
+            <a href="#">
+                <div class="banner-slide"><img src="/static/img/locus.jpg" alt=""></div>
+            </a>
+            <a href="#">
+                <div class="banner-slide"><img src="/static/img/count.jpg" alt=""></div>
+            </a>
+            <a href="#">
+                <div class="banner-slide"><img src="/static/img/pval_plot.jpg" alt=""></div>
+            </a>
         </div>
       </div>
     </div>
@@ -177,6 +194,54 @@
 </div>
 <script src="/static/jquery.blockUI.js"></script>
 <script>
+///////images auto play
+var timer = null,
+    index = 0,
+    pics = document.getElementsByClassName("banner-slide")
+
+
+//封装一个代替getElementById()的方法
+function byId(id){
+    return typeof(id) === "string"?document.getElementById(id):id;
+}
+
+function slideImg() {
+    var banner = byId("banner");
+    banner.onmouseover = function(){
+        stopAutoPlay();
+    }
+    banner.onmouseout = function(){
+        startAutoPlay();
+    }
+    banner.onmouseout();
+}
+//开始播放轮播图
+function startAutoPlay(){
+    timer = setInterval(function(){
+        index++;
+        if(index>5){
+            index = 0;
+        }
+        changeImg();
+    },1500);
+}
+//暂停播放
+function stopAutoPlay(){
+    if (timer) {
+        clearInterval(timer);
+    }
+}
+//改变轮播图
+function changeImg(){
+    for(var i=0;i<pics.length;i++){
+        pics[i].style.display = "none";
+    }
+    pics[index].style.display = "block";
+}
+
+slideImg();
+
+///////main functions
 
 $(function(){
   $("#submit_btn").click(function (e) {

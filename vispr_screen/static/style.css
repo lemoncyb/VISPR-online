@@ -84,7 +84,6 @@ border-top: none;
 border-right: 1px solid #778;
 width: 280px;
 /* Insert Optional Height definition here to give all the content a unified height */
-
 border: 0px solid black;
 background: lightblue;
 }
@@ -138,7 +137,7 @@ left: 25px;
 
 .banner {
     width: 800px;
-    height: 350px;
+    height: 334px;
     overflow: hidden;
     border: 1px solid #ccc;
     margin: 20px auto;
@@ -153,5 +152,20 @@ left: 25px;
 
 .banner-slide img{
     max-width: 800px;
-    max-height: 350px;
+    max-height: 334px;
+}
+
+footer {
+    position: relative;
+    height: 10px;
+    width: 100%;
+}
+
+p.copyright {
+    position: absolute;
+    width: 100%;
+    line-height: 10px;
+    font-size: 0.7em;
+    text-align: center;
+    bottom:0;
 }

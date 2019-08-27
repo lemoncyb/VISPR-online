@@ -231,18 +231,6 @@ def faq():
                            version=__version__)
 
 
-@app.route("/<screen>")
-def index_screen(screen):
-    try:
-        screen = app.screens[screen]
-    except KeyError:
-        abort(404)
-    return render_template("index.html",
-                           screens=app.screens,
-                           screen=screen,
-                           version=__version__)
-
-
 @app.route("/targets/<screen>/<condition>/<selection>")
 def targets(screen, condition, selection):
     screen = app.screens[screen]

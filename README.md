@@ -9,7 +9,8 @@ VISPR-online is a web-based interactive framework for CRISPR screens visualizati
 5. [Contact](#Contact)
 
 <a name="Description"></a>
-##I. Description
+I. Description
+----
 VISPR-online is a web-based interactive framework for CRISPR screens visualization, exploration and sharing.
 
 CRISPR screening helps systematically exploration of the functions of coding and non-coding elements in a genome. We previously developed [MAGeCK](https://www.ncbi.nlm.nih.gov/pubmed/25476604) and [MAGeCK-VISPR](https://www.ncbi.nlm.nih.gov/pubmed/26673418) to perform CRISPR screening data analysis. VISPR is a visualization tool included in [MAGeCK-VISPR](https://www.ncbi.nlm.nih.gov/pubmed/26673418), which can be used to explore interesting genes. However, VISPR is designed for local use and some manual configutations need be set to run the program. To help the community to access the tool easily, we improve the tool and develop an online version: VISPR-online.
@@ -21,7 +22,8 @@ The advantages of VISPR-online compared with VISPR:
 * Enable to resume and share data and sessions.
 
 <a name="Installation"></a>
-##II. Installation
+II. Installation
+----
 VISPR-online can also be installed in a local computer or network for internal use.
 
 ### Step1:
@@ -47,7 +49,8 @@ $ pip install sklearn
 ```
 
 <a name="Demo"></a>
-##III. Demo test
+III. Demo test
+----
 ### Step1:
 Launch VISPR-online server.
 
@@ -78,10 +81,11 @@ Upload corresponding files to VISPR-online. Then click the "Submit" button to ex
 ![](vispr_screen/static/img/result_view.jpg)  
 
 <a name="License"></a>
-##License
-
+License
+----
 Licensed under the [MIT license](http://opensource.org/licenses/MIT). This project may not be copied, modified, or distributed except according to those terms.
 
 <a name="Contact"></a>
-##Contact
+Contact
+----
 Yingbo Cui <yingbocui@nudt.edu.cn>

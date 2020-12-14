@@ -13,6 +13,7 @@
     </div>
   </div>
 
+
   <div class="row">
     <div class="col-md-3">
     <div id="tabList">
@@ -22,94 +23,252 @@
 		</ul>
 
       <div class="tab-content clearfix">
-        <div class="tab-pane active" id="divUpload">
-          <form id="form_upload" method=post enctype=multipart/form-data action="{{ url_for('check_upload') }}">
+         
+        <div class="tab-pane active" id="divUpload">   
+          <ul  class="nav nav-pills-third">
+            <li class="active"><a href="#divUploadClassOne" data-toggle="tab">MAGeCK</a></li>
+            <li><a href="#divUploadClassTwo" data-toggle="tab">BAGEL</a></li>
+            <li><a href="#divUploadClassThree" data-toggle="tab">JACKS</a></li>
+          </ul>
 
-      <table  border="0" cellpadding="2" width="100%" align="top" >
-        <tr>
-          <td class="sidebar_header"><br>Upload Files<br><br></td>
-        </tr>
-        <tr>
-          <td class="sidebar_subheader">Step 1: Select Species <font color="red">*</font></td>
-        </tr>
-        <tr>
-          <td>
-            <p align="left" style="word-spacing: 0; line-height: 100%; text-indent: 0; margin: 0">
-              <font face="Verdana" size="1">
-                <select  ID="IDT" size="1" name="species" >
+        <div class="tab-content tab-content-third clearfix">
+          <div class="tab-pane active" id="divUploadClassOne">
+            <form id="form_upload_one" method=post enctype=multipart/form-data action="{{ url_for('check_upload_one') }}">
 
-                  <option value ='HOMO_SAPIENS'>HOMO_SAPIENS</option>
+              <table  border="0" cellpadding="2" width="100%" align="top" >
+                <tr>
+                  <td class="sidebar_header"><br>Upload Files<br><br></td>
+                </tr>
+                <tr>
+                  <td class="sidebar_subheader">Step 1: Select Species <font color="red">*</font></td>
+                </tr>
+                <tr>
+                  <td>
+                    <p align="left" style="word-spacing: 0; line-height: 100%; text-indent: 0; margin: 0">
+                      <font face="Verdana" size="1">
+                        <select  ID="IDT" size="1" name="species" >
+        
+                          <option value ='HOMO_SAPIENS'>HOMO_SAPIENS</option>
+        
+                          <option value ='ARABIDOPSIS_THALIANA'>ARABIDOPSIS_THALIANA</option>
+        
+                          <option value ='SACCHAROMYCES_CEREVISIAE'>SACCHAROMYCES_CEREVISIAE</option>
+        
+                          <option value ='CAENORHABDITIS_ELEGANS'>CAENORHABDITIS_ELEGANS</option>
+        
+                          <option value ='DROSOPHILA_MELANOGASTER'>DROSOPHILA_MELANOGASTER</option>
+        
+                          <option value ='MUS_MUSCULUS'>MUS_MUSCULUS</option>
+        
+                          <option value ='RATTUS_NORVEGICUS'>RATTUS_NORVEGICUS</option>
+        
+                          <option value="NA">Not Sure </option>
+        
+                        </select>
+                      </font>
+                    </p><br>
+                  </td>
+                </tr>
+        
+                <tr>
+                  <td title="*.gene_summary.txt" data-toggle="tooltip" class="sidebar_subheader">Step 2: Gene Summary <font color="red">*</font></td>
+                </tr>
+                <tr class="spaceUnder">
+                  <td><input id="gene" type=file name=gene></td>
+                </tr>
+        
+                <tr>
+                  <td title="*.count_normalized.txt" data-toggle="tooltip" class="sidebar_subheader">Step 3: Normalized Count <font color="red">*</font></td>
+                </tr>
+                <tr class="spaceUnder">
+                  <td><input id="count" type=file name=count></td>
+                </tr>
+        
+                <tr>
+                  <td title="*.sgrna_summary.txt" data-toggle="tooltip" class="sidebar_subheader">Step 4: sgRNA Summary </td>
+                </tr>
+                <tr class="spaceUnder">
+                  <td><input type=file name=sgrna></td>
+                </tr>
+        
+                <tr>
+                  <td class="sidebar_subheader">Step 5: sgRNA Location</td>
+                </tr>
+                <tr>
+                  <td><input type=file name=library></td>
+                </tr>
+                <tr>
+                  <td><a href="/faq">sgRNA location file format</a></td>
+                </tr>
+        
+                <tr>
+                  <td title="If checked, the session will be saved to server, which can be resumed later with a session number."
+                      data-toggle="tooltip" class="sidebar_subheader"><br>Step 6: Select Save Session</td>
+                </tr>
+                <tr>
+                  <td><input type=checkbox name=save> Save session to server</td>
+                </tr>
+        
+                <tr><td>
+                <table>
+                  <tr><td class="sidebar_subheader"><br>
+                    Step 7: Submit List </td>
+                  </tr></table>
+                  <input id="submit_btn_one" type="submit" value="Submit">
+                </td></tr>
+        
+              </table>
+            </form>
+          </div>
 
-                  <option value ='ARABIDOPSIS_THALIANA'>ARABIDOPSIS_THALIANA</option>
+          <div class="tab-pane" id="divUploadClassTwo">
+            <form id="form_upload_two" method=post enctype=multipart/form-data action="{{ url_for('check_upload_two') }}">
 
-                  <option value ='SACCHAROMYCES_CEREVISIAE'>SACCHAROMYCES_CEREVISIAE</option>
+              <table  border="0" cellpadding="2" width="100%" align="top" >
+                <tr>
+                  <td class="sidebar_header"><br>Upload Files<br><br></td>
+                </tr>
+                <tr>
+                  <td class="sidebar_subheader">Step 1: Select Species <font color="red">*</font></td>
+                </tr>
+                <tr>
+                  <td>
+                    <p align="left" style="word-spacing: 0; line-height: 100%; text-indent: 0; margin: 0">
+                      <font face="Verdana" size="1">
+                        <select  ID="IDT" size="1" name="species" >
+        
+                          <option value ='HOMO_SAPIENS'>HOMO_SAPIENS</option>
+        
+                          <option value ='ARABIDOPSIS_THALIANA'>ARABIDOPSIS_THALIANA</option>
+        
+                          <option value ='SACCHAROMYCES_CEREVISIAE'>SACCHAROMYCES_CEREVISIAE</option>
+        
+                          <option value ='CAENORHABDITIS_ELEGANS'>CAENORHABDITIS_ELEGANS</option>
+        
+                          <option value ='DROSOPHILA_MELANOGASTER'>DROSOPHILA_MELANOGASTER</option>
+        
+                          <option value ='MUS_MUSCULUS'>MUS_MUSCULUS</option>
+        
+                          <option value ='RATTUS_NORVEGICUS'>RATTUS_NORVEGICUS</option>
+        
+                          <option value="NA">Not Sure </option>
+        
+                        </select>
+                      </font>
+                    </p><br>
+                  </td>
+                </tr>
+        
+                <tr>
+                  <td title="*.foldchange.txt" data-toggle="tooltip" class="sidebar_subheader">Step 2: Foldchange <font color="red">*</font></td>
+                </tr>
+                <tr class="spaceUnder">
+                  <td><input id="foldchange" type=file name=foldchange></td>
+                </tr>
+               
+                <tr>
+                  <td title="If checked, the session will be saved to server, which can be resumed later with a session number."
+                      data-toggle="tooltip" class="sidebar_subheader"><br>Step 3: Select Save Session</td>
+                </tr>
+                <tr>
+                  <td><input type=checkbox name=save> Save session to server</td>
+                </tr>
+        
+                <tr><td>
+                <table>
+                  <tr><td class="sidebar_subheader"><br>
+                    Step 4: Submit List </td>
+                  </tr></table>
+                  <input id="submit_btn_two" type="submit" value="Submit">
+                </td></tr>
+        
+              </table>
+            </form>
+          </div>
 
-                  <option value ='CAENORHABDITIS_ELEGANS'>CAENORHABDITIS_ELEGANS</option>
+          <div class="tab-pane" id="divUploadClassThree">
+            <form id="form_upload_three" method=post enctype=multipart/form-data action="{{ url_for('check_upload_three') }}">
 
-                  <option value ='DROSOPHILA_MELANOGASTER'>DROSOPHILA_MELANOGASTER</option>
-
-                  <option value ='MUS_MUSCULUS'>MUS_MUSCULUS</option>
-
-                  <option value ='RATTUS_NORVEGICUS'>RATTUS_NORVEGICUS</option>
-
-                  <option value="NA">Not Sure </option>
-
-                </select>
-              </font>
-            </p><br>
-          </td>
-        </tr>
-
-        <tr>
-          <td title="*.gene_summary.txt" data-toggle="tooltip" class="sidebar_subheader">Step 2: Gene Summary <font color="red">*</font></td>
-        </tr>
-        <tr class="spaceUnder">
-          <td><input id="gene" type=file name=gene></td>
-        </tr>
-
-        <tr>
-          <td title="*.count_normalized.txt" data-toggle="tooltip" class="sidebar_subheader">Step 3: Normalized Count <font color="red">*</font></td>
-        </tr>
-        <tr class="spaceUnder">
-          <td><input id="count" type=file name=count></td>
-        </tr>
-
-        <tr>
-          <td title="*.sgrna_summary.txt" data-toggle="tooltip" class="sidebar_subheader">Step 4: sgRNA Summary </td>
-        </tr>
-        <tr class="spaceUnder">
-          <td><input type=file name=sgrna></td>
-        </tr>
-
-        <tr>
-          <td class="sidebar_subheader">Step 5: sgRNA Location</td>
-        </tr>
-        <tr>
-          <td><input type=file name=library></td>
-        </tr>
-        <tr>
-          <td><a href="/faq">sgRNA location file format</a></td>
-        </tr>
-
-        <tr>
-          <td title="If checked, the session will be saved to server, which can be resumed later with a session number."
-              data-toggle="tooltip" class="sidebar_subheader"><br>Step 6: Select Save Session</td>
-        </tr>
-        <tr>
-          <td><input type=checkbox name=save> Save session to server</td>
-        </tr>
-
-        <tr><td>
-        <table>
-          <tr><td class="sidebar_subheader"><br>
-            Step 7: Submit List </td>
-          </tr></table>
-          <input id="submit_btn" type="submit" value="Submit">
-        </td></tr>
-
-      </table>
-      </form>
+              <table  border="0" cellpadding="2" width="100%" align="top" >
+                <tr>
+                  <td class="sidebar_header"><br>Upload Files<br><br></td>
+                </tr>
+                <tr>
+                  <td class="sidebar_subheader">Step 1: Select Species <font color="red">*</font></td>
+                </tr>
+                <tr>
+                  <td>
+                    <p align="left" style="word-spacing: 0; line-height: 100%; text-indent: 0; margin: 0">
+                      <font face="Verdana" size="1">
+                        <select  ID="IDT" size="1" name="species" >
+        
+                          <option value ='HOMO_SAPIENS'>HOMO_SAPIENS</option>
+        
+                          <option value ='ARABIDOPSIS_THALIANA'>ARABIDOPSIS_THALIANA</option>
+        
+                          <option value ='SACCHAROMYCES_CEREVISIAE'>SACCHAROMYCES_CEREVISIAE</option>
+        
+                          <option value ='CAENORHABDITIS_ELEGANS'>CAENORHABDITIS_ELEGANS</option>
+        
+                          <option value ='DROSOPHILA_MELANOGASTER'>DROSOPHILA_MELANOGASTER</option>
+        
+                          <option value ='MUS_MUSCULUS'>MUS_MUSCULUS</option>
+        
+                          <option value ='RATTUS_NORVEGICUS'>RATTUS_NORVEGICUS</option>
+        
+                          <option value="NA">Not Sure </option>
+        
+                        </select>
+                      </font>
+                    </p><br>
+                  </td>
+                </tr>
+        
+                <tr>
+                  <td title="*.gene_summary.txt" data-toggle="tooltip" class="sidebar_subheader">Step 2: Gene Score <font color="red">*</font></td>
+                </tr>
+                <tr class="spaceUnder">
+                  <td><input id="genejacks" type=file name=genejacks></td>
+                </tr>
+        
+                <tr>
+                  <td title="*.count_normalized.txt" data-toggle="tooltip" class="sidebar_subheader">Step 3: Foldchange <font color="red">*</font></td>
+                </tr>
+                <tr class="spaceUnder">
+                  <td><input id="logfoldchange" type=file name=logfoldchange></td>
+                </tr>
+        
+                <tr>
+                  <td title="*.sgrna_summary.txt" data-toggle="tooltip" class="sidebar_subheader">Step 4: gRNA <font color="red">*</font></td>
+                </tr>
+                <tr class="spaceUnder">
+                  <td><input id="grna" type=file name=gRNA></td>
+                </tr>
+        
+                <tr>
+                  <td title="If checked, the session will be saved to server, which can be resumed later with a session number."
+                      data-toggle="tooltip" class="sidebar_subheader"><br>Step 5: Select Save Session</td>
+                </tr>
+                <tr>
+                  <td><input type=checkbox name=save> Save session to server</td>
+                </tr>
+        
+                <tr><td>
+                <table>
+                  <tr><td class="sidebar_subheader"><br>
+                    Step 6: Submit List </td>
+                  </tr></table>
+                  <input id="submit_btn_three" type="submit" value="Submit">
+                </td></tr>
+        
+              </table>
+            </form>
+          </div>
         </div>
+        </div>
+
+
+
 
         <div class="tab-pane" id="divLoad">
           <form id="form_load" action="{{ url_for('load_session') }}" method="POST">
@@ -238,7 +397,7 @@ slideImg();
 ///////main functions
 
 $(function(){
-  $("#submit_btn").click(function (e) {
+  $("#submit_btn_one").click(function (e) {
     var fileName = $("#gene").val();
     //console.log(fileName.split('.'))
     if(!fileName) {
@@ -254,12 +413,91 @@ $(function(){
     }
   });
 
-  $("#form_upload").submit(function (e) {
+  $("#submit_btn_two").click(function (e) {
+    var fileName = $("#foldchange").val();
+    //console.log(fileName.split('.'))
+    if(!fileName) {
+      alert("No foldchange file selected.");
+      e.preventDefault();
+    }
+  });
+
+  $("#submit_btn_three").click(function (e) {
+    var fileName = $("#genejacks").val();
+    var foldChange = $("#logfoldchange").val();
+    //console.log(fileName.split('.'))
+    if(!fileName) {
+      alert("No gene score file selected.");
+      e.preventDefault();
+    }
+    else if(!foldChange) {
+      alert("No foldchange file selected.");
+      e.preventDefault();
+    }
+    else {
+      var fileName = $("#grna").val();
+      if(!fileName) {
+        alert("No grna file selected.");
+        e.preventDefault();
+      }
+    }
+  });
+
+
+  $("#form_upload_one").submit(function (e) {
     e.preventDefault();
     var formData = new FormData(this);
 
     $.ajax({
-        url: "{{ url_for('check_upload') }}",
+        url: "{{ url_for('check_upload_one') }}",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            //console.log(data)
+            if (data["valid"]) {
+              $("#session_num").val(data["session"])
+              $("#form_load").submit()
+            }
+            else {
+              alert(data["message"])
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+  });
+
+  $("#form_upload_two").submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: "{{ url_for('check_upload_two') }}",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            //console.log(data)
+            if (data["valid"]) {
+              $("#session_num").val(data["session"])
+              $("#form_load").submit()
+            }
+            else {
+              alert(data["message"])
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+  });
+
+  $("#form_upload_three").submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: "{{ url_for('check_upload_three') }}",
         type: 'POST',
         data: formData,
         success: function (data) {

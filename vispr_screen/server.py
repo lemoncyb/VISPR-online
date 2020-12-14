@@ -131,14 +131,29 @@ def check_file(filepath, filetype):
     if filetype == 'lib':
         if '-' in columns or '+' in columns:
             return True
+
+    if filetype == 'foldchange':
+        if 'REAGENT_ID' in columns and len(columns)>3:
+            return True
+    
+    if filetype == 'GeneJacks':
+        if 'Gene' in columns:
+            return True
+    if filetype == 'logfoldchange':
+        if 'gRNA' in columns:
+            return True
+    if filetype == 'gRNA':
+        if 'sgrna' in columns:
+            return True
+
     return False
 
-
-@app.route("/checkupload",  methods=['GET', 'POST'])
-def check_upload():
+@app.route("/checkupload_one",  methods=['GET', 'POST'])
+def check_upload_one():
     if request.method == 'POST':
         species = request.form.get('species')
         file_gene = request.files["gene"]
+        
         file_count = request.files["count"]
         if "sgrna" in request.files:
             file_sgrna = request.files["sgrna"]
@@ -177,10 +192,112 @@ def check_upload():
                 "counts": file_count.filename
             }
         }
+        
         if file_sgrna:
             vispr_config["sgrnas"]["results"] = file_sgrna.filename
         if file_lib:
             vispr_config["sgrnas"]["annotation"] = file_lib.filename
+        if save_session:
+            vispr_config["save"] = True
+            vispr_config["session"] = tmp_dir
+        else:
+            vispr_config["save"] = False
+        config_file = os.path.join(UPLOAD_FOLDER, tmp_dir, 'vispr.yaml')
+        with open(config_file, "w") as f:
+          yaml.dump(vispr_config, f, default_flow_style=False)
+        return jsonify(valid=True, session=tmp_dir, message="")
+    else:
+        return redirect(url_for('index'))
+
+
+@app.route("/checkupload_two",  methods=['GET', 'POST'])
+def check_upload_two():
+    if request.method == 'POST':
+        species = request.form.get('species')
+        file_foldchange = request.files["foldchange"]
+        
+        save_session = request.form.get("save")
+
+        tmp_dir = str(uuid.uuid4())
+        try:
+            os.makedirs(os.path.join(UPLOAD_FOLDER, tmp_dir))
+        except KeyError as e:
+            "Error when creating tmp directory.".format(e)
+
+        filedir = os.path.join(UPLOAD_FOLDER, tmp_dir)
+        for file, filetype in zip([file_foldchange], ['foldchange']):
+            if file:
+                filename = file.filename
+                file.save(os.path.join(filedir, filename))
+                filename = check_zip(filename, filedir)  #should be extracted txt file
+                file.filename = filename  #update filename
+                if not check_file(os.path.join(filedir, filename), filetype):
+                    return jsonify(valid=False, session="", message=filename+" is not a valid "+filetype+" file.")
+
+        vispr_config = {
+            "experiment": 'bagel',
+            "species": species,
+            "targets": {
+                "results": file_foldchange.filename,
+                "gene": "true"
+            },
+            "sgrnas": {
+                "counts": file_foldchange.filename
+            }
+        }
+        
+        if save_session:
+            vispr_config["save"] = True
+            vispr_config["session"] = tmp_dir
+        else:
+            vispr_config["save"] = False
+        config_file = os.path.join(UPLOAD_FOLDER, tmp_dir, 'vispr.yaml')
+        with open(config_file, "w") as f:
+            yaml.dump(vispr_config, f, default_flow_style=False)
+
+        return jsonify(valid=True, session=tmp_dir, message="")
+    else:
+        return redirect(url_for('index'))
+
+@app.route("/checkupload_three",  methods=['GET', 'POST'])
+def check_upload_three():
+    if request.method == 'POST':
+        species = request.form.get('species')
+        file_genejacks = request.files["genejacks"]
+        file_logfoldchange = request.files["logfoldchange"]
+        file_gRNA = request.files["gRNA"]
+        
+        save_session = request.form.get("save")
+
+        tmp_dir = str(uuid.uuid4())
+        try:
+            os.makedirs(os.path.join(UPLOAD_FOLDER, tmp_dir))
+        except KeyError as e:
+            "Error when creating tmp directory.".format(e)
+
+        filedir = os.path.join(UPLOAD_FOLDER, tmp_dir)
+        for file, filetype in zip([file_genejacks, file_logfoldchange, file_gRNA], ['GeneJacks','logfoldchange','gRNA']):
+            if file:
+                filename = file.filename
+                file.save(os.path.join(filedir, filename))
+                filename = check_zip(filename, filedir)  #should be extracted txt file
+                file.filename = filename  #update filename
+                if not check_file(os.path.join(filedir, filename), filetype):
+                    return jsonify(valid=False, session="", message=filename+" is not a valid "+filetype+" file.")
+
+        vispr_config = {
+            "experiment": 'jacks',
+            "species": species,
+            "targets": {
+                "results": file_genejacks.filename,
+                "genes": "true"
+            },
+            "sgrnas": {
+                "counts": file_logfoldchange.filename,
+                "results": file_gRNA.filename
+            }
+        }
+        
         if save_session:
             vispr_config["save"] = True
             vispr_config["session"] = tmp_dir
@@ -214,10 +331,12 @@ def load_session():
         screen = next(iter(app.screens))
         if not screen.save:
             shutil.rmtree(os.path.join(UPLOAD_FOLDER, session_num))  # delete uploaded files
-        if screen.is_mle:
+        if screen.is_mle and screen.name=='mle':
             return redirect(url_for('target_clustering', screen=screen.name))
+        elif screen.name=='bagel':
+            return redirect(url_for('targets', screen=screen.name, condition="default", selection='foldchange'))
         else:
-            return redirect(url_for('targets', screen=screen.name, condition="default", selection='positive selection'))
+            return redirect(url_for('targets', screen=screen.name, condition="default", selection='genescore'))
     else:
         return redirect(url_for('index'))
 
@@ -229,7 +348,6 @@ def faq():
                            screens=screens,
                            screen=screen,
                            version=__version__)
-
 
 @app.route("/targets/<screen>/<condition>/<selection>")
 def targets(screen, condition, selection):

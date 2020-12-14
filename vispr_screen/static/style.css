@@ -116,10 +116,36 @@ tr.spaceUnder>td {
   padding : 5px 15px;
   height: 700px;
 }
-
-#tabList .nav-pills > li > a {
-  border-radius: 4px 4px 0 0 ;
+.tab-content.tab-content-third {
+    height: 655px !important;
 }
+
+#tabList .nav-pills-third > li {
+    float:left;
+    width:33%;
+}
+#tabList .nav-pills-third > li + li {
+    margin-left: 0;
+}
+#tabList .nav-pills > li > a {
+    border-radius: 4px 4px 0 0 ;
+}
+#tabList .nav-pills-third > li > a {
+  border-radius: 4px 4px 0 0 ;
+  font-size:12px;
+  text-align:center;
+  padding-left:2px;
+  padding-right:2px;
+}
+.nav-pills-third>li.active>a {
+    color: #fff;
+    background-color: #337ab7;
+}
+#tabList .nav-pills-third > li:active > a {
+    color: #fff;
+    background-color: #337ab7;
+}
+
 
 #submit_btn, #load_btn {
   width: 80px;

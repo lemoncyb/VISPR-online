@@ -14,10 +14,12 @@
 {% block content %}
 
 <div class="container">
+  {% if screen.name=="mle"%}
   <ul class="nav nav-tabs">
     {% if condition != "default" %}
     <li><a href="/target-clustering/{{ screen.name }}">Clustering</a></li>
     {% endif %}
+    
     {% for condition in screen.targets %}
     <li id="{{condition}}" class="dropdown">
       <a class="dropdown-toggle condition" data-toggle="dropdown" href="#">{{ condition }}<span class="caret"></span></a>
@@ -28,6 +30,30 @@
     </li>
     {% endfor %}
   </ul>
+  {% endif %}
+
+  {% if screen.name=="jacks"%}
+  <ul  class="nav nav-pills">
+    {% if selection == "genescore" %}
+        <li class="active" ><a href="/targets/{{ screen.name }}/default/genescore">Gene Score</a></li>
+    {% else %}
+        <li><a href="/targets/{{ screen.name }}/default/genescore">Gene Score</a></li>
+    {% endif %}
+
+    {% if selection == "foldchange" %}
+        <li class="active"><a href="/targets/{{ screen.name }}/default/foldchange">Foldchange</a></li>
+    {% else %}
+        <li><a href="/targets/{{ screen.name }}/default/foldchange">Foldchange</a></li>
+    {% endif %}  
+
+    {% if selection == "grna" %}
+        <li class="active" ><a href="/targets/{{ screen.name }}/default/grna" >gRNA</a></li>
+    {% else %}
+        <li><a href="/targets/{{ screen.name }}/default/grna">gRNA</a></li>
+    {% endif %}  
+  </ul>
+  {% endif %}
+
 </div>
 
 <div class="container">
@@ -109,15 +135,32 @@
     </div>
 </div>
 
+
 <div class="row">
+    {% if screen.name=="mle"%}
     <div class="col-md-5">
+    {% else %}
+    <div class="col-md-12">
+    {% endif %} 
         <h4 class="panel-heading">Target results</h4>
         <table id="targets" class="table table-striped">
             <thead>
+                {% if screen.name=="mle"%}
                 <th data-dynatable-column="target">target</th>
                 <th data-dynatable-column="score">{{ "beta-score" if screen.is_mle else "score" }}</th>
                 <th data-dynatable-column="p-value">p-value</th>
                 <th data-dynatable-column="fdr">FDR</th>
+                {% else %}
+                    {% for col in screen.targets[condition][selection][:].columns%}
+                        {% if col !="log10-p-value" and col !="idx" %}
+                            {% if col !="target"%}
+                               <th data-dynatable-column={{col}}>{{col}}</th> 
+                            {% endif %}
+                        {% endif %}                
+                    {% endfor %}
+                {% endif %}
+
+                {% if screen.name=="mle"%}
                 <th style="text-align: right;" data-dynatable-no-sort="true">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" data-placeholder="false" type="button" id="table-menu" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon-menu-hamburger glyphicon"></span> <span class="caret"></span></button>
@@ -139,11 +182,14 @@
                         </ul>
                     </div>
                 </th>
+                {% endif %}
             <thead>
             <tbody>
             </tbody>
         </table>
     </div>
+
+    {% if screen.name=="mle"%}
     <div class="col-md-7">
         {% if has_rna_info %}
         <div id="locus-div" class="row">
@@ -180,6 +226,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
 </div>
 
@@ -204,11 +251,11 @@ function get_selected() {
     return targets;
 }
 
-
+{% if screen.name=="mle" %}
 vg.parse.spec("/plt/pvals/{{ screen.name }}/{{ condition }}/{{ selection }}", function(chart) {
     plt_pval = vega_draw(chart, "#pval-plot");
 });
-
+{% endif %}
 
 function update_pval_highlights() {
     var selected = get_selected();
@@ -312,9 +359,11 @@ function plot_rnas_locus(target) {
     });
 }
 
+{% if screen.name=="mle" %}
 vg.parse.spec("/plt/pvalhist/{{ screen.name }}/{{ condition }}/{{ selection }}", function(chart) {
     vega_draw(chart, "#pval-hist-plot");
 });
+{% endif %}
 
 var dt = $("#targets").dynatable({
     dataset: {
@@ -330,6 +379,7 @@ var dt = $("#targets").dynatable({
         }
     }
 });
+
 var filters = $("#dynatable-query-search-targets").addClass("form-control").css("margin-right", "2px").parent();
 filters.addClass("form-inline").css("margin-right", "2px");
 
@@ -376,6 +426,7 @@ dt.on("dynatable:afterUpdate", function() {
     });
     {% endif %}
 
+    {% if screen.name=="mle" %}
     $("#targets tr td:last-child").each(function(idx, cell) {
         var target = $(cell).parent().children(":first").children(":first").html();
         $(cell).html('<div class="btn-group" role="group"></div>');
@@ -389,6 +440,7 @@ dt.on("dynatable:afterUpdate", function() {
                 'and highlight in p-value plot.">' +
                 '<span class="glyphicon glyphicon-ok"></span></button>');
     });
+    {% endif %}
 
     highlight_targets_init();
     highlight_targets_init = function() {};

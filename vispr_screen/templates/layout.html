@@ -92,8 +92,12 @@ function vega_draw(chart, el, url) {
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
-                {% if screens %}
-                <li><a href="/target-clustering/{{ screen.name }}">Results</a></li>
+                {% if screens and screen.name=="mle"%}
+                <li><a href="/target-clustering/{{ screen.name }}">Results</a></li>               
+                {% elif screens and screen.name=="bagel"%}
+                <li><a href="/targets/{{ screen.name }}/default/foldchange">Results</a></li>
+                {% elif screens and screen.name=="jacks"%}
+                <li><a href="/targets/{{ screen.name }}/default/genescore">Results</a></li>
                 {% endif %}
                 <li><a href="/faq">FAQs</a></li>
             </ul>

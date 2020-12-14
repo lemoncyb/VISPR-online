@@ -72,8 +72,19 @@ class Screen(object):
 
         self.name = config["experiment"]
 
-        self.targets, self.is_mle = parse_target_results(
-            get_path(config["targets"]["results"]))
+        if self.name=='mle':
+            self.targets, self.is_mle = parse_target_results(
+                get_path(config["targets"]["results"]))
+        elif self.name=='bagel':
+            self.targets, self.is_mle = parse_target_results_bagel(
+                get_path(config["targets"]["results"]))
+        elif self.name=='jacks':
+            self.targets, self.is_mle = parse_target_results_jacks(
+                get_path(config["targets"]["results"]),get_path(config["sgrnas"]["counts"]),get_path(config["sgrnas"]["results"]))                
+        else:
+            self.targets, self.is_mle = parse_target_results(
+                get_path(config["targets"]["results"]))
+
         self.is_genes = config["targets"].get("genes", False)
         self.species = config["species"].upper()
         self.save = config["save"]
@@ -116,7 +127,6 @@ class Screen(object):
             # provide clustering on score
             self.target_clustering = target_clustering.TargetClustering(self.targets)
 
-
     def targets(self, positive=True):
         return self.pos_targets if positive else self.neg_targets
 
@@ -142,6 +152,7 @@ def parse_target_results(path,
             return target.Results(res.copy(), table_filter=table_filter)
 
         conditions = [path[0] for path in paths if len(path) > 1]
+ 
         targets = {
             condition: {
                 selection: get_results(condition, selection)
@@ -149,6 +160,7 @@ def parse_target_results(path,
             }
             for condition in conditions
         }
+
         return targets, True
     else:
         # RRA format
@@ -165,3 +177,79 @@ def parse_target_results(path,
              for selection in selections}
         }
         return targets, False
+
+def parse_target_results_bagel(path,
+                         selections=["foldchange"]):
+    results = pd.read_table(path, na_filter=False, low_memory=False)
+
+    def get_results(selection):
+        sum = [results.columns[0]]
+        for i in range(0, results.shape[1]):
+                sum = sum + [results.columns[i]]
+        res = results[sum]
+
+        tmpCols = ["target"]
+        for col in results.columns.values.tolist():
+            tmpCols.append(col)
+        # if results.shape[1]>2:
+        #     for s in ["bf%d"%i for i in range(1, results.shape[1])]:
+        #         ls.append(s)
+        res.columns = tmpCols
+        return res.copy()
+
+    targets = {
+        "default":
+        {selection: get_results(selection)
+         for selection in selections}
+    }
+    return targets, False
+
+def parse_target_results_jacks(path,path_counts,path_grna,
+                         selections=["genescore","foldchange","grna"]):
+    results = pd.read_table(path, na_filter=False, low_memory=False)
+
+    # add logfoldchange
+    results_foldchange = pd.read_table(path_counts, na_filter=False, low_memory=False)
+   
+    # add grna
+    results_grna = pd.read_table(path_grna, na_filter=False, low_memory=False)
+
+    def get_results(selection):
+        if selection == "genescore":
+            sum = [results.columns[0]]
+            for i in range(0, results.shape[1]):
+                sum = sum + [results.columns[i]]
+            res = results[sum]
+
+            tmpCols = ["target"]
+            for col in results.columns.values.tolist():
+                tmpCols.append(col)
+            res.columns = tmpCols    
+        elif selection == "foldchange":
+            sum = [results_foldchange.columns[0]]
+            for i in range(0, results_foldchange.shape[1]):
+                sum = sum + [results_foldchange.columns[i]]
+            res = results_foldchange[sum]
+
+            tmpCols = ["target"]
+            for col in results_foldchange.columns.values.tolist():
+                tmpCols.append(col)
+            res.columns = tmpCols  
+        else:
+            sum = [results_grna.columns[0]]
+            for i in range(0, results_grna.shape[1]):
+                sum = sum + [results_grna.columns[i]]
+            res = results_grna[sum]
+            
+            tmpCols = ["target"]
+            for col in results_grna.columns.values.tolist():
+                tmpCols.append(col)
+            res.columns = tmpCols
+        return res.copy()
+
+    targets = {
+        "default":
+        {selection: get_results(selection)
+         for selection in selections}
+    }
+    return targets, False

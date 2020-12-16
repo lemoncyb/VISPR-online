@@ -195,7 +195,7 @@ def parse_target_results_bagel(path,
         #     for s in ["bf%d"%i for i in range(1, results.shape[1])]:
         #         ls.append(s)
         res.columns = tmpCols
-        return res.copy()
+        return target.Results(res.copy())
 
     targets = {
         "default":
@@ -245,7 +245,7 @@ def parse_target_results_jacks(path,path_counts,path_grna,
             for col in results_grna.columns.values.tolist():
                 tmpCols.append(col)
             res.columns = tmpCols
-        return res.copy()
+        return target.Results(res.copy())
 
     targets = {
         "default":

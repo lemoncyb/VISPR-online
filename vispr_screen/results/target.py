@@ -27,32 +27,34 @@ class Results(AbstractResults):
         self.df = dataframe
         if self.df.index.duplicated().any():
             raise ValueError("Target results contain duplicated gene names.")
-        self.df.sort_values("p-value", inplace=True)
-        self.df.reset_index(drop=True, inplace=True)
-        self.df["log10-p-value"] = -np.log10(self.df["p-value"])
-        self.df["idx"] = self.df.index
-        self.df.index = self.df["target"]
+       
+        if "p-value" in self.df.columns.values.tolist() :
+            self.df.sort_values("p-value", inplace=True)
+            self.df.reset_index(drop=True, inplace=True)
+            self.df["log10-p-value"] = -np.log10(self.df["p-value"])
+            self.df["idx"] = self.df.index
+            self.df.index = self.df["target"]
+            pvals = self.df["log10-p-value"]
+            noninf = pvals.replace([np.inf, -np.inf], np.nan).dropna()
+            if noninf.empty:
+                vmax = 0
+                vmin = 0
+            else:
+                vmax, vmin = noninf.max(), noninf.min()
+            pval_cdf = pvals.replace(np.inf, vmax) \
+                            .replace(-np.inf, vmin)
+            pval_cdf = pval_cdf.value_counts(normalize=True, sort=False, bins=1000).cumsum()
+            pval_cdf.index = np.maximum(0, pval_cdf.index)
+            self.pval_cdf = pd.DataFrame({"p-value": pval_cdf.index, "cdf": pval_cdf})
 
-        pvals = self.df["log10-p-value"]
-        noninf = pvals.replace([np.inf, -np.inf], np.nan).dropna()
-        if noninf.empty:
-            vmax = 0
-            vmin = 0
-        else:
-            vmax, vmin = noninf.max(), noninf.min()
-        pval_cdf = pvals.replace(np.inf, vmax) \
-                        .replace(-np.inf, vmin)
-        pval_cdf = pval_cdf.value_counts(normalize=True, sort=False, bins=1000).cumsum()
-        pval_cdf.index = np.maximum(0, pval_cdf.index)
-        self.pval_cdf = pd.DataFrame({"p-value": pval_cdf.index, "cdf": pval_cdf})
+            edges = np.arange(0, 1.01, 0.05)
+            counts, _ = np.histogram(self.df["p-value"], bins=edges)
+            bins = edges[1:]
+            self.pval_hist = pd.DataFrame({"bin": bins, "count": counts})
+            
+            if table_filter is not None:
+                self.df = self.df[self.df.apply(table_filter, axis=1)]           
 
-        edges = np.arange(0, 1.01, 0.05)
-        counts, _ = np.histogram(self.df["p-value"], bins=edges)
-        bins = edges[1:]
-        self.pval_hist = pd.DataFrame({"bin": bins, "count": counts})
-
-        if table_filter is not None:
-            self.df = self.df[self.df.apply(table_filter, axis=1)]
 
     def get_pval_cdf_points(self, pvals):
         idx = self.pval_cdf["p-value"].searchsorted(pvals, side="right") - 1
@@ -97,6 +99,24 @@ class Results(AbstractResults):
     def plot_pval_hist(self):
         return templates.get_template("plots/pval_hist.json").render(
             hist=self.pval_hist.to_json(orient="records"))
+
+    def plot_pval_hist_two(self,col):
+        min=int(self.df[col].min())
+        max= int(self.df[col].max())
+        width=max-min
+        if width < 7.0 :
+            edges_two = np.arange(min,max, 0.3)
+        elif width > 7.0 and width < 15.0:
+            edges_two = np.arange(min,max, 0.6)
+        else:
+            edges_two = np.arange(min,max, 0.95)
+        counts, _ = np.histogram(self.df[col], bins=edges_two)
+        bins = edges_two[1:]
+        self.pval_hist_two = pd.DataFrame({"bin": bins, "count": counts})
+        return templates.get_template("plots/pval_hist_two.json").render(
+            hist=self.pval_hist_two.to_json(orient="records"),
+            colname=col)
+
 
     def ids(self, fdr):
         valid = self.df["fdr"] <= fdr

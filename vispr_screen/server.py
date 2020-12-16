@@ -524,7 +524,6 @@ def tbl_pvals_highlight(screen, condition, selection, targets):
         targets)
     return records.to_json(orient="records")
 
-
 def gene_seq(target):
     return sequence.find_one({"name":target})
 
@@ -602,6 +601,17 @@ def plt_pval_hist(screen, condition, selection):
     plt = screen.targets[condition][selection].plot_pval_hist()
     return plt
 
+@app.route("/plt/pvalhistbagel/<col>/<screen>/<condition>/<selection>")
+def plt_pval_hist_bagel(col, screen, condition, selection):
+    screen = app.screens[screen]
+    plt = screen.targets[condition][selection].plot_pval_hist_bagel(col)
+    return plt
+
+@app.route("/plt/pvalhisttwo/<col>/<screen>/<condition>/<selection>")
+def plt_pval_hist_two(col, screen, condition, selection):
+    screen = app.screens[screen]
+    plt = screen.targets[condition][selection].plot_pval_hist_two(col)
+    return plt
 
 @app.route("/plt/normalization/<screen>")
 def plt_normalization(screen):

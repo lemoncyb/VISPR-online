@@ -140,7 +140,7 @@
     {% if screen.name=="mle"%}
     <div class="col-md-5">
     {% else %}
-    <div class="col-md-12">
+    <div class="col-md-6">
     {% endif %} 
         <h4 class="panel-heading">Target results</h4>
         <table id="targets" class="table table-striped">
@@ -223,6 +223,19 @@
                     <div id="pval-plot" class="plot" data-toggle="popover" data-desc="{{ captions["p-values"] }}"></div>
                     <div id="pval-hist-plot" class="plot" data-toggle="popover" data-placement="left" data-desc="{{ captions["p-value-hist"] }}"></div>
                 </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="panel-heading">Distributions</h4>
+            <div class="text-center">
+                {% for col in screen.targets[condition][selection][:].columns%}
+                    {% if 'Eto' in col or 'ETO' in col or 'dmso' in col or'DMSO' in col or'Dmso' in col or 'X1' in col or 'X2' in col or 'X3' in col or 'X4' in col or 'X5' in col%}
+                       <div id="{{col}}" class="plot" data-toggle="popover" data-placement="left"  data-desc="{{ captions["readcounts"] }}"></div>
+                    {% endif %}              
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -363,6 +376,14 @@ function plot_rnas_locus(target) {
 vg.parse.spec("/plt/pvalhist/{{ screen.name }}/{{ condition }}/{{ selection }}", function(chart) {
     vega_draw(chart, "#pval-hist-plot");
 });
+{% else %}
+    {% for col in screen.targets[condition][selection][:].columns%}
+        {% if 'Eto' in col or 'ETO' in col or 'dmso' in col or'DMSO' in col or'Dmso' in col or 'X1' in col or 'X2' in col or 'X3' in col or 'X4' in col or 'X5' in col%}
+            vg.parse.spec("/plt/pvalhisttwo/{{col}}/{{ screen.name }}/{{ condition }}/{{ selection }}", function(chart) {
+                        vega_draw(chart, "#{{col}}");
+            });
+        {% endif %}
+    {% endfor %}
 {% endif %}
 
 var dt = $("#targets").dynatable({

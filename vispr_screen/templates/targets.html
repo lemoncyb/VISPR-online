@@ -46,10 +46,12 @@
         <li><a href="/targets/{{ screen.name }}/default/foldchange">Foldchange</a></li>
     {% endif %}  
 
-    {% if selection == "grna" %}
-        <li class="active" ><a href="/targets/{{ screen.name }}/default/grna" >gRNA</a></li>
-    {% else %}
-        <li><a href="/targets/{{ screen.name }}/default/grna">gRNA</a></li>
+    {% if screen.grna!="" %}
+        {% if selection == "grna" %}
+            <li class="active" ><a href="/targets/{{ screen.name }}/default/grna" >gRNA</a></li>
+        {% else %}
+            <li><a href="/targets/{{ screen.name }}/default/grna">gRNA</a></li>
+        {% endif %} 
     {% endif %}  
   </ul>
   {% endif %}

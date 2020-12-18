@@ -143,7 +143,7 @@ def check_file(filepath, filetype):
         if 'gRNA' in columns:
             return True
     if filetype == 'gRNA':
-        if 'sgrna' in columns:
+        if 'sgrna' in columns or 'sgRNA' in columns:
             return True
 
     return False
@@ -265,8 +265,12 @@ def check_upload_three():
         species = request.form.get('species')
         file_genejacks = request.files["genejacks"]
         file_logfoldchange = request.files["logfoldchange"]
-        file_gRNA = request.files["gRNA"]
         
+        if "gRNA" in request.files:
+            file_grna = request.files["gRNA"]
+        else:
+            file_grna = ""
+
         save_session = request.form.get("save")
 
         tmp_dir = str(uuid.uuid4())
@@ -276,7 +280,7 @@ def check_upload_three():
             "Error when creating tmp directory.".format(e)
 
         filedir = os.path.join(UPLOAD_FOLDER, tmp_dir)
-        for file, filetype in zip([file_genejacks, file_logfoldchange, file_gRNA], ['GeneJacks','logfoldchange','gRNA']):
+        for file, filetype in zip([file_genejacks, file_logfoldchange, file_grna], ['GeneJacks','logfoldchange','gRNA']):
             if file:
                 filename = file.filename
                 file.save(os.path.join(filedir, filename))
@@ -293,11 +297,15 @@ def check_upload_three():
                 "genes": "true"
             },
             "sgrnas": {
-                "counts": file_logfoldchange.filename,
-                "results": file_gRNA.filename
+                "counts": file_logfoldchange.filename
             }
         }
         
+        if file_grna:
+            vispr_config["sgrnas"]["grna"] = file_grna.filename
+        else:
+            vispr_config["sgrnas"]["grna"] = ""
+
         if save_session:
             vispr_config["save"] = True
             vispr_config["session"] = tmp_dir
@@ -348,6 +356,14 @@ def faq():
                            screens=screens,
                            screen=screen,
                            version=__version__)
+
+@app.route("/tutorial", methods=["GET"])
+def tutorial():
+    screens, screen = screen_avail()
+    return render_template('tutorial.html',
+                           screens=screens,
+                           screen=screen,
+                           version=__version__)                           
 
 @app.route("/targets/<screen>/<condition>/<selection>")
 def targets(screen, condition, selection):

@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+{% block breadcrumbs %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Quick Start Guideline</h2>
+</div>
+
+<div class="container">
+
+     <div>
+        <h3>1. What is VISPR-online?</h3>
+        <p>VISPR-online is a web-based interactive framework for CRISPR screens exploration and visualization.
+            CRISPR screening helps systematically exploration of the functions of coding and non-coding elements in a genome.
+            We previously developed <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604" target="_blank">MAGeCK</a> and
+            <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418" target="_blank">MAGeCK-VISPR</a> to perform CRISPR screening data analysis.
+            VISPR is a visualization tool included in <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418" target="_blank">MAGeCK-VISPR</a>,
+            which can be used to explore interesting genes.
+            However, VISPR is designed for local use and some manual configutations need be set to run the program.
+            To help the community to access the tool easily, we improve the tool and develop an online version: VISPR-online.
+            <br> The advantages of VISPR-online compared with VISPR:
+        <ul>
+          <li>Installation and configuration free. Easy to access via a browser.</li>
+          <li>Support interactive view of sgRNA locations in the gene context.</li>
+          <li>Enable to resume and share data and sessions.</li>
+        </ul>
+        </p>
+     </div>
+
+     <div>
+        <h3>2. How to obtain the input files of VISPR-online?</h3>
+        <p>VISPR-online is a downstream tool for <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604" target="_blank">MAGeCK</a> and
+            <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418" target="_blank">MAGeCK-VISPR</a>. The input of VISPR-online is output of
+            <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604" target="_blank">MAGeCK</a> and
+            <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418" target="_blank">MAGeCK-VISPR</a>. For the usage of these two tools,
+            please refer to our Nature Protocol paper <a href="https://www.ncbi.nlm.nih.gov/pubmed/30710114" target="_blank">MAGeCKFlute</a>.
+
+            <br> The suffixes of input files of VISPR-online are shown bellow.
+
+            <table border="1" width="60%" align="center" style="text-align:center">
+                <caption style="text-align:center">Brief description of VISPR-online input files</caption>
+                <tr>
+                    <th width="30%" style="text-align:center">File function</th>
+                    <th width="30%" style="text-align:center">File suffix</th>
+                </tr>
+                <tr>
+                    <td>Gene summary</td>
+                    <td>*.gene_summary.txt</td>
+                </tr>
+                <tr>
+                    <td>Normalized count</td>
+                    <td>*.count_normalized.txt</td>
+                </tr>
+                <tr>
+                    <td>sgRNA summary</td>
+                    <td>*.sgrna_summary.txt</td>
+                </tr>
+            </table>
+        </p>
+     </div>
+
+     <div>
+        <h3>3. Format of sgRNA location file.</h3>
+        <p>sgRNA location file is a tab-delimited text file without file header. Five columns are required: chromosome name,
+        gRNA start, gRNA stop, gRNA ID and strand. The gRNA IDs should be the same with those in read count file.
+        </p>
+        <pre>
+chr2	11143961	11143981	s_7648	-
+chr3	186801168	186801188	s_46884	+
+chr20	46053591	46053611	s_50992	+
+chr3	46705812	46705832	s_57876	+
+chr19	46634669	46634689	s_23309	-
+chr7	108514201	108514221	s_42887	+</pre>
+    </div>
+
+     <div>
+        <h3>4. How to resume session and share data?</h3>
+        <p>VISPR-online allows users to save sessions to the server and resume them later with session IDs.
+            If the "Save session to server" box is checked (Step 6 in "Upload Files" tab), the session will be saved to the server.
+            VISPR-online will return a session ID to the user. Users can resume the session later with the ID ("Load Session" tab).
+            They can also send the session ID to others to share the data.
+            The session ID is a string of 32 randomly generated characters; therefore, users can access the data only if they know the ID.
+        </p>
+    </div>
+
+    <div>
+        <h3>5. What is beta-score?</h3>
+        <p>Beta-score is a measurement of gene selections similar to the term of log fold change in differential
+            expression analysis. A positive beta-core means a gene is positively selected in a condition, vice versa.
+            Detailed explanation of beta-score please refer to
+            <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418" target="_blank">MAGeCK-VISPR</a> paper.
+        </p>
+    </div>
+
+     <div>
+        <h3>6. Is VISPR-online open source?</h3>
+        <p>VISPR-online is open source under <a href="http://opensource.org/licenses/MIT" target="_blank">MIT</a> license.
+            The source code can be downloaded from <a href="https://github.com/lemoncyb/VISPR-online" target="_blank">GitHub</a>.
+            Users can install and use VIPSR-online in a local computer or network.
+            The README of the repository describes how to install VISPR-online locally.
+        </p>
+    </div>
+
+    <div>
+        <h3>7. Problem caused by browser cache.</h3>
+        <p>Brower usually caches the JavaScript, CSS and other data to improve speed and user experience. When
+            CRISP-view is updated, user needs to empty the previous cache in the browser. For Safari, press
+            <kbd>Opt</kbd>+<kbd>Cmd</kbd>+<kbd>E</kbd> to empty cache.</p>
+    </div>
+
+</div>
+
+  <footer>
+    <p class="copyright">© Wei Li Lab 2019.</p>
+  </footer>
+{% endblock %}

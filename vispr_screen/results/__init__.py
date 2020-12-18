@@ -72,6 +72,11 @@ class Screen(object):
 
         self.name = config["experiment"]
 
+        if self.name=='jacks':
+            self.grna = config["sgrnas"]["grna"]
+        else:
+            self.grna =""
+
         if self.name=='mle':
             self.targets, self.is_mle = parse_target_results(
                 get_path(config["targets"]["results"]))
@@ -79,8 +84,12 @@ class Screen(object):
             self.targets, self.is_mle = parse_target_results_bagel(
                 get_path(config["targets"]["results"]))
         elif self.name=='jacks':
-            self.targets, self.is_mle = parse_target_results_jacks(
-                get_path(config["targets"]["results"]),get_path(config["sgrnas"]["counts"]),get_path(config["sgrnas"]["results"]))                
+            if config["sgrnas"]["grna"]=="":
+                self.targets, self.is_mle = parse_target_results_jacks(
+                    get_path(config["targets"]["results"]),get_path(config["sgrnas"]["counts"]))
+            else:
+                self.targets, self.is_mle = parse_target_results_jacks_sgrnas(
+                    get_path(config["targets"]["results"]),get_path(config["sgrnas"]["counts"]),get_path(config["sgrnas"]["grna"]))                
         else:
             self.targets, self.is_mle = parse_target_results(
                 get_path(config["targets"]["results"]))
@@ -204,7 +213,44 @@ def parse_target_results_bagel(path,
     }
     return targets, False
 
-def parse_target_results_jacks(path,path_counts,path_grna,
+def parse_target_results_jacks(path,path_counts,
+                         selections=["genescore","foldchange"]):
+    results = pd.read_table(path, na_filter=False, low_memory=False)
+
+    # add logfoldchange
+    results_foldchange = pd.read_table(path_counts, na_filter=False, low_memory=False)
+
+    def get_results(selection):
+        if selection == "genescore":
+            sum = [results.columns[0]]
+            for i in range(0, results.shape[1]):
+                sum = sum + [results.columns[i]]
+            res = results[sum]
+
+            tmpCols = ["target"]
+            for col in results.columns.values.tolist():
+                tmpCols.append(col)
+            res.columns = tmpCols    
+        else:
+            sum = [results_foldchange.columns[0]]
+            for i in range(0, results_foldchange.shape[1]):
+                sum = sum + [results_foldchange.columns[i]]
+            res = results_foldchange[sum]
+
+            tmpCols = ["target"]
+            for col in results_foldchange.columns.values.tolist():
+                tmpCols.append(col)
+            res.columns = tmpCols  
+        return target.Results(res.copy())
+
+    targets = {
+        "default":
+        {selection: get_results(selection)
+         for selection in selections}
+    }
+    return targets, False
+
+def parse_target_results_jacks_sgrnas(path,path_counts,path_grna,
                          selections=["genescore","foldchange","grna"]):
     results = pd.read_table(path, na_filter=False, low_memory=False)
 

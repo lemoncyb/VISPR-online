@@ -13,13 +13,17 @@ I. Description
 ----
 VISPR-online is a web-based interactive framework for CRISPR screens visualization, exploration and sharing.
 
-CRISPR screening helps systematically exploration of the functions of coding and non-coding elements in a genome. We previously developed [MAGeCK](https://www.ncbi.nlm.nih.gov/pubmed/25476604) and [MAGeCK-VISPR](https://www.ncbi.nlm.nih.gov/pubmed/26673418) to perform CRISPR screening data analysis. VISPR is a visualization tool included in [MAGeCK-VISPR](https://www.ncbi.nlm.nih.gov/pubmed/26673418), which can be used to explore interesting genes. However, VISPR is designed for local use and some manual configutations need be set to run the program. To help the community to access the tool easily, we improve the tool and develop an online version: VISPR-online.
+CRISPR screen is an exciting technology to identify the functions of coding genes and non-coding genes in various contexts. We previously developed VISPR, bundled with [MAGeCK](https://www.ncbi.nlm.nih.gov/pubmed/26673418), an interactive framework to visualize CRISPR screening results in a local computer. However, VISPR only supports output of MAGeCK, and requires manual installation and configuration. To overcome these limitations, here we present VISPR-online, a web-based server for the visualization of CRISPR screening.
 
-The advantages of VISPR-online compared with VISPR:
+Compared with VISPR, VISPR-online provides more useful functions:
 
-* Installation and configuration free. Easy to access via a browser.
-* Support interactive view of sgRNA locations in the gene context.
-* Enable to resume and share data and sessions.
+* Interactive gene essentiality exploration.
+* Support more popular CRISPR screening analysis tools, including [MAGeCK](https://pubmed.ncbi.nlm.nih.gov/25476604/), [BAGEL](https://pubmed.ncbi.nlm.nih.gov/27083490/) and [JACKS](https://pubmed.ncbi.nlm.nih.gov/30674557/).
+* Installation and configuration free.
+* View gRNAs in their genomic context.
+* Provide retrieving and sharing session functions.
+
+Users can either use VISPR-online from the public server, or create their own servers based on VISPR-online source codes.
 
 <a name="Installation"></a>
 II. Installation
@@ -68,13 +72,7 @@ Open your browser and access <http://127.0.0.1:5000>. You will see the following
 A demo is integrated in VISPR-online repository. You could click the demo link on home page to load the project and explore the results.
 
 ### Step3:
-A test dataset is contained in VISPR-online repository. The path is ```VISPR-online/vispr_screen/static/data/testdata.zip```. The dataset contains the following files:
-
-* **mle.gene_summary.txt:** gene summary file.
-* **all.count_normalized.txt:** normalized count file.
-* **mle.sgrna_summary.txt:** sgRNA summary file.
-* **sgrnas.bed:** sgRNA location file.
-* **README.txt:** README file.
+A test dataset is contained in VISPR-online repository. The path is ```VISPR-online/vispr_screen/static/data/testdata.zip```.
 
 Upload corresponding files to VISPR-online. Then click the "Submit" button to explore the results. The results pages are like this.
 

@@ -9,104 +9,70 @@
 <div class="container">
 
      <div>
-        <h3>1. What is VISPR-online?</h3>
-        <p>VISPR-online is a web-based interactive framework for CRISPR screens exploration and visualization.
-            CRISPR screening helps systematically exploration of the functions of coding and non-coding elements in a genome.
-            We previously developed <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604" target="_blank">MAGeCK</a> and
-            <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418" target="_blank">MAGeCK-VISPR</a> to perform CRISPR screening data analysis.
-            VISPR is a visualization tool included in <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418" target="_blank">MAGeCK-VISPR</a>,
-            which can be used to explore interesting genes.
-            However, VISPR is designed for local use and some manual configutations need be set to run the program.
-            To help the community to access the tool easily, we improve the tool and develop an online version: VISPR-online.
-            <br> The advantages of VISPR-online compared with VISPR:
-        <ul>
-          <li>Installation and configuration free. Easy to access via a browser.</li>
-          <li>Support interactive view of sgRNA locations in the gene context.</li>
-          <li>Enable to resume and share data and sessions.</li>
-        </ul>
+        <h3>1. Overview of home page </h3>
+        <p>VISPR-online supports three popular CRISPR screening analysis tools, including <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604" target="_blank">MAGeCK</a>, 
+            <a href="https://pubmed.ncbi.nlm.nih.gov/27083490/" target="_blank">BAGEL</a> and <a href="https://pubmed.ncbi.nlm.nih.gov/30674557/" target="_blank">JACKS</a>. 
+            First, you need to select which tool's result file to upload on the home page.If you don't have any result files, you can download the test data by clicking the 
+            download link, or click the link to load demo and explore VISPR-online. To upload files, you need to follow the steps on the left side 
+            of the home page.If you want to continue analyzing these result files the next time you open a web page, you need to choose to save the 
+            session and save the session number.When you have the previous session number, you can click load session and enter the session number 
+            to resume the session.
         </p>
+        <p style="text-align: center;"><img src="/static/img/indexT1.png" width="989" height="670"></p>
      </div>
 
      <div>
-        <h3>2. How to obtain the input files of VISPR-online?</h3>
-        <p>VISPR-online is a downstream tool for <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604" target="_blank">MAGeCK</a> and
-            <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418" target="_blank">MAGeCK-VISPR</a>. The input of VISPR-online is output of
-            <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604" target="_blank">MAGeCK</a> and
-            <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418" target="_blank">MAGeCK-VISPR</a>. For the usage of these two tools,
-            please refer to our Nature Protocol paper <a href="https://www.ncbi.nlm.nih.gov/pubmed/30710114" target="_blank">MAGeCKFlute</a>.
-
-            <br> The suffixes of input files of VISPR-online are shown bellow.
-
-            <table border="1" width="60%" align="center" style="text-align:center">
-                <caption style="text-align:center">Brief description of VISPR-online input files</caption>
-                <tr>
-                    <th width="30%" style="text-align:center">File function</th>
-                    <th width="30%" style="text-align:center">File suffix</th>
-                </tr>
-                <tr>
-                    <td>Gene summary</td>
-                    <td>*.gene_summary.txt</td>
-                </tr>
-                <tr>
-                    <td>Normalized count</td>
-                    <td>*.count_normalized.txt</td>
-                </tr>
-                <tr>
-                    <td>sgRNA summary</td>
-                    <td>*.sgrna_summary.txt</td>
-                </tr>
-            </table>
+        <h3>2. Steps to upload files</h3>
+        <p>Next, upload the file corresponding to each step. The asterisk indicates that the file must be uploaded. If you don't know the format of 
+           the file name, you can hover over the steps to upload the file to view the file name format. The function of each sample file can refer to the README.txt. 
+           After uploading the file, you can choose whether to save the session to the server. Finally, click the submit button to jump to the Result pages.
         </p>
+        <p style="text-align: center;"><img src="/static/img/stepT1.png" width="482" height="600"></p>
      </div>
 
      <div>
-        <h3>3. Format of sgRNA location file.</h3>
-        <p>sgRNA location file is a tab-delimited text file without file header. Five columns are required: chromosome name,
-        gRNA start, gRNA stop, gRNA ID and strand. The gRNA IDs should be the same with those in read count file.
+        <h3>3. Input the session number to explore the results.</h3>
+        <p>If you have a session number, you can click load session to input the session number.After entering the session number, click the submit button to jump 
+            to the last Result pages. You can also click load the demo to view the sample data.
         </p>
-        <pre>
-chr2	11143961	11143981	s_7648	-
-chr3	186801168	186801188	s_46884	+
-chr20	46053591	46053611	s_50992	+
-chr3	46705812	46705832	s_57876	+
-chr19	46634669	46634689	s_23309	-
-chr7	108514201	108514221	s_42887	+</pre>
+        <p style="text-align: center;"><img src="/static/img/sessionT1.png" width="334" height="578"></p>
     </div>
 
      <div>
-        <h3>4. How to resume session and share data?</h3>
-        <p>VISPR-online allows users to save sessions to the server and resume them later with session IDs.
-            If the "Save session to server" box is checked (Step 6 in "Upload Files" tab), the session will be saved to the server.
-            VISPR-online will return a session ID to the user. Users can resume the session later with the ID ("Load Session" tab).
-            They can also send the session ID to others to share the data.
-            The session ID is a string of 32 randomly generated characters; therefore, users can access the data only if they know the ID.
+        <h3>4. Explore cluster graph </h3>
+        <p>
+            After you jump to the results page, there will be results option and session number at the top of the page. When we jump to other pages, we can click the 
+            results option to return to the results page.We take the test data of mageck as an example. First of all, we will see the result of the cluster graph, we 
+            can choose different K values to analyze the cluster graph.
         </p>
+        <p style="text-align: center;"><img src="/static/img/clusteringT1.png" width="985" height="600"></p>
     </div>
 
     <div>
-        <h3>5. What is beta-score?</h3>
-        <p>Beta-score is a measurement of gene selections similar to the term of log fold change in differential
-            expression analysis. A positive beta-core means a gene is positively selected in a condition, vice versa.
-            Detailed explanation of beta-score please refer to
-            <a href="https://www.ncbi.nlm.nih.gov/pubmed/26673418" target="_blank">MAGeCK-VISPR</a> paper.
+        <h3>5.Explore tables and charts</h3>
+        <p>We can click on different sample drop down boxes and select positive data or negative data. The result data will be displayed in tables and charts. First of 
+            all, let's look at the functions of the table. Click the show box to select more rows to load, or click the next page at the bottom of the table. When you 
+            need to find a row of data, you need to enter the corresponding target name in the search box. Click the header to sort the data in this column. Click on 
+            the species name to jump to the detailed explanation page. Click the icon in the last column of the table to get show RNA counts and locations. Click the 
+            tick logo to select target and highlight in p-value plot. Click the drop box in the upper right corner of the table to get more functions. Then let's look 
+            at the function of gRNAs count. We can click the sample drop-down box to check the sample to be analyzed, or directly click deselect all to cancel all selection. 
+            On the chart, we hold the axis to adjust the position. In the two graphs of distribution, we can click the middle of the graph to save the image locally.
         </p>
-    </div>
-
-     <div>
-        <h3>6. Is VISPR-online open source?</h3>
-        <p>VISPR-online is open source under <a href="http://opensource.org/licenses/MIT" target="_blank">MIT</a> license.
-            The source code can be downloaded from <a href="https://github.com/lemoncyb/VISPR-online" target="_blank">GitHub</a>.
-            Users can install and use VIPSR-online in a local computer or network.
-            The README of the repository describes how to install VISPR-online locally.
-        </p>
+        <p style="text-align: center;"><img src="/static/img/plx7T1.png" width="1113" height="656"></p>
     </div>
 
     <div>
-        <h3>7. Problem caused by browser cache.</h3>
-        <p>Brower usually caches the JavaScript, CSS and other data to improve speed and user experience. When
-            CRISP-view is updated, user needs to empty the previous cache in the browser. For Safari, press
-            <kbd>Opt</kbd>+<kbd>Cmd</kbd>+<kbd>E</kbd> to empty cache.</p>
+        <h3>6.Table hiding functions</h3>
+        <p>If you click the icon in the upper right corner of the table, you will see some hidden functions of the table, including download table, go enrichment, show selections
+            in genemania and deselect all.Perform a GO term enrichment of the currently displayed table with the GOrilla web service when you click go enrichment, and you can set 
+            the maximum enrichment p-value.The page will jump to http://genemania.org/ When you click Show in GeneMANIA.
+        </p>
+        <p style="text-align: center;"><img src="/static/img/showmoreT1.png" width="407" height="565">
+            <img src="/static/img/enrichmentT1.png" width="555" height="339"></p>
+        
     </div>
+
+     
 
 </div>
 

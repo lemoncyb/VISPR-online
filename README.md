@@ -13,15 +13,15 @@ I. Description
 ----
 VISPR-online is a web-based interactive framework for CRISPR screens visualization, exploration and sharing.
 
-CRISPR screen is an exciting technology to identify the functions of coding genes and non-coding genes in various contexts. We previously developed VISPR, bundled with [MAGeCK](https://www.ncbi.nlm.nih.gov/pubmed/26673418), an interactive framework to visualize CRISPR screening results in a local computer. However, VISPR only supports output of MAGeCK, and requires manual installation and configuration. To overcome these limitations, here we present VISPR-online, a web-based server for the visualization of CRISPR screening.
+CRISPR screen is an exciting technology to identify the functions of coding genes and non-coding genes in various contexts. We previously developed VISPR, bundled with [MAGeCK](https://www.ncbi.nlm.nih.gov/pubmed/26673418), an interactive framework to visualize CRISPR screening results in a local computer. However, VISPR only supports output of MAGeCK, and requires manual installation and configuration. To overcome these limitations, we developed VISPR-online, a web-based server for the visualization of CRISPR screening.
 
 Compared with VISPR, VISPR-online provides more useful functions:
 
 * Interactive gene essentiality exploration.
 * Support more popular CRISPR screening analysis tools, including [MAGeCK](https://pubmed.ncbi.nlm.nih.gov/25476604/), [BAGEL](https://pubmed.ncbi.nlm.nih.gov/27083490/) and [JACKS](https://pubmed.ncbi.nlm.nih.gov/30674557/).
-* Installation and configuration free.
 * View gRNAs in their genomic context.
 * Provide retrieving and sharing session functions.
+* Installation and configuration free.
 
 Users can either use VISPR-online from the public server, or create their own servers based on VISPR-online source codes.
 

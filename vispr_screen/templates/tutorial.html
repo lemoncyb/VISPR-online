@@ -10,12 +10,12 @@
 
      <div>
         <h3>1. Overview of home page </h3>
-        <p>VISPR-online supports three popular CRISPR screening analysis tools, including <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604" target="_blank">MAGeCK</a>, 
+        <p>VISPR-online currently supports three popular CRISPR screening analysis tools, including <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604" target="_blank">MAGeCK</a>,
             <a href="https://pubmed.ncbi.nlm.nih.gov/27083490/" target="_blank">BAGEL</a> and <a href="https://pubmed.ncbi.nlm.nih.gov/30674557/" target="_blank">JACKS</a>. 
-            First, you need to select which tool's result file to upload on the home page.If you don't have any result files, you can download the test data by clicking the 
-            download link, or click the link to load demo and explore VISPR-online. To upload files, you need to follow the steps on the left side 
-            of the home page.If you want to continue analyzing these result files the next time you open a web page, you need to choose to save the 
-            session and save the session number.When you have the previous session number, you can click load session and enter the session number 
+            First, please select a tool and upload related results on the home page. If you don't have any result files,
+            you could load the demo or download the test data to explore VISPR-online. To upload files, please follow the steps on the left side
+            of the home page. If you would like to retrieve these results some time later, please check to save the
+            session and keep the session number. Once you have a session number, you could choose "Load Session" and enter the session number
             to resume the session.
         </p>
         <p style="text-align: center;"><img src="/static/img/indexT1.png" width="989" height="670"></p>
@@ -23,49 +23,44 @@
 
      <div>
         <h3>2. Steps to upload files</h3>
-        <p>Next, upload the file corresponding to each step. The asterisk indicates that the file must be uploaded. If you don't know the format of 
-           the file name, you can hover over the steps to upload the file to view the file name format. The function of each sample file can refer to the README.txt. 
-           After uploading the file, you can choose whether to save the session to the server. Finally, click the submit button to jump to the Result pages.
+        <p>Next, please upload the file corresponding to each step. The asterisk indicates that the file must be uploaded. If you are not sure about the file name,
+            mouse over the button will prompt the suffix name of the file.
+           After uploading the files, you could choose whether to save the session. Finally, click the submit button to explore the results.
         </p>
         <p style="text-align: center;"><img src="/static/img/stepT1.png" width="482" height="600"></p>
      </div>
 
      <div>
-        <h3>3. Input the session number to explore the results.</h3>
-        <p>If you have a session number, you can click load session to input the session number.After entering the session number, click the submit button to jump 
-            to the last Result pages. You can also click load the demo to view the sample data.
+        <h3>3. Resume session</h3>
+        <p>If you have a session number, you could choose "Load Session" and input the session number to retreive the session. You could also click the "Load demo" button to view the sample data.
         </p>
         <p style="text-align: center;"><img src="/static/img/sessionT1.png" width="334" height="578"></p>
     </div>
 
      <div>
-        <h3>4. Explore cluster graph </h3>
+        <h3>4. Explore the results of clustering</h3>
         <p>
-            After you jump to the results page, there will be results option and session number at the top of the page. When we jump to other pages, we can click the 
-            results option to return to the results page.We take the test data of mageck as an example. First of all, we will see the result of the cluster graph, we 
-            can choose different K values to analyze the cluster graph.
+            There are results option and session number at the top of the results page. We take the test data of MAGeCK as an example.
+            The first page is results of clustering. The clustering algorithm is k-means. We can choose different K values to
+            analyze the cluster heatmap.
         </p>
         <p style="text-align: center;"><img src="/static/img/clusteringT1.png" width="985" height="600"></p>
     </div>
 
     <div>
-        <h3>5.Explore tables and charts</h3>
-        <p>We can click on different sample drop down boxes and select positive data or negative data. The result data will be displayed in tables and charts. First of 
-            all, let's look at the functions of the table. Click the show box to select more rows to load, or click the next page at the bottom of the table. When you 
-            need to find a row of data, you need to enter the corresponding target name in the search box. Click the header to sort the data in this column. Click on 
-            the species name to jump to the detailed explanation page. Click the icon in the last column of the table to get show RNA counts and locations. Click the 
-            tick logo to select target and highlight in p-value plot. Click the drop box in the upper right corner of the table to get more functions. Then let's look 
-            at the function of gRNAs count. We can click the sample drop-down box to check the sample to be analyzed, or directly click deselect all to cancel all selection. 
-            On the chart, we hold the axis to adjust the position. In the two graphs of distribution, we can click the middle of the graph to save the image locally.
+        <h3>5. Explore genes and gRNAs results</h3>
+        <p>We could select the positive/negative selection of different samples from the drop-down menu. The results will be displayed in tables and charts. For the table, you could enter a gene name in the search box to search it. Click the column header to sort corresponding column. Click on
+             gene name to jump to the Ensembl page. Click the icon in the last column of the table to show gRNA locations and counts. Click the
+            check button to select target and highlight in p-value plot. Click the drop box in the upper right corner of the table to get more functions. For the gRNAs count chart, we could click the sample drop-down box to check the sample to be analyzed or drap to reorder samples.
+            On the chart, we hold the axis to adjust the position. In the two graphs of distribution, we could click the middle of the graph to save the image locally.
         </p>
         <p style="text-align: center;"><img src="/static/img/plx7T1.png" width="1113" height="656"></p>
     </div>
 
     <div>
-        <h3>6.Table hiding functions</h3>
-        <p>If you click the icon in the upper right corner of the table, you will see some hidden functions of the table, including download table, go enrichment, show selections
-            in genemania and deselect all.Perform a GO term enrichment of the currently displayed table with the GOrilla web service when you click go enrichment, and you can set 
-            the maximum enrichment p-value.The page will jump to http://genemania.org/ When you click Show in GeneMANIA.
+        <h3>6. Advanced functions</h3>
+        <p>Click the icon in the upper right corner of the table, some advanced functions will show, including download table, GO enrichment, show selections
+            in GeneMANIA and deselect all. A GO term enrichment of the current table with GOrilla will be performed when you click GO enrichment. The page will jump to http://genemania.org/ when you click Show in GeneMANIA.
         </p>
         <p style="text-align: center;"><img src="/static/img/showmoreT1.png" width="407" height="565">
             <img src="/static/img/enrichmentT1.png" width="555" height="339"></p>
@@ -76,7 +71,9 @@
 
 </div>
 
+    <!--
   <footer>
     <p class="copyright">© Wei Li Lab 2019.</p>
   </footer>
+    -->
 {% endblock %}

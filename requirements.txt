@@ -12,4 +12,4 @@ PyYAML==3.12
 scikit-learn==0.19.1
 scipy==1.0.0
 six==1.11.0
-Werkzeug==0.14.1
+Werkzeug==0.15.3

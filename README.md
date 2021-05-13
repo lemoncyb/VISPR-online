@@ -113,7 +113,52 @@ A test dataset is contained in VISPR-online repository. The path is ```VISPR-onl
 
 `We summarize the file suffix of VISPR-online input in the table below. We have added this table and more detailed information of input file in the tutorial page.`
 
-<div align=center><img src="vispr_screen/static/img/file_type_table.jpg"/></div>
+<table class="tg" align=center>
+<h4 align="center">Table 1. File suffix of VISPR-online input</h4>
+<thead align="center">
+  <tr>
+    <th class="tg-c3ow">T<span style="font-weight:bold;color:#0070C0">ools</span></th>
+    <th class="tg-c3ow"><span style="font-weight:bold;color:#0070C0">Output file</span></th>
+    <th class="tg-c3ow"><span style="font-weight:bold;color:#0070C0">Suffix of output file</span></th>
+    <th class="tg-c3ow">V<span style="font-weight:bold;color:#0070C0">ISPR-online input</span></th>
+  </tr>
+</thead>
+<tbody align="center">
+  <tr>
+    <td class="tg-c3ow" rowspan="3">M<span style="color:#0070C0">AGeCK</span></td>
+    <td class="tg-c3ow"><span style="color:#0070C0">Gene summary</span></td>
+    <td class="tg-c3ow">*<span style="color:#0070C0">.gene_summary.txt</span></td>
+    <td class="tg-c3ow"><span style="color:#0070C0">Gene summary</span></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"><span style="color:#0070C0">Normalized count</span></td>
+    <td class="tg-c3ow">*<span style="color:#0070C0">.count_normalized.txt</span></td>
+    <td class="tg-c3ow"><span style="color:#0070C0">Normalized count</span></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">s<span style="color:#0070C0">gRNA summary</span></td>
+    <td class="tg-c3ow">*<span style="color:#0070C0">.sgrna_summary.txt</span></td>
+    <td class="tg-c3ow">s<span style="color:#0070C0">gRNA summary</span></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">B<span style="color:#0070C0">AGEL</span></td>
+    <td class="tg-c3ow">F<span style="color:#0070C0">oldchange</span></td>
+    <td class="tg-c3ow">*<span style="color:#0070C0">.foldchange.txt</span></td>
+    <td class="tg-c3ow">F<span style="color:#0070C0">oldchange</span></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow" rowspan="2">J<span style="color:#0070C0">ACKS</span><br><br></td>
+    <td class="tg-c3ow">G<span style="color:#0070C0">ene score</span></td>
+    <td class="tg-c3ow">*<span style="color:#0070C0">_gene_JACKS_results.txt</span></td>
+    <td class="tg-c3ow"><span style="color:#0070C0">Gene score</span></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"><span style="color:#0070C0">Foldchange</span></td>
+    <td class="tg-c3ow">*<span style="color:#0070C0">_logfoldchange_means.txt</span></td>
+    <td class="tg-c3ow">f<span style="color:#0070C0">oldchange</span></td>
+  </tr>
+</tbody>
+</table>
 
 ### Step4:
 Upload corresponding files to VISPR-online. Then click the "Submit" button to explore the results. The results pages are like this.

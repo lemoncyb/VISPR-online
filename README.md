@@ -109,11 +109,13 @@ A test dataset is contained in VISPR-online repository. The path is ```VISPR-onl
 ***Note:***
 `The input of VISPR-online are direct output of screening analysis tools, so the input file type and file name are customized for different tools. User could match files by the file suffix. For example, the name of gene summary file of MAGeCK ends with “.gene_summary.txt”. Besides, the corresponding file suffix will appear when the mouse hovers over the file type, as shown in the figure below.`
 
-![](vispr_screen/static/img/file_type.jpg) 
+<div align=center><img width="250" height="160" src="vispr_screen/static/img/file_type.jpg"/></div>
 
-We summarize the file suffix of VISPR-online input in the table below. We have added this table and more detailed information of input file in the tutorial page.
-![](vispr_screen/static/img/file_type_table.jpg) 
+`We summarize the file suffix of VISPR-online input in the table below. We have added this table and more detailed information of input file in the tutorial page.`
 
+<div align=center><img src="vispr_screen/static/img/file_type_table.jpg"/></div>
+
+### Step4:
 Upload corresponding files to VISPR-online. Then click the "Submit" button to explore the results. The results pages are like this.
 
 ![](vispr_screen/static/img/result_view.jpg)  

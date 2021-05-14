@@ -48,7 +48,7 @@ $conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/
 ```
 You can add other channels by executing:
 ```
-$conda config --add [channel link]
+$conda config --add channels [channel link]
 ```
 
 ### Step4:

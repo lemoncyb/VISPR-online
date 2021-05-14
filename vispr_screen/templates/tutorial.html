@@ -7,9 +7,75 @@
 </div>
 
 <div class="container">
-
      <div>
-        <h3>1. Overview of home page </h3>
+        <h3>1. Input file type and file name </h3>
+        <p>The input of VISPR-online are direct output of screening analysis tools, so the input file type and file name are customized for different tools. 
+            User could match files by the file suffix. For example, the name of gene summary file of MAGeCK ends with “.gene_summary.txt”. 
+            Besides, the corresponding file suffix will appear when the mouse hovers over the file type, as shown in the figure below.
+        </p>
+        <p style="text-align: center;"><img src="/static/img/file_type.jpg" width="250" height="160"></p>
+        <p>
+            We summarize the file suffix of VISPR-online input in the table below. We have added this table and more detailed information of input file in the tutorial page.
+        </p>
+        <style type="text/css">
+            .tg  {border-collapse:collapse;border-spacing:0;}
+            .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+              overflow:hidden;padding:10px 5px;word-break:normal;}
+            .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+              font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+            .tg .tg-ml2k{border-color:inherit;color:#000000;text-align:center;vertical-align:top}
+            .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+        </style>
+        <table class="tg" align=center>
+                <h4 align="center">Table 1. File suffix of VISPR-online input</h4>
+            <thead>
+              <tr>
+                <th class="tg-ml2k"><span style="font-weight:bold">Tools</span></th>
+                <th class="tg-ml2k"><span style="font-weight:bold">Output file</span></th>
+                <th class="tg-ml2k"><span style="font-weight:bold">Suffix of output file</span></th>
+                <th class="tg-ml2k"><span style="font-weight:bold">VISPR-online input</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tg-ml2k" rowspan="3">MAGeCK</td>
+                <td class="tg-ml2k">Gene summary</td>
+                <td class="tg-ml2k">*.gene_summary.txt</td>
+                <td class="tg-ml2k">Gene summary</td>
+              </tr>
+              <tr>
+                <td class="tg-ml2k">Normalized count</td>
+                <td class="tg-ml2k">*.count_normalized.txt</td>
+                <td class="tg-ml2k">Normalized count</td>
+              </tr>
+              <tr>
+                <td class="tg-ml2k">sgRNA summary</td>
+                <td class="tg-ml2k">*.sgrna_summary.txt</td>
+                <td class="tg-ml2k">sgRNA summary</td>
+              </tr>
+              <tr>
+                <td class="tg-ml2k">BAGEL</td>
+                <td class="tg-ml2k">Foldchange</td>
+                <td class="tg-ml2k">*.foldchange.txt</td>
+                <td class="tg-ml2k">Foldchange</td>
+              </tr>
+              <tr>
+                <td class="tg-ml2k" rowspan="2"><br>JACKS<br></td>
+                <td class="tg-ml2k">Gene score</td>
+                <td class="tg-ml2k">*_gene_JACKS_results.txt</td>
+                <td class="tg-ml2k">Gene score</td>
+              </tr>
+              <tr>
+                <td class="tg-ml2k">Foldchange</td>
+                <td class="tg-ml2k">*_logfoldchange_means.txt</td>
+                <td class="tg-ml2k">foldchange</td>
+              </tr>
+            </tbody>
+        </table>
+     </div>
+    
+     <div>
+        <h3>2. Overview of home page </h3>
         <p>VISPR-online currently supports three popular CRISPR screening analysis tools, including <a href="https://www.ncbi.nlm.nih.gov/pubmed/25476604" target="_blank">MAGeCK</a>,
             <a href="https://pubmed.ncbi.nlm.nih.gov/27083490/" target="_blank">BAGEL</a> and <a href="https://pubmed.ncbi.nlm.nih.gov/30674557/" target="_blank">JACKS</a>. 
             First, please select a tool and upload related results on the home page. If you don't have any result files,
@@ -22,7 +88,7 @@
      </div>
 
      <div>
-         <h3>2. Steps to upload files</h3>
+         <h3>3. Steps to upload files</h3>
         <p>Next, please upload files corresponding to each step. The asterisk indicates that the file must be uploaded. If you are not sure about the file name,
             mouse over the button will prompt the suffix name of the file.
            After uploading the files, you could choose whether to save the session. Finally, click the submit button to explore the results.
@@ -31,14 +97,14 @@
      </div>
 
      <div>
-        <h3>3. Resume session</h3>
+        <h3>4. Resume session</h3>
         <p>If you have a session number, you could choose "Load Session" and input the session number to retreive the session. You could also click the "Load demo" button to view the sample data.
         </p>
         <p style="text-align: center;"><img src="/static/img/sessionT1.png" width="334" height="578"></p>
     </div>
 
      <div>
-        <h3>4. Explore the results of clustering</h3>
+        <h3>5. Explore the results of clustering</h3>
         <p>
             Options and session number are displayed at the top of the results page. We take the test data of MAGeCK as an example.
             The first page is results of clustering. The clustering algorithm is k-means. We can choose different K values to
@@ -48,7 +114,7 @@
     </div>
 
     <div>
-        <h3>5. Explore genes and gRNAs results</h3>
+        <h3>6. Explore genes and gRNAs results</h3>
         <p>We could select the positive/negative selection of different samples from the drop-down menu. The results will be displayed in tables and charts. For the table, you could enter a gene name in the search box to search it. Click the column header to sort corresponding column. Click on
              gene name to jump to the Ensembl page. Click the icon in the last column of the table to show gRNA locations and counts. Click the
             check button to select target and highlight in p-value plot. Click the drop box in the upper right corner of the table to get more functions.
@@ -60,7 +126,7 @@
     </div>
 
     <div>
-        <h3>6. Advanced functions</h3>
+        <h3>7. Advanced functions</h3>
         <p>Click the icon in the upper right corner of the table, some advanced functions will show, including download table, GO enrichment, show selections
             in GeneMANIA and deselect all. A GO term enrichment of the current table with GOrilla will be performed when you click GO enrichment. The page will jump to http://genemania.org/ when you click Show in GeneMANIA.
         </p>

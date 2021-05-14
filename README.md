@@ -138,7 +138,6 @@ A test dataset is contained in VISPR-online repository. The path is ```VISPR-onl
     <th class="tg-13yv"><span style="font-weight:bold;color:#0070C0">Output file</span></th>
     <th class="tg-13yv"><span style="font-weight:bold;color:#0070C0">Suffix of output file</span></th>
     <th class="tg-13yv"><span style="font-weight:bold;color:#0070C0">VISPR-online input</span></th>
-    <th class="tg-0pky"></th>
   </tr>
 </thead>
 <tbody align="center">
@@ -146,40 +145,34 @@ A test dataset is contained in VISPR-online repository. The path is ```VISPR-onl
     <td class="tg-c2ii" rowspan="3"><span style="color:#0070C0">MAGeCK</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">Gene summary</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">*.gene_summary.txt</span></td>
-    <td class="tg-c2ii"><span style="color:#0070C0">Gene summary</span></td>
-    <td class="tg-0pky"></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">Gene summary</span></td> 
   </tr>
   <tr>
     <td class="tg-c2ii"><span style="color:#0070C0">Normalized count</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">*.count_normalized.txt</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">Normalized count</span></td>
-    <td class="tg-0pky"></td>
   </tr>
   <tr>
     <td class="tg-c2ii"><span style="color:#0070C0">sgRNA summary</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">*.sgrna_summary.txt</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">sgRNA summary</span></td>
-    <td class="tg-0pky"></td>
   </tr>
   <tr>
     <td class="tg-c2ii"><span style="color:#0070C0">BAGEL</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">Foldchange</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">*.foldchange.txt</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">Foldchange</span></td>
-    <td class="tg-0pky"></td>
   </tr>
   <tr>
     <td class="tg-c2ii" rowspan="2"><span style="color:#0070C0">JACKS</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">Gene score</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">*_gene_JACKS_results.txt</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">Gene score</span></td>
-    <td class="tg-0pky"></td>
   </tr>
   <tr>
     <td class="tg-c2ii"><span style="color:#0070C0">Foldchange</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">*_logfoldchange_means.txt</span></td>
     <td class="tg-c2ii"><span style="color:#0070C0">foldchange</span></td>
-    <td class="tg-0pky"></td>
   </tr>
 </tbody>
 </table>

@@ -1,6 +1,4 @@
 name: vispr-online
-channels:
-- defaults
 dependencies:
   - python==3.5.1
   - click

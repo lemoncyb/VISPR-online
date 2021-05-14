@@ -120,49 +120,66 @@ A test dataset is contained in VISPR-online repository. The path is ```VISPR-onl
 
 `We summarize the file suffix of VISPR-online input in the table below. We also added this table and more detailed information of input file in the tutorial page.`
 
-<table class="tg" align=center>
-<h4 align="center">Table 1. File suffix of VISPR-online input</h4>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-c2ii{border-color:inherit;color:#0070C0;text-align:center;vertical-align:top}
+.tg .tg-13yv{border-color:inherit;color:#0070C0;font-weight:bold;text-align:center;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+</style>
+<table class="tg" align="center">
+ <h4 align="center">Table 1. File suffix of VISPR-online input</h4>
 <thead align="center">
   <tr>
-    <th class="tg-c3ow">T<span style="font-weight:bold;color:#0070C0">ools</span></th>
-    <th class="tg-c3ow"><span style="font-weight:bold;color:#0070C0">Output file</span></th>
-    <th class="tg-c3ow"><span style="font-weight:bold;color:#0070C0">Suffix of output file</span></th>
-    <th class="tg-c3ow">V<span style="font-weight:bold;color:#0070C0">ISPR-online input</span></th>
+    <th class="tg-13yv"><span style="font-weight:bold;color:#0070C0">Tools</span></th>
+    <th class="tg-13yv"><span style="font-weight:bold;color:#0070C0">Output file</span></th>
+    <th class="tg-13yv"><span style="font-weight:bold;color:#0070C0">Suffix of output file</span></th>
+    <th class="tg-13yv"><span style="font-weight:bold;color:#0070C0">VISPR-online input</span></th>
+    <th class="tg-0pky"></th>
   </tr>
 </thead>
 <tbody align="center">
   <tr>
-    <td class="tg-c3ow" rowspan="3">M<span style="color:#0070C0">AGeCK</span></td>
-    <td class="tg-c3ow"><span style="color:#0070C0">Gene summary</span></td>
-    <td class="tg-c3ow">*<span style="color:#0070C0">.gene_summary.txt</span></td>
-    <td class="tg-c3ow"><span style="color:#0070C0">Gene summary</span></td>
+    <td class="tg-c2ii" rowspan="3"><span style="color:#0070C0">MAGeCK</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">Gene summary</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">*.gene_summary.txt</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">Gene summary</span></td>
+    <td class="tg-0pky"></td>
   </tr>
   <tr>
-    <td class="tg-c3ow"><span style="color:#0070C0">Normalized count</span></td>
-    <td class="tg-c3ow">*<span style="color:#0070C0">.count_normalized.txt</span></td>
-    <td class="tg-c3ow"><span style="color:#0070C0">Normalized count</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">Normalized count</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">*.count_normalized.txt</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">Normalized count</span></td>
+    <td class="tg-0pky"></td>
   </tr>
   <tr>
-    <td class="tg-c3ow">s<span style="color:#0070C0">gRNA summary</span></td>
-    <td class="tg-c3ow">*<span style="color:#0070C0">.sgrna_summary.txt</span></td>
-    <td class="tg-c3ow">s<span style="color:#0070C0">gRNA summary</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">sgRNA summary</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">*.sgrna_summary.txt</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">sgRNA summary</span></td>
+    <td class="tg-0pky"></td>
   </tr>
   <tr>
-    <td class="tg-c3ow">B<span style="color:#0070C0">AGEL</span></td>
-    <td class="tg-c3ow">F<span style="color:#0070C0">oldchange</span></td>
-    <td class="tg-c3ow">*<span style="color:#0070C0">.foldchange.txt</span></td>
-    <td class="tg-c3ow">F<span style="color:#0070C0">oldchange</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">BAGEL</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">Foldchange</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">*.foldchange.txt</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">Foldchange</span></td>
+    <td class="tg-0pky"></td>
   </tr>
   <tr>
-    <td class="tg-c3ow" rowspan="2">J<span style="color:#0070C0">ACKS</span><br><br></td>
-    <td class="tg-c3ow">G<span style="color:#0070C0">ene score</span></td>
-    <td class="tg-c3ow">*<span style="color:#0070C0">_gene_JACKS_results.txt</span></td>
-    <td class="tg-c3ow"><span style="color:#0070C0">Gene score</span></td>
+    <td class="tg-c2ii" rowspan="2"><span style="color:#0070C0">JACKS</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">Gene score</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">*_gene_JACKS_results.txt</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">Gene score</span></td>
+    <td class="tg-0pky"></td>
   </tr>
   <tr>
-    <td class="tg-c3ow"><span style="color:#0070C0">Foldchange</span></td>
-    <td class="tg-c3ow">*<span style="color:#0070C0">_logfoldchange_means.txt</span></td>
-    <td class="tg-c3ow">f<span style="color:#0070C0">oldchange</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">Foldchange</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">*_logfoldchange_means.txt</span></td>
+    <td class="tg-c2ii"><span style="color:#0070C0">foldchange</span></td>
+    <td class="tg-0pky"></td>
   </tr>
 </tbody>
 </table>

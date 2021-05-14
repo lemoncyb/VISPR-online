@@ -44,7 +44,7 @@ Also, make sure that you do not have set the PYTHONPATH environment variable, be
 ### Step3:
 Because the default channels of conda does not have some versions of dependent packages, add the download channels of conda by executing:
 ```
-$conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+$conda config --add channels https://repo.continuum.io/pkgs/free
 ```
 You can add other channels by executing:
 ```

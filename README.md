@@ -42,6 +42,16 @@ Do you wish the installer to prepend the Miniconda3 install location to PATH ...
 Also, make sure that you do not have set the PYTHONPATH environment variable, because it will interfere with the Miniconda setup.
 
 ### Step3:
+Because the default channels of conda does not have some versions of dependent packages, add the download channels of conda by executing:
+```
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+```
+You can add other channels by executing:
+```
+conda config --add [channel link]
+```
+
+### Step4:
 Enter the top directory of VISPR-online:
 ```
 $cd VISPR-online
@@ -53,7 +63,7 @@ $conda env create -f ./environment.yml
 ***Note:***
 If the error *ResolvePackageNotFound:-pandas==0.19.1* is reported, please skip to *[FAQs](#FAQs)* setup.
 
-### Step4:
+### Step5:
 Then, activate the environment by running
 ```
 $conda activate vispr-online

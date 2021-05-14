@@ -18,6 +18,7 @@ CRISPR screening helps systematically exploration of the functions of coding and
 
 The advantages of VISPR-online compared with VISPR:
 
+* Support more screening analysis tools, including MAGeCK, BAGEL and JACKS.
 * Installation and configuration free. Easy to access via a browser.
 * Support interactive view of sgRNA locations in the gene context.
 * Enable to resume and share data and sessions.
@@ -35,7 +36,7 @@ $ git clone https://github.com/lemoncyb/VISPR-online.git
 ```
 
 ### Step2:
-To install VISPR-online you have to use the Python 3 variant of the Miniconda Python distribution (http://conda.pydata.org/miniconda.html). VISPR-online cannot be installed on the Python 2 variant of Miniconda. When installing Miniconda, make sure that you answer yes to this question:
+To install VISPR-online you please use the Python 3 variant of the Miniconda Python distribution (http://conda.pydata.org/miniconda.html). When installing Miniconda, make sure that you answer yes to this question:
 ```
 Do you wish the installer to prepend the Miniconda3 install location to PATH ...? [yes|no]
 ```
@@ -52,7 +53,7 @@ Enter the top directory of VISPR-online:
 ```
 $cd VISPR-online
 ```
-On the terminal or an Anaconda Prompt, you can create an isolated software environment for vispr-online by executing:
+In the terminal or an Anaconda Prompt, create an isolated software environment for vispr-online by executing:
 ```
 $conda env create -f ./environment.yml
 ```
@@ -113,11 +114,11 @@ A test dataset is contained in VISPR-online repository. The path is ```VISPR-onl
 * **README.txt:** README file.
 
 ***Note:***
-`The input of VISPR-online are direct output of screening analysis tools, so the input file type and file name are customized for different tools. User could match files by the file suffix. For example, the name of gene summary file of MAGeCK ends with “.gene_summary.txt”. Besides, the corresponding file suffix will appear when the mouse hovers over the file type, as shown in the figure below.`
+`The input of VISPR-online are direct output of screening analysis tools, so the input file types and file names are customized for different tools. Users could match files by the file suffix. For example, the name of gene summary file of MAGeCK ends with “.gene_summary.txt”. Besides, the corresponding file suffix will appear when the mouse hovers over the file type, as shown in the figure below.`
 
 <div align=center><img width="250" height="160" src="vispr_screen/static/img/file_type.jpg"/></div>
 
-`We summarize the file suffix of VISPR-online input in the table below. We have added this table and more detailed information of input file in the tutorial page.`
+`We summarize the file suffix of VISPR-online input in the table below. We also added this table and more detailed information of input file in the tutorial page.`
 
 <table class="tg" align=center>
 <h4 align="center">Table 1. File suffix of VISPR-online input</h4>
